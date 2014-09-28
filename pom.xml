@@ -8,7 +8,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 
 	<name>JSeats</name>
-	<description>JSeats is a java implementation of usual electoral seat allocation algorithms.</description>
+	<description>JSeats is a java implementation of common electoral seat allocation algorithms.</description>
 
 	<url>https://github.com/pau-minoves/jseats</url>
 	
