@@ -1,9 +1,9 @@
 Sample story
 
 Narrative:
-In order to assign seats according to DHont method
+In order to assign seats according to Hare method
 As a development team
-I want to use DHontAlgorithm
+I want to use HareAlgorithm
 					 
 Scenario: Candidate list
 Given empty scenario
