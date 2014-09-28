@@ -73,6 +73,14 @@ public class Result {
 	public List<Candidate> getCandidates() {
 		return candidates;
 	}
+	
+	public Candidate getCandidateAt(int position) {
+		return candidates.get(position);
+	}
+	
+	public int getNumerOfCandidates() {
+		return candidates.size();
+	}
 
 	public void setCandidates(List<Candidate> candidates) {
 		this.candidates = candidates;

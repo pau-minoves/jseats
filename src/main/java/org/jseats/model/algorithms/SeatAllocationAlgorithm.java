@@ -1,11 +1,10 @@
-package org.jseats.model;
+package org.jseats.model.algorithms;
 
 import java.util.Properties;
 
-import org.jseats.model.algorithms.AbsoluteMajorityAlgorithm;
-import org.jseats.model.algorithms.HareAlgorithm;
-import org.jseats.model.algorithms.QualifiedMajorityAlgorithm;
-import org.jseats.model.algorithms.SimpleMajorityAlgorithm;
+import org.jseats.model.InmutableTally;
+import org.jseats.model.Result;
+import org.jseats.model.SeatAllocationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

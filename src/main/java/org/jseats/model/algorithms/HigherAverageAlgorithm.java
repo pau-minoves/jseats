@@ -5,7 +5,6 @@ import java.util.Properties;
 
 import org.jseats.model.InmutableTally;
 import org.jseats.model.Result;
-import org.jseats.model.SeatAllocationAlgorithm;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.Result.ResultType;
 import org.slf4j.Logger;

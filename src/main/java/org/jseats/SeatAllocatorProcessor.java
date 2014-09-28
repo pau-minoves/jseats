@@ -1,9 +1,13 @@
-package org.jseats.model;
+package org.jseats;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.jseats.model.InmutableTally;
+import org.jseats.model.Result;
+import org.jseats.model.SeatAllocationException;
+import org.jseats.model.algorithms.SeatAllocationAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
