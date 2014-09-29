@@ -46,9 +46,7 @@ public class QualifiedMajorityMethod extends SeatAllocationMethod {
 			return new Result(ResultType.UNDECIDED);
 		}
 
-		SeatAllocationMethod simpleMajority = getByName("SimpleMajority");
-
-		Result result = simpleMajority.process(tally, properties);
+		Result result = getByName("SimpleMajority").process(tally, properties);
 
 		// Either SINGLE or TIE, minimumVotes are not reached.
 		if(result.getSeats().get(0).getVotes() < minimumVotes)
