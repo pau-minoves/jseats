@@ -5,8 +5,18 @@ jseats [![Build Status](https://travis-ci.org/pau-minoves/jseats.svg?branch=mast
 
 JSeats is a java implementation of usual electoral seat allocation algorithms.
 
-## Documentation
-
+## Getting started
 
  * Example [usage](src/test/java/org/jseats/unit/ExampleProcessorTest.java)
  * BDD [stories](src/test/resources/stories)
+
+## Supported methods
+ 
+ * Majority
+ 	* Simple
+    * Qualified
+    * Absolute
+ * Largest Remainder Method
+ 	* Hare
+ 	* Droop
+ 	* Imperiali
