@@ -81,7 +81,6 @@ public class Tally implements InmutableTally {
 		effectiveVotes += candidate.getVotes();
 	}
 
-	@Override
 	public void toXML(OutputStream out) throws JAXBException {
 
 		if (jc == null)

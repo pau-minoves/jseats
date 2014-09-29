@@ -20,4 +20,3 @@ Given algorithm has property numberOfSeats set to 21
 When process with Hare algorithm
 Then result type is MULTIPLE
 
-

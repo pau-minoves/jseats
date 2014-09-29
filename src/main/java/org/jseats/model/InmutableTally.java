@@ -7,13 +7,13 @@ import javax.xml.bind.JAXBException;
 
 public interface InmutableTally {
 
-	void toXML(OutputStream out) throws JAXBException;
+	public void toXML(OutputStream out) throws JAXBException;
 
-	int getPotentialVotes();
+	public int getPotentialVotes();
 
-	int getEffectiveVotes();
+	public int getEffectiveVotes();
 
-	Candidate getCandidateAt(int position);
+	public Candidate getCandidateAt(int position);
 	
-	int getNumerOfCandidates();
+	public int getNumerOfCandidates();
 }
