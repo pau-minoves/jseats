@@ -105,19 +105,19 @@ public class Steps {
 	@Then("result has $number seats")
 	@Alias("result has $number seat")
 	public void resultTypeIs(int number) {
-		assertEquals(result.getNumerOfSeats(), number);
+		assertEquals(number, result.getNumerOfSeats());
 	}
 
 	@Then("result seat #$seat is $candidate")
 	public void resultIs(int seat, String candidate) {
 
-		assertEquals(result.getSeatAt(seat).getName(), candidate);
+		assertEquals(candidate, result.getSeatAt(seat).getName());
 	}
 	
 	@Then("result seat #$seat isn't $candidate")
 	public void resultIsNot(int seat, String candidate) {
 
-		assertNotEquals(result.getSeatAt(seat).getName(), candidate);
+		assertNotEquals(candidate, result.getSeatAt(seat).getName());
 	}
 	
 	@Then("result seats contain $candidate")
