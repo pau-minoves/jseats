@@ -1,6 +1,6 @@
 package org.jseats.model.algorithms;
 
-public class HareAlgorithm extends HigherAverageAlgorithm {
+public class HareLargestRemainderAlgorithm extends LargestRemainderAlgorithm {
 
 	@Override
 	public double quotient(int numberOfVotes, int numberOfSeats) {

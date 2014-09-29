@@ -24,7 +24,7 @@ public class SimpleMajorityAlgorithm extends SeatAllocationAlgorithm {
 
 		int maxVotes = 0;
 
-		for (int i = 0; i < tally.getNumerOfCandidates(); i++) {
+		for (int i = 0; i < tally.getNumberOfCandidates(); i++) {
 
 			log.trace("iterating candidate: " + tally.getCandidateAt(i));
 			log.trace("Current max votes: " + maxVotes);

@@ -97,7 +97,7 @@ public class Steps {
 
 	@Then("result type is $type")
 	public void resultTypeIs(String type) {
-		log.debug("type = " + type + " vs result.type = " + result.getType());
+		log.debug("result.type=" + result.getType());
 		assertTrue(result.getType().name().equals(type));
 	}
 
@@ -134,6 +134,12 @@ public class Steps {
 			JAXBException {
 
 		// assertFalse(this.result.equals(Result.fromXML(new FileInputStream(result))));
+	}
+	
+	@Then("result seat #$seat is $candidate")
+	public void resultIs(int seat, String candidate) {
+
+		assertEquals(result.getCandidateAt(seat).getName(), candidate);
 	}
 
 	@Then("single result is $result")

@@ -62,7 +62,7 @@ public class Tally implements InmutableTally {
 	}
 
 	@Override
-	public int getNumerOfCandidates() {
+	public int getNumberOfCandidates() {
 		return candidates.size();
 	}
 

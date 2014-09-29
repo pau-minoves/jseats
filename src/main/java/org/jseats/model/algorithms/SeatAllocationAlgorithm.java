@@ -26,7 +26,7 @@ public abstract class SeatAllocationAlgorithm {
 		if (name.equalsIgnoreCase("QualifiedMajority"))
 			return new QualifiedMajorityAlgorithm();
 		if (name.equalsIgnoreCase("Hare"))
-			return new HareAlgorithm();
+			return new HareLargestRemainderAlgorithm();
 
 		log.warn("Lookup of "+name+" failed, launching exception");
 		

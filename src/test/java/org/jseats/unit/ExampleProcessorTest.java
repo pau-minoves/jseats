@@ -28,7 +28,7 @@ public class ExampleProcessorTest {
 		tally.addCandidate(new Candidate("Red Party",200));
 		tally.setPotentialVotes(1000);
 
-		assertEquals(tally.getNumerOfCandidates(), 3);
+		assertEquals(tally.getNumberOfCandidates(), 3);
 		assertEquals(tally.getEffectiveVotes(), 600);
 		
 		// Configure a seat allocation algorithm
