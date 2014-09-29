@@ -12,9 +12,9 @@ import org.jseats.model.Result.ResultType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SimpleMajorityAlgorithm extends SeatAllocationAlgorithm {
+public class SimpleMajorityMethod extends SeatAllocationMethod {
 
-	static Logger log = LoggerFactory.getLogger(SimpleMajorityAlgorithm.class);
+	static Logger log = LoggerFactory.getLogger(SimpleMajorityMethod.class);
 
 	@Override
 	public Result process(InmutableTally tally, Properties properties)

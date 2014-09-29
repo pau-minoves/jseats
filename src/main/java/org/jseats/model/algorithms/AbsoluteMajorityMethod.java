@@ -6,7 +6,7 @@ import org.jseats.model.InmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
 
-public class AbsoluteMajorityAlgorithm extends QualifiedMajorityAlgorithm {
+public class AbsoluteMajorityMethod extends QualifiedMajorityMethod {
 
 	@Override
 	public Result process(InmutableTally tally, Properties properties) throws SeatAllocationException {

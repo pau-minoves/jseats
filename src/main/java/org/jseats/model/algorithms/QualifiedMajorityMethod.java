@@ -9,10 +9,10 @@ import org.jseats.model.Result.ResultType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class QualifiedMajorityAlgorithm extends SeatAllocationAlgorithm {
+public class QualifiedMajorityMethod extends SeatAllocationMethod {
 
 	static Logger log = LoggerFactory
-			.getLogger(QualifiedMajorityAlgorithm.class);
+			.getLogger(QualifiedMajorityMethod.class);
 
 	private int minimumVotes;
 	private double qualifiedProportion;
@@ -46,7 +46,7 @@ public class QualifiedMajorityAlgorithm extends SeatAllocationAlgorithm {
 			return new Result(ResultType.UNDECIDED);
 		}
 
-		SeatAllocationAlgorithm simpleMajority = getByName("SimpleMajority");
+		SeatAllocationMethod simpleMajority = getByName("SimpleMajority");
 
 		Result result = simpleMajority.process(tally, properties);
 

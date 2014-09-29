@@ -1,6 +1,6 @@
 package org.jseats.model.algorithms;
 
-public class DroopLargestRemainderAlgorithm extends LargestRemainderAlgorithm{
+public class DroopLargestRemainderMethod extends LargestRemainderMethod{
 
 	@Override
 	public double quotient(int numberOfVotes, int numberOfSeats) {

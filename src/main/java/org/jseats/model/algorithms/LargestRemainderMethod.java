@@ -9,9 +9,9 @@ import org.jseats.model.Result.ResultType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class LargestRemainderAlgorithm extends SeatAllocationAlgorithm {
+public abstract class LargestRemainderMethod extends SeatAllocationMethod {
 
-	static Logger log = LoggerFactory.getLogger(LargestRemainderAlgorithm.class);
+	static Logger log = LoggerFactory.getLogger(LargestRemainderMethod.class);
 
 	@Override
 	public Result process(InmutableTally tally, Properties properties)

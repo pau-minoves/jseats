@@ -7,7 +7,7 @@ import java.util.Properties;
 import org.jseats.model.InmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
-import org.jseats.model.algorithms.SeatAllocationAlgorithm;
+import org.jseats.model.algorithms.SeatAllocationMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ public class SeatAllocatorProcessor {
 
 	Properties properties;
 
-	SeatAllocationAlgorithm algorithm;
+	SeatAllocationMethod algorithm;
 
 	InmutableTally tally;
 
@@ -52,11 +52,11 @@ public class SeatAllocatorProcessor {
 			throws SeatAllocationException {
 		
 		log.debug("Adding algorithm by name:" + algorithm);
-		this.algorithm = SeatAllocationAlgorithm.getByName(algorithm);
+		this.algorithm = SeatAllocationMethod.getByName(algorithm);
 	}
 
 	public void setAlgorithmByClass(
-			Class<? extends SeatAllocationAlgorithm> clazz)
+			Class<? extends SeatAllocationMethod> clazz)
 			throws InstantiationException, IllegalAccessException {
 		
 		log.debug("Adding algorithm by class:" + clazz);

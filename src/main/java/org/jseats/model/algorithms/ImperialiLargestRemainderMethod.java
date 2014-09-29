@@ -1,7 +1,7 @@
 package org.jseats.model.algorithms;
 
-public class ImperialiLargestRemainderAlgorithm extends
-		LargestRemainderAlgorithm {
+public class ImperialiLargestRemainderMethod extends
+		LargestRemainderMethod {
 
 	@Override
 	public double quotient(int numberOfVotes, int numberOfSeats) {
