@@ -1,4 +1,4 @@
-package org.jseats.model.algorithms;
+package org.jseats.model.methods;
 
 import java.util.Properties;
 

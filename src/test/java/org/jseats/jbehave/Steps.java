@@ -43,7 +43,7 @@ public class Steps {
 	public void setSeatAllocationAlgorithm(String algorithm)
 			throws SeatAllocationException {
 	
-		processor.setAlgorithmByName(algorithm);
+		processor.setMethodByName(algorithm);
 	}
 
 	@Given("algorithm has property $key set to $value")
@@ -72,15 +72,16 @@ public class Steps {
 	 * WHEN
 	 */
 
-	@When("process with $algorithm algorithm")
-	public void processWithAlgorithm(String algorithm)
+	@When("process with $method method")
+	@Alias("process with $method algorithm")
+	public void processWithAlgorithm(String method)
 			throws SeatAllocationException {
 
 		log.debug("Processing with properties: " + processor.getProperties());
 
 		processor.setTally(tally);
 		
-		setSeatAllocationAlgorithm(algorithm);
+		setSeatAllocationAlgorithm(method);
 		
 		result = processor.process();
 	}

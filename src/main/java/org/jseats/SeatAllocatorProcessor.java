@@ -1,13 +1,11 @@
 package org.jseats;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import org.jseats.model.InmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
-import org.jseats.model.algorithms.SeatAllocationMethod;
+import org.jseats.model.methods.SeatAllocationMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +15,7 @@ public class SeatAllocatorProcessor {
 
 	Properties properties;
 
-	SeatAllocationMethod algorithm;
+	SeatAllocationMethod method;
 
 	InmutableTally tally;
 
@@ -48,26 +46,26 @@ public class SeatAllocatorProcessor {
 		return properties;
 	}
 
-	public void setAlgorithmByName(String algorithm)
+	public void setMethodByName(String method)
 			throws SeatAllocationException {
 		
-		log.debug("Adding algorithm by name:" + algorithm);
-		this.algorithm = SeatAllocationMethod.getByName(algorithm);
+		log.debug("Adding method by name:" + method);
+		this.method = SeatAllocationMethod.getByName(method);
 	}
 
-	public void setAlgorithmByClass(
+	public void setMethodByClass(
 			Class<? extends SeatAllocationMethod> clazz)
 			throws InstantiationException, IllegalAccessException {
 		
-		log.debug("Adding algorithm by class:" + clazz);
-		algorithm = clazz.newInstance();
+		log.debug("Adding method by class:" + clazz);
+		method = clazz.newInstance();
 	}
 
 	public void reset() {
 		log.debug("Resetting processor");
 		
 		properties.clear();
-		algorithm = null;
+		method = null;
 		tally = null;
 	}
 
@@ -80,7 +78,7 @@ public class SeatAllocatorProcessor {
 		log.debug("Processing...");
 		
 		// TODO fix
-		Result result = algorithm.process(tally, properties);
+		Result result = method.process(tally, properties);
 		
 		log.debug("Processed");
 		

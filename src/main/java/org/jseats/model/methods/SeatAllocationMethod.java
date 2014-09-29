@@ -1,4 +1,4 @@
-package org.jseats.model.algorithms;
+package org.jseats.model.methods;
 
 import java.util.Properties;
 
@@ -17,7 +17,7 @@ public abstract class SeatAllocationMethod {
 	public static SeatAllocationMethod getByName(String name)
 			throws SeatAllocationException {
 		
-		log.debug("Lookup of algorithm: " + name);
+		log.debug("Lookup of method: " + name);
 
 		if (name.equalsIgnoreCase("SimpleMajority"))
 			return new SimpleMajorityMethod();
@@ -34,6 +34,6 @@ public abstract class SeatAllocationMethod {
 
 		log.warn("Lookup of "+name+" failed, launching exception");
 		
-		throw new SeatAllocationException("No algorithm found with name: " + name);
+		throw new SeatAllocationException("No method found with name: " + name);
 	}
 }

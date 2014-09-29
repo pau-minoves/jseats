@@ -31,9 +31,9 @@ public class ExampleProcessorTest {
 		assertEquals(tally.getNumberOfCandidates(), 3);
 		assertEquals(tally.getEffectiveVotes(), 600);
 		
-		// Configure a seat allocation algorithm
+		// Configure a seat allocation method
 		processor.setProperty("minimumVotes", "150");
-		processor.setAlgorithmByName("QualifiedMajority");
+		processor.setMethodByName("QualifiedMajority");
 		
 		// Get the tally in
 		processor.setTally(tally);
