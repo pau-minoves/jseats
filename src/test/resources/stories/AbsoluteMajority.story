@@ -15,6 +15,7 @@ Given tally has 1000 potential votes
 !-- Absolute majority minimum votes is 501
 When process with AbsoluteMajority algorithm
 Then result type is UNDECIDED
+Then result has 0 seats
 
 Scenario: Candidate list has one candidate with enouth votes to reach exact absolute majority.
 Given empty scenario
@@ -26,10 +27,11 @@ Given tally has 1000 potential votes
 !-- Absolute majority minimum votes is 501
 When process with AbsoluteMajority algorithm
 Then result type is SINGLE
-Then result single candidate is CandidateC
-Then result single candidate isn't CandidateA
-Then result single candidate isn't CandidateB
-Then result single candidate isn't CandidateD
+Then result has 1 seat
+Then result seat #0  is CandidateC
+Then result seat #0  isn't CandidateA
+Then result seat #0  isn't CandidateB
+Then result seat #0  isn't CandidateD
 
 
 Scenario: Candidate list has one candidate with enouth votes to pass absolute majority.
@@ -42,7 +44,8 @@ Given tally has 1000 potential votes
 !-- Absolute majority minimum votes is 501
 When process with AbsoluteMajority algorithm
 Then result type is SINGLE
-Then result single candidate is CandidateC
-Then result single candidate isn't CandidateA
-Then result single candidate isn't CandidateB
-Then result single candidate isn't CandidateD
+Then result has 1 seat
+Then result seat #0  is CandidateC
+Then result seat #0  isn't CandidateA
+Then result seat #0  isn't CandidateB
+Then result seat #0  isn't CandidateD

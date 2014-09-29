@@ -42,24 +42,24 @@ public class ExampleProcessorTest {
 		Result result = processor.process();
 
 		assertEquals(result.getType(),ResultType.SINGLE);
-		assertEquals(result.getNumerOfCandidates(),1);
-		assertEquals(result.getCandidate().getName(), "White Party");
+		assertEquals(result.getNumerOfSeats(),1);
+		assertEquals(result.getSeatAt(0).getName(), "White Party");
 		
 		// Let's try again
 		tally.addCandidate(new Candidate("Black Party",300));
 		result = processor.process();
 		
 		assertEquals(result.getType(),ResultType.TIE);
-		assertEquals(result.getNumerOfCandidates(),2);
-		assertEquals(result.getCandidateAt(0).getName(), "White Party");
-		assertEquals(result.getCandidateAt(1).getName(), "Black Party");
+		assertEquals(result.getNumerOfSeats(),2);
+		assertEquals(result.getSeatAt(0).getName(), "White Party");
+		assertEquals(result.getSeatAt(1).getName(), "Black Party");
 		
 		// Let's try again
 		processor.setProperty("minimumVotes", "350");
 		result = processor.process();
 
 		assertEquals(result.getType(),ResultType.UNDECIDED);
-		assertEquals(result.getNumerOfCandidates(),0);
+		assertEquals(result.getNumerOfSeats(),0);
 		
 		// You can find more complex examples in /src/test/resources/stories
 	}

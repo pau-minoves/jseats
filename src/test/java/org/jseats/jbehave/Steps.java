@@ -7,6 +7,7 @@ import javax.xml.bind.JAXBException;
 
 import static org.junit.Assert.*;
 
+import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
@@ -100,52 +101,43 @@ public class Steps {
 		log.debug("result.type=" + result.getType());
 		assertTrue(result.getType().name().equals(type));
 	}
+	
+	@Then("result has $number seats")
+	@Alias("result has $number seat")
+	public void resultTypeIs(int number) {
+		assertEquals(result.getNumerOfSeats(), number);
+	}
 
-	@Then("result candidates contain $candidate")
+	@Then("result seat #$seat is $candidate")
+	public void resultIs(int seat, String candidate) {
+
+		assertEquals(result.getSeatAt(seat).getName(), candidate);
+	}
+	
+	@Then("result seat #$seat isn't $candidate")
+	public void resultIsNot(int seat, String candidate) {
+
+		assertNotEquals(result.getSeatAt(seat).getName(), candidate);
+	}
+	
+	@Then("result seats contain $candidate")
 	public void resultCandidatesContain(String candidate)
 			throws SeatAllocationException {
 
-		assertTrue(result.containsCandidate(new Candidate(candidate)));
+		assertTrue(result.containsSeatForCandidate(new Candidate(candidate)));
 	}
 
-	@Then("result candidates do not contain $candidate")
+	@Then("result seats do not contain $candidate")
 	public void resultCandidatesNotContain(String candidate)
 			throws SeatAllocationException {
 
-		assertFalse(result.containsCandidate(new Candidate(candidate)));
+		assertFalse(result.containsSeatForCandidate(new Candidate(candidate)));
 	}
 
-	@Then("result single candidate is $candidate")
-	public void resultSingleCandidateIs(String candidate)
-			throws SeatAllocationException {
-
-		assertTrue(result.getCandidate().getName().equals(candidate));
-	}
-
-	@Then("result single candidate isn't $candidate")
-	public void resultSingleCandidateIsNot(String candidate)
-			throws SeatAllocationException {
-
-		assertFalse(result.getCandidate().getName().equals(candidate));
-	}
-
-	@Then("result is $result")
+	@Then("result is as in file $result")
 	public void resultIs(String result) throws FileNotFoundException,
 			JAXBException {
 
 		// assertFalse(this.result.equals(Result.fromXML(new FileInputStream(result))));
-	}
-	
-	@Then("result seat #$seat is $candidate")
-	public void resultIs(int seat, String candidate) {
-
-		assertEquals(result.getCandidateAt(seat).getName(), candidate);
-	}
-
-	@Then("single result is $result")
-	public void singleResultIs(String singleResult)
-			throws SeatAllocationException {
-
-		assertEquals(result.getCandidate().getName(), singleResult);
 	}
 }

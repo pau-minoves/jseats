@@ -43,14 +43,14 @@ public class Result {
 	static Marshaller marshaller;
 	static Unmarshaller unmarshaller;
 
-	@XmlElementWrapper(name = "candidates")
+	@XmlElementWrapper(name = "seats")
 	@XmlElement
-	List<Candidate> candidates;
+	List<Candidate> seats;
 
 	public Result(ResultType type) {
 		this.type = type;
 		
-		candidates = new ArrayList<Candidate>();
+		seats = new ArrayList<Candidate>();
 	}
 
 	public ResultType getType() {
@@ -70,40 +70,40 @@ public class Result {
 		throw new SeatAllocationException("Invalid operation on result of type "+ type);
 	}
 	
-	public List<Candidate> getCandidates() {
-		return candidates;
-	}
-	
-	public Candidate getCandidateAt(int position) {
-		return candidates.get(position);
-	}
-	
-	public int getNumerOfCandidates() {
-		return candidates.size();
+	public int getNumerOfSeats() {
+		return seats.size();
 	}
 
-	public void setCandidates(List<Candidate> candidates) {
-		this.candidates = candidates;
-	}
-
-	public Candidate getCandidate() throws SeatAllocationException {
-		checkTypeIs(ResultType.SINGLE);
-		return candidates.get(0);
-	}
-
-	public void addCandidate(Candidate candidate) {
-		this.candidates.add(candidate);
+	public List<Candidate> getSeats() {
+		return seats;
 	}
 	
-	public void setCandidate(Candidate candidate) throws SeatAllocationException {
-		checkTypeIs(ResultType.SINGLE);
-		this.candidates.add(0, candidate);
+	public Candidate getSeatAt(int position) {
+		return seats.get(position);
+	}
+
+	public void addSeat(Candidate candidate) {
+		this.seats.add(candidate);
 	}
 	
-	public boolean containsCandidate(Candidate candidate) {
+	public void setSeats(List<Candidate> candidates) {
+		this.seats = candidates;
+	}
+	
+	public boolean containsSeatForCandidate(Candidate candidate) {
 		
-		for (Candidate resultCandidate : candidates) {
-			if (resultCandidate.equals(candidate))
+		for (Candidate seat : seats) {
+			if (seat.equals(candidate))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean containsSeatForCandidate(String candidate) {
+		
+		for (Candidate seat : seats) {
+			if (seat.getName().contentEquals(candidate))
 				return true;
 		}
 		
@@ -116,10 +116,10 @@ public class Result {
 		StringBuilder str = new StringBuilder("result(");
 		str.append(type);
 		str.append("):C=");
-		str.append(candidates.size());
+		str.append(seats.size());
 		str.append("=>");
-		for(Candidate candidate : candidates){
-			str.append(candidate.toString());
+		for(Candidate seat : seats){
+			str.append(seat.toString());
 			str.append(":");
 		}
 		

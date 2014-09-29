@@ -14,31 +14,11 @@ public class ResultModelTest {
 	public void containsCandidate() {
 		Result result = new Result(ResultType.SINGLE);
 
-		result.addCandidate(new Candidate("A"));
-		result.addCandidate(new Candidate("B"));
-		result.addCandidate(new Candidate("C"));
+		result.addSeat(new Candidate("A"));
+		result.addSeat(new Candidate("B"));
+		result.addSeat(new Candidate("C"));
 
-		assertTrue(result.containsCandidate(new Candidate("B")));
-		assertFalse(result.containsCandidate(new Candidate("D")));
-	}
-
-	@Test(expected = SeatAllocationException.class)
-	public void checkResultTypeOnGetCandidate() throws SeatAllocationException {
-		Result result = new Result(ResultType.TIE);
-
-		result.addCandidate(new Candidate("A"));
-		result.addCandidate(new Candidate("B"));
-
-		result.getCandidate();
-	}
-	
-	@Test(expected = SeatAllocationException.class)
-	public void checkResultTypeOnSetCandidate() throws SeatAllocationException {
-		Result result = new Result(ResultType.TIE);
-
-		result.addCandidate(new Candidate("A"));
-		result.addCandidate(new Candidate("B"));
-
-		result.setCandidate(new Candidate("A"));
+		assertTrue(result.containsSeatForCandidate(new Candidate("B")));
+		assertFalse(result.containsSeatForCandidate(new Candidate("D")));
 	}
 }

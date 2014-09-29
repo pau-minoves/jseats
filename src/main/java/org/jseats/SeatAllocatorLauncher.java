@@ -35,15 +35,13 @@ public class SeatAllocatorLauncher {
 
 			Result result = new Result(ResultType.SINGLE);
 
-			result.setCandidate(new Candidate("CandidateC", 100));
+			result.addSeat(new Candidate("CandidateC", 100));
 
 			result.toXML(new FileOutputStream("target/example.result.xml"));
 
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (SeatAllocationException e) {
 			e.printStackTrace();
 		}
 	}

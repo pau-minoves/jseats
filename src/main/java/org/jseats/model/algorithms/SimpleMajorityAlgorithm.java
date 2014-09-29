@@ -48,7 +48,7 @@ public class SimpleMajorityAlgorithm extends SeatAllocationAlgorithm {
 		else
 			result = new Result(ResultType.TIE);
 
-		result.setCandidates(candidates);
+		result.setSeats(candidates);
 
 		log.debug("Processing ended with " + result.getType() + " result at "
 				+ maxVotes + " votes");

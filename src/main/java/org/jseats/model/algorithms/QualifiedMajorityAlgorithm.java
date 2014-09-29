@@ -51,7 +51,7 @@ public class QualifiedMajorityAlgorithm extends SeatAllocationAlgorithm {
 		Result result = simpleMajority.process(tally, properties);
 
 		// Either SINGLE or TIE, minimumVotes are not reached.
-		if(result.getCandidates().get(0).getVotes() < minimumVotes)
+		if(result.getSeats().get(0).getVotes() < minimumVotes)
 			return new Result(ResultType.UNDECIDED);
 		
 		return result;

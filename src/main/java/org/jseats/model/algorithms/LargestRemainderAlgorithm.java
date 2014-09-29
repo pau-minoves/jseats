@@ -72,12 +72,12 @@ public abstract class LargestRemainderAlgorithm extends SeatAllocationAlgorithm 
 		
 		for(int candidate = 0; candidate < numberOfCandidates; candidate++) {
 			for(int seat = 0; seat < seatsPerCandidate[candidate]; seat++) {
-				result.addCandidate( tally.getCandidateAt(candidate) );
+				result.addSeat( tally.getCandidateAt(candidate) );
 			}
 		}
 		
-		for(int i = 0; i < result.getNumerOfCandidates(); i++) {
-			log.debug("seat #" + i + ":" + result.getCandidateAt(i));
+		for(int i = 0; i < result.getNumerOfSeats(); i++) {
+			log.debug("seat #" + i + ":" + result.getSeatAt(i));
 		}
 		
 		return result;

@@ -19,14 +19,14 @@ Given tally has candidate CandidateC with 200 votes
 Given tally has candidate CandidateD with 125 votes
 When process with SimpleMajority algorithm
 Then result type is SINGLE
-Then result single candidate is CandidateC
-Then result single candidate isn't CandidateA
-Then result single candidate isn't CandidateB
-Then result single candidate isn't CandidateD
-Then result candidates contain CandidateC
-Then result candidates do not contain CandidateA
-Then result candidates do not contain CandidateB
-Then result candidates do not contain CandidateD
+Then result seat #0 is CandidateC
+Then result seat #0 isn't CandidateA
+Then result seat #0 isn't CandidateB
+Then result seat #0 isn't CandidateD
+Then result seats contain CandidateC
+Then result seats do not contain CandidateA
+Then result seats do not contain CandidateB
+Then result seats do not contain CandidateD
 
 Scenario: Candidate list with a tie
 Given empty scenario
@@ -36,10 +36,10 @@ Given tally has candidate CandidateC with 200 votes
 Given tally has candidate CandidateD with 125 votes
 When process with SimpleMajority algorithm
 Then result type is TIE
-Then result candidates contain CandidateA
-Then result candidates contain CandidateC
-Then result candidates do not contain CandidateB
-Then result candidates do not contain CandidateD
+Then result seats contain CandidateA
+Then result seats contain CandidateC
+Then result seats do not contain CandidateB
+Then result seats do not contain CandidateD
 
 Scenario: Candidate list with a false tie
 Given empty scenario
@@ -49,14 +49,14 @@ Given tally has candidate CandidateC with 200 votes
 Given tally has candidate CandidateD with 125 votes
 When process with SimpleMajority algorithm
 Then result type is SINGLE
-Then result single candidate is CandidateC
-Then result single candidate isn't CandidateA
-Then result single candidate isn't CandidateB
-Then result single candidate isn't CandidateD
-Then result candidates contain CandidateC
-Then result candidates do not contain CandidateA
-Then result candidates do not contain CandidateB
-Then result candidates do not contain CandidateD
+Then result seat #0 is CandidateC
+Then result seat #0 isn't CandidateA
+Then result seat #0 isn't CandidateB
+Then result seat #0 isn't CandidateD
+Then result seats contain CandidateC
+Then result seats do not contain CandidateA
+Then result seats do not contain CandidateB
+Then result seats do not contain CandidateD
 
 Scenario: Candidate list with a full tie
 Given empty scenario
@@ -66,7 +66,7 @@ Given tally has candidate CandidateC with 200 votes
 Given tally has candidate CandidateD with 200 votes
 When process with SimpleMajority algorithm
 Then result type is TIE
-Then result candidates contain CandidateA
-Then result candidates contain CandidateB
-Then result candidates contain CandidateC
-Then result candidates contain CandidateD
+Then result seats contain CandidateA
+Then result seats contain CandidateB
+Then result seats contain CandidateC
+Then result seats contain CandidateD
