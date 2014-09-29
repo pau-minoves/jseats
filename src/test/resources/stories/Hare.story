@@ -5,7 +5,7 @@ In order to assign seats according to Hare method
 As a development team
 I want to use HareAlgorithm
 					 
-Scenario: Candidate list
+Scenario: Hare scenario
 Given empty scenario
 Given tally has candidate Candidate1 with 391000 votes
 Given tally has candidate Candidate2 with 311000 votes
@@ -15,10 +15,11 @@ Given tally has candidate Candidate5 with 27000 votes
 Given tally has candidate Candidate6 with 12000 votes
 Given tally has candidate Candidate7 with 2000 votes
 Given tally has 1000000 potential votes
-Given algorithm has property numberOfSeats set to 21
 !-- All potential votes are casted (potential votes == effective votes)
+Given algorithm has property numberOfSeats set to 21
 When process with Hare algorithm
 Then result type is MULTIPLE
+Then result has 21 seats
 Then result seat #0 is Candidate1
 Then result seat #1 is Candidate1
 Then result seat #2 is Candidate1
@@ -40,3 +41,28 @@ Then result seat #17 is Candidate3
 Then result seat #18 is Candidate4
 Then result seat #19 is Candidate4
 Then result seat #20 is Candidate5
+
+Scenario: Hare scenario from wikipedia (http://en.wikipedia.org/wiki/Largest_remainder_method)
+Given empty scenario
+Given tally has candidate Yellows with 47000 votes
+Given tally has candidate Whites with 16000 votes
+Given tally has candidate Reds with 15800 votes
+Given tally has candidate Greens with 12000 votes
+Given tally has candidate Blues with 6100 votes
+Given tally has candidate Pinks with 3100 votes
+Given tally has 100000 potential votes
+!-- All potential votes are casted (potential votes == effective votes)
+Given algorithm has property numberOfSeats set to 10
+When process with Hare algorithm
+Then result type is MULTIPLE
+Then result has 10 seat
+Then result seat #0 is Yellows
+Then result seat #1 is Yellows
+Then result seat #2 is Yellows
+Then result seat #3 is Yellows
+Then result seat #4 is Yellows
+Then result seat #5 is Whites
+Then result seat #6 is Whites
+Then result seat #7 is Reds
+Then result seat #8 is Greens
+Then result seat #9 is Blues
