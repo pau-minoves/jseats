@@ -20,3 +20,10 @@ JSeats is a java implementation of usual electoral seat allocation algorithms.
  	* Hare
  	* Droop
  	* Imperiali
+ * Highest Averages Method
+ 	* D'Hondt
+ 	* Sainte-Laguë (Webster)
+ 		* Supports user provided first divisor (Modified Sainte-Laguë)
+ 	* Huntington-Hill
+ 	* Imperiali
+ 	* Danish

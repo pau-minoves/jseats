@@ -55,7 +55,7 @@ Given tally has 100000 potential votes
 Given algorithm has property numberOfSeats set to 10
 When process with Droop algorithm
 Then result type is MULTIPLE
-Then result has 10 seat
+Then result has 10 seats
 Then result seat #0 is Yellows
 Then result seat #1 is Yellows
 Then result seat #2 is Yellows

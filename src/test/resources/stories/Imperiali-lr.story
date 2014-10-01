@@ -1,11 +1,11 @@
-Imperiali story
+Imperiali-lr story
 
 Narrative:
 In order to assign seats according to Largest Remainder method with a Imperiali quotient formula
 As a development team
-I want to use Imperiali
+I want to use Imperiali-lr
 
-Scenario: Imperiali scenario
+Scenario: Imperiali-lr scenario
 Given empty scenario
 Given tally has candidate Candidate1 with 391000 votes
 Given tally has candidate Candidate2 with 311000 votes
@@ -17,7 +17,7 @@ Given tally has candidate Candidate7 with 2000 votes
 Given tally has 1000000 potential votes
 !-- All potential votes are casted (potential votes == effective votes)
 Given algorithm has property numberOfSeats set to 21
-When process with Imperiali algorithm
+When process with Imperiali-lr algorithm
 Then result type is MULTIPLE
 Then result has 21 seats
 Then result seat #0 is Candidate1
