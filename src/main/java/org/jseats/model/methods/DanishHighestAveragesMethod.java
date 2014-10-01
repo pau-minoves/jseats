@@ -2,7 +2,7 @@ package org.jseats.model.methods;
 
 public class DanishHighestAveragesMethod extends HighestAveragesMethod {
 
-	private int currentDivisor = 1;
+	private int currentDivisor = -2;
 	
 	@Override
 	public double nextDivisor(int round) {
