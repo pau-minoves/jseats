@@ -3,7 +3,7 @@ JSeats [![Build Status](https://travis-ci.org/pau-minoves/jseats.svg?branch=mast
 
 
 
-JSeats is a java implementation of usual electoral seat allocation algorithms.
+JSeats is a java implementation of common electoral seat allocation algorithms.
 
 ## Getting started
 
