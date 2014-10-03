@@ -18,16 +18,17 @@ public abstract class HighestAveragesMethod extends SeatAllocationMethod {
 	@Override
 	public Result process(InmutableTally tally, Properties properties)
 			throws SeatAllocationException {
-
+		
+		int numberOfCandidates = tally.getNumberOfCandidates();
 		int numberOfSeats = Integer.parseInt(properties
-				.getProperty("numberOfSeats"));
+				.getProperty("numberOfSeats"),numberOfCandidates);
 		double firstDivisor = Double.parseDouble(properties.getProperty(
 				"firstDivisor", "-1"));
 		boolean modifiedFirstDivisor = (firstDivisor == -1) ? false : true;
 		boolean groupSeatsPerCandidate = Boolean.parseBoolean(properties
 				.getProperty("groupSeatsPerCandidate", "false"));
 
-		int numberOfCandidates = tally.getNumberOfCandidates();
+
 		int numberOfUnallocatedSeats = numberOfSeats;
 
 		int[] seatsPerCandidate = new int[numberOfCandidates];
