@@ -5,7 +5,6 @@ WIP
  * Story for DanishHighestAverages
  * Story for HuntingtonHillHighestAverages (US house of representatives)
  * Tie breakers
- * Tally decorators
  * Better trace logging
  * Better processor
  * Javadocs
@@ -13,6 +12,7 @@ WIP
 TODO
 ====
 
+ * More Tally filters and result decorators
  * Document methods
  * JCommander integration
  * REST servlet.
