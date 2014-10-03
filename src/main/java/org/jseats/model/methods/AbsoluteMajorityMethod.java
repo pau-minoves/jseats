@@ -2,9 +2,9 @@ package org.jseats.model.methods;
 
 import java.util.Properties;
 
-import org.jseats.model.InmutableTally;
-import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
+import org.jseats.model.result.Result;
+import org.jseats.model.tally.InmutableTally;
 
 public class AbsoluteMajorityMethod extends QualifiedMajorityMethod {
 

@@ -3,9 +3,9 @@ package org.jseats.unit;
 import static org.junit.Assert.*;
 
 import org.jseats.model.Candidate;
-import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
-import org.jseats.model.Result.ResultType;
+import org.jseats.model.result.Result;
+import org.jseats.model.result.Result.ResultType;
 import org.junit.Test;
 
 public class ResultModelTest {

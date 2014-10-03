@@ -1,9 +1,11 @@
-package org.jseats.model;
+package org.jseats.model.tally;
 
 import java.io.OutputStream;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
+
+import org.jseats.model.Candidate;
 
 public interface InmutableTally {
 

@@ -30,6 +30,8 @@ Then result seat #7 is Yellows
 Then result seat #8 is Whites
 Then result seat #9 is Reds
 Given algorithm has property groupSeatsPerCandidate set to true
+Given result has decorator AppendTextToCandidateNameDecorator My
+
 When process with DHondt algorithm
 Then result type is MULTIPLE
 Then result has 10 seats

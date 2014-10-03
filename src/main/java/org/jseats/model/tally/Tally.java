@@ -1,4 +1,4 @@
-package org.jseats.model;
+package org.jseats.model.tally;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,6 +14,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.jseats.model.Candidate;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -38,6 +40,9 @@ public class Tally implements InmutableTally {
 		candidates = new ArrayList<Candidate>();
 	}
 	
+	/*
+	 * Votes
+	 */
 	@Override
 	public int getPotentialVotes() {
 		return potentialVotes;
@@ -52,6 +57,9 @@ public class Tally implements InmutableTally {
 		return effectiveVotes;
 	}
 
+	/*
+	 * Candidates
+	 */
 	public List<Candidate> getCandidates() {
 		return candidates;
 	}
@@ -81,6 +89,14 @@ public class Tally implements InmutableTally {
 		effectiveVotes += candidate.getVotes();
 	}
 
+	public void removeCandidate(Candidate candidate) {
+		candidates.remove(candidate);
+		
+	}
+	
+	/*
+	 * Serialization
+	 */
 	public void toXML(OutputStream out) throws JAXBException {
 
 		if (jc == null)
@@ -120,4 +136,6 @@ public class Tally implements InmutableTally {
 		
 		return str.toString();
 	}
+
+
 }

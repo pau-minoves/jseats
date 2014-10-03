@@ -3,7 +3,7 @@ package org.jseats.unit;
 import static org.junit.Assert.*;
 
 import org.jseats.model.Candidate;
-import org.jseats.model.Tally;
+import org.jseats.model.tally.Tally;
 import org.junit.Ignore;
 import org.junit.Test;
 

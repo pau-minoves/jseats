@@ -13,9 +13,14 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jseats.SeatAllocatorProcessor;
 import org.jseats.model.Candidate;
-import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
-import org.jseats.model.Tally;
+import org.jseats.model.result.AppendTextToCandidateNameDecorator;
+import org.jseats.model.result.NullResultDecorator;
+import org.jseats.model.result.Result;
+import org.jseats.model.result.SuffixTextToCandidateNameDecorator;
+import org.jseats.model.tally.NullTallyFilter;
+import org.jseats.model.tally.RemoveCandidatesBelow;
+import org.jseats.model.tally.Tally;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +38,7 @@ public class Steps {
 
 	@Given("empty scenario")
 	public void emptyTally() {
-		
+
 		tally = null;
 		result = null;
 		processor.reset();
@@ -42,7 +47,7 @@ public class Steps {
 	@Given("use $algorithm algorithm")
 	public void setSeatAllocationAlgorithm(String algorithm)
 			throws SeatAllocationException {
-	
+
 		processor.setMethodByName(algorithm);
 	}
 
@@ -59,13 +64,55 @@ public class Steps {
 
 		tally.addCandidate(new Candidate(candidate, votes));
 	}
-	
+
 	@Given("tally has $votes potential votes")
 	public void setPotentialVotesInTally(int votes) {
 		if (tally == null)
 			tally = new Tally();
 
 		tally.setPotentialVotes(votes);
+	}
+
+	@Given("tally has filter $filter")
+	public void addTallyFilter(String filter) {
+		addTallyFilter(filter, null);
+	}
+
+	@Given(value = "tally has filter $filter $param", priority = 1)
+	public void addTallyFilter(String filter, String param) {
+		switch (filter) {
+		case "Null":
+			processor.addTallyFilter(new NullTallyFilter());
+			break;
+		case "RemoveCandidatesBelow":
+			processor.addTallyFilter(new RemoveCandidatesBelow(Integer
+					.parseInt(param)));
+			break;
+		}
+	}
+
+	@Given("result has decorator $decorator")
+	public void addResultDecorator(String decorator) {
+		addResultDecorator(decorator, null);
+	}
+
+	@Given(value = "result has decorator $decorator $param", priority = 1)
+	public void addResultDecorator(String decorator, String param) {
+		switch (decorator) {
+		case "Null":
+			processor.addResultDecorator(new NullResultDecorator());
+			break;
+		case "AppendTextToCandidateNameDecorator":
+			processor
+					.addResultDecorator(new AppendTextToCandidateNameDecorator(
+							param));
+			break;
+		case "SuffixTextToCandidateNameDecorator":
+			processor
+					.addResultDecorator(new SuffixTextToCandidateNameDecorator(
+							param));
+			break;
+		}
 	}
 
 	/*
@@ -80,9 +127,9 @@ public class Steps {
 		log.debug("Processing with properties: " + processor.getProperties());
 
 		processor.setTally(tally);
-		
+
 		setSeatAllocationAlgorithm(method);
-		
+
 		result = processor.process();
 	}
 
@@ -100,9 +147,9 @@ public class Steps {
 	@Then("result type is $type")
 	public void resultTypeIs(String type) {
 		log.debug("result.type=" + result.getType());
-		assertTrue(result.getType().name().equals(type));
+		assertEquals(type, result.getType().name());
 	}
-	
+
 	@Then("result has $number seats")
 	@Alias("result has $number seat")
 	public void resultTypeIs(int number) {
@@ -114,13 +161,13 @@ public class Steps {
 
 		assertEquals(candidate, result.getSeatAt(seat).getName());
 	}
-	
+
 	@Then("result seat #$seat isn't $candidate")
 	public void resultIsNot(int seat, String candidate) {
 
 		assertNotEquals(candidate, result.getSeatAt(seat).getName());
 	}
-	
+
 	@Then("result seats contain $candidate")
 	public void resultCandidatesContain(String candidate)
 			throws SeatAllocationException {
@@ -139,6 +186,7 @@ public class Steps {
 	public void resultIs(String result) throws FileNotFoundException,
 			JAXBException {
 
-		// assertFalse(this.result.equals(Result.fromXML(new FileInputStream(result))));
+		// assertFalse(this.result.equals(Result.fromXML(new
+		// FileInputStream(result))));
 	}
 }
