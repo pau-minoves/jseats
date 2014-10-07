@@ -145,7 +145,7 @@ public class SeatAllocatorProcessor {
 
 		log.debug("Processed");
 
-		if (!filters.isEmpty()) {
+		if (!decorators.isEmpty()) {
 			log.debug("Executing decorators");
 			for (ResultDecorator decorator : decorators) {
 				log.trace("Executing decorator: " + decorator);
