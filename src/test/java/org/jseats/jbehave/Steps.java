@@ -2,6 +2,7 @@ package org.jseats.jbehave;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Iterator;
 
 import javax.xml.bind.JAXBException;
 
@@ -173,6 +174,20 @@ public class Steps {
 			throws SeatAllocationException {
 
 		assertTrue(result.containsSeatForCandidate(new Candidate(candidate)));
+	}
+
+	@Then("result has $seats seats for $candidate")
+	public void resultHasSeatsForCandidate(int seats, String candidate)
+			throws SeatAllocationException {
+
+		int count = 0;
+		Iterator<Candidate> i = result.getSeats().iterator();
+
+		while (i.hasNext())
+			if (i.next().getName().contentEquals(candidate))
+				count++;
+
+		assertEquals(seats, count);
 	}
 
 	@Then("result seats do not contain $candidate")

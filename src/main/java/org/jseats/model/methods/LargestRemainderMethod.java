@@ -14,14 +14,15 @@ public abstract class LargestRemainderMethod extends SeatAllocationMethod {
 	static Logger log = LoggerFactory.getLogger(LargestRemainderMethod.class);
 
 	public abstract double quotient(int numberOfVotes, int numberOfSeats);
-	
+
 	@Override
 	public Result process(InmutableTally tally, Properties properties)
 			throws SeatAllocationException {
 
 		int numberOfCandidates = tally.getNumberOfCandidates();
-		int numberOfSeats = Integer.parseInt(properties
-				.getProperty("numberOfSeats"));
+		int numberOfSeats = Integer.parseInt(properties.getProperty(
+				"numberOfSeats",
+				Integer.toString(tally.getNumberOfCandidates())));
 		int numberOfUnallocatedSeats = numberOfSeats;
 
 		int[] seatsPerCandidate = new int[numberOfCandidates];

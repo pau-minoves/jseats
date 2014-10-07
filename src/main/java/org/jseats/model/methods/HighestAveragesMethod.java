@@ -19,15 +19,15 @@ public abstract class HighestAveragesMethod extends SeatAllocationMethod {
 	public Result process(InmutableTally tally, Properties properties)
 			throws SeatAllocationException {
 
-		int numberOfSeats = Integer.parseInt(properties
-				.getProperty("numberOfSeats"));
+		int numberOfCandidates = tally.getNumberOfCandidates();
+		int numberOfSeats = Integer.parseInt(properties.getProperty(
+				"numberOfSeats", Integer.toString(numberOfCandidates)));
 		double firstDivisor = Double.parseDouble(properties.getProperty(
 				"firstDivisor", "-1"));
 		boolean modifiedFirstDivisor = (firstDivisor == -1) ? false : true;
 		boolean groupSeatsPerCandidate = Boolean.parseBoolean(properties
 				.getProperty("groupSeatsPerCandidate", "false"));
 
-		int numberOfCandidates = tally.getNumberOfCandidates();
 		int numberOfUnallocatedSeats = numberOfSeats;
 
 		int[] seatsPerCandidate = new int[numberOfCandidates];
@@ -44,7 +44,7 @@ public abstract class HighestAveragesMethod extends SeatAllocationMethod {
 				// Then user has provided an alternative first divisor
 				divisor = firstDivisor;
 				modifiedFirstDivisor = false;
-				nextDivisor(round); //Ignore first methods' first divisor
+				nextDivisor(round); // Ignore first methods' first divisor
 			} else
 				divisor = nextDivisor(round);
 
