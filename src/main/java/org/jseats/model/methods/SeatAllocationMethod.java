@@ -42,6 +42,8 @@ public abstract class SeatAllocationMethod {
 			return new HuntingtonHillHighestAveragesMethod();
 		if (name.equalsIgnoreCase("Danish"))
 			return new DanishHighestAveragesMethod();
+		if(name.equalsIgnoreCase("RankByVotes"))
+			return new ByVotesRankMethod();
 
 		log.warn("Lookup of " + name + " failed, launching exception");
 
