@@ -78,21 +78,24 @@
 						<phase>integration-test</phase>
 						<configuration>
 							<scope>test</scope>
+							<verboseFailures>true</verboseFailures>
+							<ignoreFailureInStories>true</ignoreFailureInStories>
+							<ignoreFailureInView>false</ignoreFailureInView>
 							<includes>
-								<include>**/*Stories.java</include>
+								<include>**/Stories.java</include>
 							</includes>
+							<!-- 
 							<metaFilters>
-								<metaFilter>+author *</metaFilter>
+								<metaFilter>+author</metaFilter>
 								<metaFilter>-skip</metaFilter>
 							</metaFilters>
+							 -->
 							<systemProperties>
 								<property>
 									<name>java.awt.headless</name>
 									<value>true</value>
 								</property>
 							</systemProperties>
-							<ignoreFailureInStories>true</ignoreFailureInStories>
-							<ignoreFailureInView>false</ignoreFailureInView>
 						</configuration>
 						<goals>
 							<goal>run-stories-as-embeddables</goal>
