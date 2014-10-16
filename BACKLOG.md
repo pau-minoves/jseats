@@ -20,4 +20,4 @@ TODO
  * JCommander integration
  * REST servlet.
  * Webapp.
-
+ * Joao: Can minimum filter be deduced for a method given a set of (#candidates, #seats, #potential votes)?
