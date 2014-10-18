@@ -1,12 +1,123 @@
 package org.jseats.model.methods;
 
-public class EqualProportionsMethod extends RankMethod {
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Properties;
 
-	@Override
-	protected double multiplier(int votes, int seatNumber,
-			int numberOfCandidates) {
+import org.jseats.model.SeatAllocationException;
+import org.jseats.model.result.Result;
+import org.jseats.model.result.Result.ResultType;
+import org.jseats.model.tally.InmutableTally;
 
-		return  1 / Math.sqrt(seatNumber*(seatNumber-1));
+public class EqualProportionsMethod extends SeatAllocationMethod {
+
+	NumberFormat df = DecimalFormat.getInstance();
+
+	protected double coefficient(int seatNumber) {
+
+		return 1 / Math.sqrt(seatNumber * (seatNumber + 1));
 	}
 
+	public EqualProportionsMethod() {
+		df.setMinimumFractionDigits(2);
+		df.setMaximumFractionDigits(2);
+		df.setRoundingMode(RoundingMode.DOWN);
+	}
+
+	@Override
+	public Result process(InmutableTally tally, Properties properties)
+			throws SeatAllocationException {
+
+		// Get properties
+
+		int numberOfCandidates = tally.getNumberOfCandidates();
+		int numberOfSeats = Integer.parseInt(properties.getProperty(
+				"numberOfSeats", Integer.toString(numberOfCandidates)));
+		int numberOfInitialSeats = Integer.parseInt(properties.getProperty(
+				"numberOfInitialSeats", Integer.toString(0)));
+
+		// Allocating initial seats
+
+		log.debug("Allocating " + numberOfInitialSeats
+				+ " initial seats per candidate.");
+
+		int[] candidateSeats = new int[numberOfCandidates];
+		Result result = new Result(ResultType.MULTIPLE);
+
+		for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
+			for (int seat = 0; seat < numberOfInitialSeats; seat++) {
+				result.addSeat(tally.getCandidateAt(candidate));
+				candidateSeats[candidate]++;
+				numberOfSeats--;
+			}
+		}
+
+		log.debug("Number of seats remaining: " + numberOfSeats);
+
+		// Order by priority
+
+		double[] candidatePriority = new double[numberOfCandidates];
+
+		while (numberOfSeats > 0) {
+
+			log.debug("Seat #" + numberOfSeats + ": Computing candidate");
+
+			// Get priority for each candidate
+			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
+
+				double coefficient = coefficient(candidateSeats[candidate]);
+				int votes = tally.getCandidateAt(candidate).getVotes();
+
+				candidatePriority[candidate] = votes * coefficient;
+
+				if (log.isTraceEnabled())
+					log.trace("Coefficient: " + df.format(coefficient)
+							+ " Priority: "
+							+ df.format(candidatePriority[candidate]) + " "
+							+ tally.getCandidateAt(candidate));
+			}
+
+			// Find candidate with higher priority:
+
+			int maxCandidate = -1;
+			double maxPriority = -1;
+
+			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
+
+				if (candidatePriority[candidate] == maxPriority) {
+
+					Result tieResult = new Result(ResultType.TIE);
+					tieResult.addSeat(tally.getCandidateAt(maxCandidate));
+					tieResult.addSeat(tally.getCandidateAt(candidate));
+
+					return tieResult;
+				}
+
+				if (candidatePriority[candidate] > maxPriority) {
+					maxCandidate = candidate;
+					maxPriority = candidatePriority[candidate];
+				}
+			}
+
+			// and assign the seat
+
+			log.debug("Seat #" + numberOfSeats + ": Winner candidate is "
+					+ tally.getCandidateAt(maxCandidate));
+
+			result.addSeat(tally.getCandidateAt(maxCandidate));
+			candidateSeats[maxCandidate]++;
+
+			numberOfSeats--;
+		}
+
+		// Summary
+		if (log.isTraceEnabled())
+			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
+				log.trace("Candidate " + tally.getCandidateAt(candidate)
+						+ " has " + candidateSeats[candidate] + " seats.");
+			}
+
+		return result;
+	}
 }

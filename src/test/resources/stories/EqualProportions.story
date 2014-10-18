@@ -1,11 +1,11 @@
 EqualProportions story
 
 Narrative:
-In order to assign seats according to Highest Averages with a Huntington–Hill divisor
+In order to assign seats according to Equal proportions methods
 As a development team
 I want to use EqualProportions or Hungtington-Hill, not sure...
 					 
-Scenario: HuntingtonHill scenario from wikipedia (http://en.wikipedia.org/wiki/Huntington%E2%80%93Hill_method)
+Scenario: EqualProportions scenario from wikipedia (http://en.wikipedia.org/wiki/Huntington%E2%80%93Hill_method)
 Given empty scenario
 Given tally has candidate Connecticut with 236841 votes
 Given tally has candidate Delaware with 55540 votes
@@ -24,25 +24,26 @@ Given tally has candidate Vermont with 85533 votes
 Given tally has candidate Virginia with 630560 votes
 Given tally has 3615920 potential votes
 Given algorithm has property numberOfSeats set to 105
+Given algorithm has property numberOfInitialSeats set to 1
 Given algorithm has property groupSeatsPerCandidate set to true
-When process with Huntington-Hill method
+When process with EqualProportions method
 Then result type is MULTIPLE
 Then result has 105 seats
 Then result has 7 seats for Connecticut
 Then result has 2 seats for Delaware
 Then result has 2 seats for Georgia
 Then result has 2 seats for Kentucky
-!-- Then result has 8 seats for Maryland !-- 9
+Then result has 8 seats for Maryland
 Then result has 14 seats for Massachusetts
 Then result has 4 seats for New Hampshire
 Then result has 5 seats for New Jersey
 Then result has 10 seats for New York
-!-- Then result has 10 seats for North Carolina !-- 11
-!-- Then result has 12 seats for Pennsylvania !-- 13
+Then result has 10 seats for North Carolina
+Then result has 12 seats for Pennsylvania
 Then result has 2 seats for Rhode Island
 Then result has 6 seats for South Carolina
 Then result has 3 seats for Vermont
-!-- Then result has 18 seats for Virginia !-- 15
+Then result has 18 seats for Virginia
 
 
 
