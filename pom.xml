@@ -86,7 +86,6 @@
 							</includes>
 							<!-- 
 							<metaFilters>
-								<metaFilter>+author *</metaFilter>
 								<metaFilter>-skip</metaFilter>
 							</metaFilters>
 							 -->
