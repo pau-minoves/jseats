@@ -12,10 +12,12 @@ JSeats is a java implementation of common electoral seat allocation algorithms.
 
 ## Supported methods
  
- * Majority
+ * Majority Method
  	* Simple
     * Qualified
     * Absolute
+ * Ranked Method
+    * By votes (direct and reverse).
  * Equal Proportions Method (aka [Huntington-Hill](http://en.wikipedia.org/wiki/Huntington%E2%80%93Hill_method))
  * [Largest Remainder Method](http://en.wikipedia.org/wiki/Largest_remainder_method)
  	* Hare
