@@ -16,6 +16,7 @@ JSeats is a java implementation of common electoral seat allocation algorithms.
  	* Simple
     * Qualified
     * Absolute
+ * Equal Proportions Method (aka [Huntington-Hill](http://en.wikipedia.org/wiki/Huntington%E2%80%93Hill_method))
  * [Largest Remainder Method](http://en.wikipedia.org/wiki/Largest_remainder_method)
  	* Hare
  	* Droop
@@ -24,6 +25,5 @@ JSeats is a java implementation of common electoral seat allocation algorithms.
  	* D'Hondt
  	* Sainte-Laguë (Webster)
  		* Supports user provided first divisor (Modified Sainte-Laguë)
- 	* Huntington-Hill
  	* Imperiali
  	* Danish
