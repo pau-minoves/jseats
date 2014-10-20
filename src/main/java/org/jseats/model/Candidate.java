@@ -69,4 +69,26 @@ public class Candidate implements Comparable<Candidate> {
 		str.append(votes);
 		return str.toString();
 	}
+
+	public static Candidate fromString(String str)
+			throws SeatAllocationException {
+		String[] parts = str.split(":");
+
+		if (parts.length != 2)
+			throw new SeatAllocationException(
+					"Candidate must be of the form Name:votes");
+
+		Candidate candidate;
+
+		try {
+			candidate = new Candidate(parts[0]);
+			candidate.setVotes(Integer.parseInt(parts[1]));
+
+		} catch (Exception e) {
+			throw new SeatAllocationException(
+					"Candidate must be of the form Name:votes: "
+							+ e.getMessage());
+		}
+		return candidate;
+	}
 }
