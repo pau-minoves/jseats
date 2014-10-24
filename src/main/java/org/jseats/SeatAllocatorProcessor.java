@@ -3,13 +3,13 @@ package org.jseats;
 import java.util.List;
 import java.util.Properties;
 
+import org.jseats.model.InmutableTally;
+import org.jseats.model.Result;
+import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
-import org.jseats.model.methods.SeatAllocationMethod;
-import org.jseats.model.result.Result;
-import org.jseats.model.result.ResultDecorator;
-import org.jseats.model.tally.InmutableTally;
-import org.jseats.model.tally.Tally;
-import org.jseats.model.tally.TallyFilter;
+import org.jseats.model.SeatAllocationMethod;
+import org.jseats.model.Tally;
+import org.jseats.model.TallyFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

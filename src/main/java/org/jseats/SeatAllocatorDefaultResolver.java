@@ -2,7 +2,10 @@ package org.jseats;
 
 import java.util.HashMap;
 
+import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
+import org.jseats.model.SeatAllocationMethod;
+import org.jseats.model.TallyFilter;
 import org.jseats.model.methods.AbsoluteMajorityMethod;
 import org.jseats.model.methods.DHondtHighestAveragesMethod;
 import org.jseats.model.methods.DanishHighestAveragesMethod;
@@ -12,15 +15,12 @@ import org.jseats.model.methods.HuntingtonHillHighestAveragesMethod;
 import org.jseats.model.methods.ImperialiLargestRemainderMethod;
 import org.jseats.model.methods.QualifiedMajorityMethod;
 import org.jseats.model.methods.SainteLagueHighestAveragesMethod;
-import org.jseats.model.methods.SeatAllocationMethod;
 import org.jseats.model.methods.SimpleMajorityMethod;
 import org.jseats.model.result.AppendTextToCandidateNameDecorator;
 import org.jseats.model.result.NullResultDecorator;
-import org.jseats.model.result.ResultDecorator;
 import org.jseats.model.result.SuffixTextToCandidateNameDecorator;
 import org.jseats.model.tally.NullTallyFilter;
 import org.jseats.model.tally.RemoveCandidatesBelow;
-import org.jseats.model.tally.TallyFilter;
 
 public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 

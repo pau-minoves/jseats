@@ -17,10 +17,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.jseats.model.methods.SeatAllocationMethod;
-import org.jseats.model.result.ResultDecorator;
-import org.jseats.model.tally.Tally;
-import org.jseats.model.tally.TallyFilter;
+import org.jseats.model.ResultDecorator;
+import org.jseats.model.SeatAllocationMethod;
+import org.jseats.model.Tally;
+import org.jseats.model.TallyFilter;
 
 @XmlRootElement(name = "processor-config")
 @XmlAccessorType(XmlAccessType.FIELD)

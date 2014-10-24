@@ -1,4 +1,4 @@
-package org.jseats.model.result;
+package org.jseats.model;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -16,8 +16,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.jseats.model.Candidate;
-import org.jseats.model.SeatAllocationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

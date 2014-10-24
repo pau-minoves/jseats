@@ -1,4 +1,4 @@
-package org.jseats.model.tally;
+package org.jseats.model;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,8 +14,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.jseats.model.Candidate;
 
 @XmlRootElement(name = "tally")
 @XmlAccessorType(XmlAccessType.FIELD)

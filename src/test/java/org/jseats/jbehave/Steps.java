@@ -19,14 +19,14 @@ import org.jbehave.core.annotations.When;
 import org.jseats.SeatAllocatorLauncher;
 import org.jseats.SeatAllocatorProcessor;
 import org.jseats.model.Candidate;
+import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
+import org.jseats.model.Tally;
 import org.jseats.model.result.AppendTextToCandidateNameDecorator;
 import org.jseats.model.result.NullResultDecorator;
-import org.jseats.model.result.Result;
 import org.jseats.model.result.SuffixTextToCandidateNameDecorator;
 import org.jseats.model.tally.NullTallyFilter;
 import org.jseats.model.tally.RemoveCandidatesBelow;
-import org.jseats.model.tally.Tally;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

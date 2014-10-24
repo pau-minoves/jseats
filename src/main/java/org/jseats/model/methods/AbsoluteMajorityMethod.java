@@ -4,9 +4,9 @@ import java.util.Properties;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.jseats.model.InmutableTally;
+import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
-import org.jseats.model.result.Result;
-import org.jseats.model.tally.InmutableTally;
 
 @XmlRootElement
 public class AbsoluteMajorityMethod extends QualifiedMajorityMethod {

@@ -8,9 +8,9 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 
 import org.jseats.model.Candidate;
+import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
-import org.jseats.model.result.Result;
-import org.jseats.model.tally.Tally;
+import org.jseats.model.Tally;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Level;

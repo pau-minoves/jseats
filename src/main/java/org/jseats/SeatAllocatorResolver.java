@@ -1,9 +1,9 @@
 package org.jseats;
 
+import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
-import org.jseats.model.methods.SeatAllocationMethod;
-import org.jseats.model.result.ResultDecorator;
-import org.jseats.model.tally.TallyFilter;
+import org.jseats.model.SeatAllocationMethod;
+import org.jseats.model.TallyFilter;
 
 public interface SeatAllocatorResolver {
 
