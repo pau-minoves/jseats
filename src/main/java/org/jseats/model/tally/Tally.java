@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.jseats.model.Candidate;
 
-@XmlRootElement
+@XmlRootElement(name = "tally")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Tally implements InmutableTally {
 
@@ -26,7 +26,7 @@ public class Tally implements InmutableTally {
 	static Unmarshaller unmarshaller;
 
 	@XmlElementWrapper(name = "candidates")
-	@XmlElement
+	@XmlElement(name = "candidate")
 	List<Candidate> candidates;
 
 	@XmlElement

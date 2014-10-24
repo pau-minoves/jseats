@@ -1,17 +1,22 @@
 package org.jseats.jbehave;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 
 import javax.xml.bind.JAXBException;
 
-import static org.junit.Assert.*;
-
 import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
+import org.jseats.SeatAllocatorLauncher;
 import org.jseats.SeatAllocatorProcessor;
 import org.jseats.model.Candidate;
 import org.jseats.model.SeatAllocationException;
@@ -141,10 +146,25 @@ public class Steps {
 		this.tally = Tally.fromXML(new FileInputStream(tally));
 	}
 
+	@When("execute command with params at $file")
+	public void runCommand(String paramsFile) throws SeatAllocationException {
+
+		File params = new File("src/test/resources/" + paramsFile);
+
+		assertTrue(
+				"Parameters file does not exist: " + params.getAbsolutePath(),
+				params.exists());
+
+		log.debug("Loading parameters file: " + params.getAbsolutePath());
+
+		String[] args = { "@src/test/resources/" + paramsFile };
+
+		SeatAllocatorLauncher.mainWithThrow(args);
+	}
+
 	/*
 	 * THEN
 	 */
-
 	@Then("result type is $type")
 	public void resultTypeIs(String type) {
 		log.debug("result.type=" + result.getType());
@@ -201,7 +221,16 @@ public class Steps {
 	public void resultIs(String result) throws FileNotFoundException,
 			JAXBException {
 
-		// assertFalse(this.result.equals(Result.fromXML(new
-		// FileInputStream(result))));
+		File resultFile = new File("src/test/resources/" + result);
+
+		if (resultFile.exists())
+			log.error("Parameters file does not exist: "
+					+ resultFile.getAbsolutePath());
+		else
+			log.debug("Loading parameters file: "
+					+ resultFile.getAbsolutePath());
+
+		assertFalse(this.result.equals(Result.fromXML(new FileInputStream(
+				resultFile))));
 	}
 }

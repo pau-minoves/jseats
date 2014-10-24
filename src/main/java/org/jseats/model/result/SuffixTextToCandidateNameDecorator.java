@@ -1,9 +1,10 @@
 package org.jseats.model.result;
 
-import java.util.Iterator;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.jseats.model.Candidate;
 
+@XmlRootElement
 public class SuffixTextToCandidateNameDecorator implements ResultDecorator {
 
 	String text;

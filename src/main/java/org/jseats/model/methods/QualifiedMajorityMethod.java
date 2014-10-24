@@ -11,8 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class QualifiedMajorityMethod extends SeatAllocationMethod {
 
-	static Logger log = LoggerFactory
-			.getLogger(QualifiedMajorityMethod.class);
+	static Logger log = LoggerFactory.getLogger(QualifiedMajorityMethod.class);
 
 	private int minimumVotes;
 	private double qualifiedProportion;
@@ -20,8 +19,6 @@ public class QualifiedMajorityMethod extends SeatAllocationMethod {
 	@Override
 	public Result process(InmutableTally tally, Properties properties)
 			throws SeatAllocationException {
-
-		log.debug("properties: " + properties.toString());
 
 		if (properties.containsKey("minimumVotes")) {
 			minimumVotes = Integer.parseInt(properties
@@ -34,10 +31,9 @@ public class QualifiedMajorityMethod extends SeatAllocationMethod {
 
 			minimumVotes = (int) Math.round(tally.getPotentialVotes()
 					* qualifiedProportion);
-			log.debug("Using calculated minimum votes: " + minimumVotes + " over " + tally.getPotentialVotes() + " potential votes");
+			log.debug("Using calculated minimum votes: " + minimumVotes
+					+ " over " + tally.getPotentialVotes() + " potential votes");
 		}
-
-		log.debug("Using minimum votes: " + minimumVotes);
 
 		if (minimumVotes > tally.getEffectiveVotes()) {
 			log.debug("Not enougth votes casted (" + tally.getEffectiveVotes()
@@ -49,9 +45,9 @@ public class QualifiedMajorityMethod extends SeatAllocationMethod {
 		Result result = getByName("SimpleMajority").process(tally, properties);
 
 		// Either SINGLE or TIE, minimumVotes are not reached.
-		if(result.getSeats().get(0).getVotes() < minimumVotes)
+		if (result.getSeats().get(0).getVotes() < minimumVotes)
 			return new Result(ResultType.UNDECIDED);
-		
+
 		return result;
 	}
 }

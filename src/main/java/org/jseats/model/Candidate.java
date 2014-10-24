@@ -3,6 +3,7 @@ package org.jseats.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Candidate implements Comparable<Candidate> {
@@ -13,8 +14,12 @@ public class Candidate implements Comparable<Candidate> {
 	@XmlAttribute
 	int votes;
 
-	@XmlAttribute
+	@XmlTransient
 	boolean hasVotes;
+
+	public Candidate() {
+		this.hasVotes = true;
+	}
 
 	public Candidate(String name) {
 

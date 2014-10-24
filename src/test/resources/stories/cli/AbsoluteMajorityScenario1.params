@@ -1,0 +1,6 @@
+--candidate CandidateA:100
+--candidate CandidateB:150
+--candidate CandidateC:501
+--candidate CandidateD:125
+--potential-votes 1000
+--method AbsoluteMajority

@@ -2,12 +2,15 @@ package org.jseats.model.methods;
 
 import java.util.Properties;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.result.Result;
 import org.jseats.model.tally.InmutableTally;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@XmlRootElement
 public abstract class SeatAllocationMethod {
 
 	static Logger log = LoggerFactory.getLogger(SeatAllocationMethod.class);
@@ -18,7 +21,7 @@ public abstract class SeatAllocationMethod {
 	public static SeatAllocationMethod getByName(String name)
 			throws SeatAllocationException {
 
-		log.debug("Lookup of method: " + name);
+		log.trace("Lookup of method: " + name);
 
 		if (name.equalsIgnoreCase("SimpleMajority"))
 			return new SimpleMajorityMethod();
