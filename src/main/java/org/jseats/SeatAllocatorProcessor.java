@@ -19,22 +19,37 @@ public class SeatAllocatorProcessor {
 
 	ProcessorConfig config;
 
+	SeatAllocatorResolver resolver;
+
 	/*
 	 * Configuration
 	 */
 
-	public SeatAllocatorProcessor(ProcessorConfig config) {
-		log.debug("Initializing processor with provided configuration.");
+	public SeatAllocatorProcessor(ProcessorConfig config,
+			SeatAllocatorResolver resolver) {
+		log.debug("Initializing processor with provided configuration and resolver.");
 		this.config = config;
+		this.resolver = resolver;
+	}
+
+	public SeatAllocatorProcessor(ProcessorConfig config) {
+		log.debug("Initializing processor with provided configuration and default resolver.");
+		this.config = config;
+		this.resolver = new SeatAllocatorDefaultResolver();
 	}
 
 	public SeatAllocatorProcessor() {
-		log.debug("Initializing processor with default configuration.");
+		log.debug("Initializing processor with default configuration and resolver.");
 		this.config = new ProcessorConfig();
+		this.resolver = new SeatAllocatorDefaultResolver();
 	}
 
 	public ProcessorConfig getConfig() {
 		return config;
+	}
+
+	public SeatAllocatorResolver getResolver() {
+		return resolver;
 	}
 
 	/*
@@ -102,7 +117,7 @@ public class SeatAllocatorProcessor {
 	public void setMethodByName(String method) throws SeatAllocationException {
 
 		log.debug("Adding method by name:" + method);
-		config.setMethod(SeatAllocationMethod.getByName(method));
+		config.setMethod(resolver.resolveMethod(method));
 	}
 
 	public void setMethodByClass(Class<? extends SeatAllocationMethod> clazz)
@@ -110,6 +125,11 @@ public class SeatAllocatorProcessor {
 
 		log.debug("Adding method by class:" + clazz);
 		config.setMethod(clazz.newInstance());
+	}
+
+	public void setMethod(SeatAllocationMethod method) {
+		log.debug("Adding method by instance:" + method);
+		config.setMethod(method);
 	}
 
 	/*

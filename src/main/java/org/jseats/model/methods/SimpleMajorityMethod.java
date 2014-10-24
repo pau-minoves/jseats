@@ -12,7 +12,7 @@ import org.jseats.model.tally.InmutableTally;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SimpleMajorityMethod extends SeatAllocationMethod {
+public class SimpleMajorityMethod implements SeatAllocationMethod {
 
 	static Logger log = LoggerFactory.getLogger(SimpleMajorityMethod.class);
 
@@ -28,7 +28,7 @@ public class SimpleMajorityMethod extends SeatAllocationMethod {
 
 			log.trace("iterating candidate: " + tally.getCandidateAt(i));
 			log.trace("Current max votes: " + maxVotes);
-			
+
 			if (tally.getCandidateAt(i).getVotes() == maxVotes)
 				candidates.add(tally.getCandidateAt(i));
 			else if (tally.getCandidateAt(i).getVotes() > maxVotes) {
@@ -40,7 +40,7 @@ public class SimpleMajorityMethod extends SeatAllocationMethod {
 
 		for (Candidate candidate : candidates)
 			log.debug("Final candidate: " + candidate);
-		
+
 		Result result;
 
 		if (candidates.size() == 1)

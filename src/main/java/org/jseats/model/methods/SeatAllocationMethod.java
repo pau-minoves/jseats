@@ -7,47 +7,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.result.Result;
 import org.jseats.model.tally.InmutableTally;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @XmlRootElement
-public abstract class SeatAllocationMethod {
-
-	static Logger log = LoggerFactory.getLogger(SeatAllocationMethod.class);
+public interface SeatAllocationMethod {
 
 	public abstract Result process(InmutableTally tally, Properties properties)
 			throws SeatAllocationException;
-
-	public static SeatAllocationMethod getByName(String name)
-			throws SeatAllocationException {
-
-		log.trace("Lookup of method: " + name);
-
-		if (name.equalsIgnoreCase("SimpleMajority"))
-			return new SimpleMajorityMethod();
-		if (name.equalsIgnoreCase("AbsoluteMajority"))
-			return new AbsoluteMajorityMethod();
-		if (name.equalsIgnoreCase("QualifiedMajority"))
-			return new QualifiedMajorityMethod();
-		if (name.equalsIgnoreCase("Hare"))
-			return new HareLargestRemainderMethod();
-		if (name.equalsIgnoreCase("Droop"))
-			return new DroopLargestRemainderMethod();
-		if (name.equalsIgnoreCase("Imperiali-lr"))
-			return new ImperialiLargestRemainderMethod();
-		if (name.equalsIgnoreCase("DHondt"))
-			return new DHondtHighestAveragesMethod();
-		if (name.equalsIgnoreCase("Sainte-Lague"))
-			return new SainteLagueHighestAveragesMethod();
-		if (name.equalsIgnoreCase("Imperiali-ha"))
-			return new DHondtHighestAveragesMethod();
-		if (name.equalsIgnoreCase("Huntington-Hill"))
-			return new HuntingtonHillHighestAveragesMethod();
-		if (name.equalsIgnoreCase("Danish"))
-			return new DanishHighestAveragesMethod();
-
-		log.warn("Lookup of " + name + " failed, launching exception");
-
-		throw new SeatAllocationException("No method found with name: " + name);
-	}
 }

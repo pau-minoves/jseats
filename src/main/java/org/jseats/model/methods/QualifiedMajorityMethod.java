@@ -9,7 +9,7 @@ import org.jseats.model.tally.InmutableTally;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class QualifiedMajorityMethod extends SeatAllocationMethod {
+public class QualifiedMajorityMethod extends SimpleMajorityMethod {
 
 	static Logger log = LoggerFactory.getLogger(QualifiedMajorityMethod.class);
 
@@ -42,7 +42,7 @@ public class QualifiedMajorityMethod extends SeatAllocationMethod {
 			return new Result(ResultType.UNDECIDED);
 		}
 
-		Result result = getByName("SimpleMajority").process(tally, properties);
+		Result result = super.process(tally, properties);
 
 		// Either SINGLE or TIE, minimumVotes are not reached.
 		if (result.getSeats().get(0).getVotes() < minimumVotes)

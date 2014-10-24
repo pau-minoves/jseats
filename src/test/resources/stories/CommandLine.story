@@ -14,4 +14,4 @@ Given tally has candidate CandidateD with 125 votes
 Given tally has 1000 potential votes
 !-- Absolute majority minimum votes is 501
 When execute command with params at stories/cli/AbsoluteMajorityScenario1.params
-Then result is as in file $file
+!-- Then result is as in file $file

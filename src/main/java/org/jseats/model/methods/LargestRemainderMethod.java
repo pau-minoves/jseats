@@ -9,7 +9,7 @@ import org.jseats.model.tally.InmutableTally;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class LargestRemainderMethod extends SeatAllocationMethod {
+public abstract class LargestRemainderMethod implements SeatAllocationMethod {
 
 	static Logger log = LoggerFactory.getLogger(LargestRemainderMethod.class);
 
