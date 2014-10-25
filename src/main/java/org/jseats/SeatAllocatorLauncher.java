@@ -11,10 +11,10 @@ import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.Tally;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.ConsoleAppender;
@@ -34,22 +34,22 @@ public class SeatAllocatorLauncher {
 	@Parameter(names = { "-lF", "--list-filters" }, description = "List built-in tally filters.")
 	private boolean listFilters = false;
 
-	@Parameter(names = { "-lD", "--list-decorators" }, description = "List built-in tally filters.")
+	@Parameter(names = { "-lD", "--list-decorators" }, description = "List built-in result decorators.")
 	private boolean listDecorators = false;
 
-	@Parameter(names = { "-lm", "--list-methods" }, description = "List built-in seat allocation methods.")
+	@Parameter(names = { "-lM", "--list-methods" }, description = "List built-in seat allocation methods.")
 	private boolean listMethods = false;
 
-	@Parameter(names = { "-c", "--candidate" }, description = "List candidates to add to tally. Candidates follow the format Name:Votes.")
+	@Parameter(names = { "-c", "--candidate" }, description = "Add candidate to tally. Candidates follow the format Name:Votes.")
 	private List<String> candidates;
 
 	@Parameter(names = { "-pv", "--potential-votes" }, description = "Potential votes. If not set, defaults to effective votes (sum of all casted votes).")
 	private int potentialVotes = -1;
 
-	@Parameter(names = { "-D", "--processor-property" }, description = "Processor properties as in -DnumberOfSeats=105")
+	@Parameter(names = { "-D", "--processor-property" }, description = "Processor properties as in -D numberOfSeats=105")
 	private List<String> properties;
 
-	@Parameter(names = { "-M", "--method" }, description = "Seat allocation method to use. See --list-methods")
+	@Parameter(names = { "-m", "--method" }, description = "Seat allocation method to use. See --list-methods for available methods.")
 	private String method;
 
 	@Parameter(names = { "-ic", "--input-config" }, description = "Configuration input file.")
@@ -64,7 +64,7 @@ public class SeatAllocatorLauncher {
 	@Parameter(names = { "-o", "--output-result" }, description = "Result output file.")
 	private String outputResult;
 
-	Logger log = (Logger) LoggerFactory.getLogger(SeatAllocatorLauncher.class);
+	Logger log = LoggerFactory.getLogger(SeatAllocatorLauncher.class);
 
 	/**
 	 * @param args
@@ -108,12 +108,31 @@ public class SeatAllocatorLauncher {
 	private void launch() throws SeatAllocationException {
 
 		if (verbose)
-			replaceRootLogger(Level.DEBUG);
+			setLoggerLevel(Level.DEBUG);
 		else
-			replaceRootLogger(Level.INFO);
+			setLoggerLevel(Level.INFO);
 
-		if (listFilters || listDecorators || listMethods)
-			throw new SeatAllocationException("Not implemented");
+		SeatAllocatorResolver resolver = new SeatAllocatorDefaultResolver();
+
+		if (listFilters || listDecorators || listMethods) {
+
+			if (listFilters)
+				for (String filter : resolver.listTallyFilters())
+					log.info(filter);
+
+			if (listDecorators)
+				for (String filter : resolver.listResultDecorators())
+					log.info(filter);
+
+			if (listMethods)
+				for (String filter : resolver.listMethods())
+					log.info(filter);
+
+			return;
+		}
+
+		if (method == null)
+			throw new SeatAllocationException("Method must be provided.");
 
 		Tally tally;
 		SeatAllocatorProcessor processor;
@@ -173,9 +192,6 @@ public class SeatAllocatorLauncher {
 			}
 		}
 
-		if (method == null)
-			throw new SeatAllocationException("Method must be provided.");
-
 		processor.setMethodByName(method);
 
 		Result result = processor.process();
@@ -198,22 +214,18 @@ public class SeatAllocatorLauncher {
 
 	}
 
-	private void replaceRootLogger(Level level) {
-		Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-
-		ConsoleAppender<ILoggingEvent> cappender = new ConsoleAppender<ILoggingEvent>();
+	private void setLoggerLevel(Level level) {
+		ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory
+				.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
 
 		PatternLayoutEncoder encoder = new PatternLayoutEncoder();
 		encoder.setContext(root.getLoggerContext());
 		encoder.setPattern("%msg%n");
 		encoder.start();
 
-		cappender.setContext(root.getLoggerContext());
-		cappender.setEncoder(encoder);
-		cappender.start();
-
-		root.detachAppender("STDOUT");
-		root.addAppender(cappender);
+		((ConsoleAppender<ILoggingEvent>) root.getAppender("STDOUT"))
+				.setEncoder(encoder);
+		((ConsoleAppender<ILoggingEvent>) root.getAppender("STDOUT")).start();
 		root.setLevel(level);
 	}
 }

@@ -29,7 +29,7 @@ public class ProcessorConfig {
 	@XmlElement()
 	Properties properties;
 
-	@XmlElement(name = "method")
+	// @XmlElement(name = "method")
 	SeatAllocationMethod method;
 
 	@XmlElement

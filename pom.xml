@@ -78,8 +78,6 @@
 					<archive>
 						<index>true</index>
 						<manifest>
-							<addClasspath>true</addClasspath>
-							ç
 							<mainClass>org.jseats.SeatAllocatorLauncher</mainClass>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 						</manifest>
@@ -125,7 +123,7 @@
 								<include>**/*Stories.java</include>
 							</includes>
 							<metaFilters>
-								<metaFilter>+author *</metaFilter>
+								<!-- <metaFilter>+author *</metaFilter> -->
 								<metaFilter>-skip</metaFilter>
 							</metaFilters>
 							<systemProperties>

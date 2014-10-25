@@ -55,17 +55,18 @@ public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 
 	@Override
 	public String[] listTallyFilters() {
-		return (String[]) filters.keySet().toArray();
+		return (String[]) filters.keySet().toArray(new String[filters.size()]);
 	}
 
 	@Override
 	public String[] listResultDecorators() {
-		return (String[]) decorators.keySet().toArray();
+		return (String[]) decorators.keySet().toArray(
+				new String[decorators.size()]);
 	}
 
 	@Override
 	public String[] listMethods() {
-		return (String[]) methods.keySet().toArray();
+		return (String[]) methods.keySet().toArray(new String[methods.size()]);
 	}
 
 	@SuppressWarnings("unchecked")
