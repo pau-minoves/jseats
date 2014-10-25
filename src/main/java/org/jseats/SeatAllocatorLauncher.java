@@ -215,17 +215,26 @@ public class SeatAllocatorLauncher {
 	}
 
 	private void setLoggerLevel(Level level) {
-		ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory
-				.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
 
-		PatternLayoutEncoder encoder = new PatternLayoutEncoder();
-		encoder.setContext(root.getLoggerContext());
-		encoder.setPattern("%msg%n");
-		encoder.start();
+		// ROOT is the common root id for logback and slf4j
+		org.slf4j.Logger rootLogger = org.slf4j.LoggerFactory.getLogger("ROOT");
 
-		((ConsoleAppender<ILoggingEvent>) root.getAppender("STDOUT"))
-				.setEncoder(encoder);
-		((ConsoleAppender<ILoggingEvent>) root.getAppender("STDOUT")).start();
-		root.setLevel(level);
+		// If underlying logger is logback-classic (default), we know how to
+		// change the layout. Otherwise silently do nothing.
+		if (rootLogger instanceof ch.qos.logback.classic.Logger) {
+
+			ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) rootLogger;
+
+			PatternLayoutEncoder encoder = new PatternLayoutEncoder();
+			encoder.setContext(root.getLoggerContext());
+			encoder.setPattern("%msg%n");
+			encoder.start();
+
+			((ConsoleAppender<ILoggingEvent>) root.getAppender("STDOUT"))
+					.setEncoder(encoder);
+			((ConsoleAppender<ILoggingEvent>) root.getAppender("STDOUT"))
+					.start();
+			root.setLevel(level);
+		}
 	}
 }
