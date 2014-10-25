@@ -70,4 +70,5 @@ Usage: JSeats [options]
     -v, --verbose
        Level of verbosity.
        Default: false
-       ```
+```
+
