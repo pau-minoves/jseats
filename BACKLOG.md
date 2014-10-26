@@ -1,3 +1,9 @@
+DONE
+====
+
+ * Steps from/to XML
+ * Better processor
+
 WIP
 ===
 
@@ -6,9 +12,7 @@ WIP
  * Story for HuntingtonHillHighestAverages (US house of representatives)
  * Tie breakers
  * Better trace logging
- * Better processor
  * Javadocs
- * Steps from/to XML
 
 TODO
 ====
