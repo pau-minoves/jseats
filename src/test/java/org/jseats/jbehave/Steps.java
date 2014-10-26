@@ -121,6 +121,16 @@ public class Steps {
 		}
 	}
 
+	@Given("result is in file $result")
+	public void resultIs(String resultFile) throws FileNotFoundException,
+			JAXBException {
+
+		result = Result.fromXML(new FileInputStream(System.getProperty(
+				"project.build.directory", "target/")
+				+ "test-classes/"
+				+ resultFile));
+	}
+
 	/*
 	 * WHEN
 	 */
@@ -146,10 +156,11 @@ public class Steps {
 		this.tally = Tally.fromXML(new FileInputStream(tally));
 	}
 
-	@When("execute command with params at $file")
-	public void runCommand(String paramsFile) throws SeatAllocationException {
+	@When("execute command with parameters at $file")
+	public void runCommand(String paramsFile) throws Exception {
 
-		File params = new File("src/test/resources/" + paramsFile);
+		File params = new File(System.getProperty("project.build.directory",
+				"target/") + "test-classes/" + paramsFile);
 
 		assertTrue(
 				"Parameters file does not exist: " + params.getAbsolutePath(),
@@ -215,22 +226,5 @@ public class Steps {
 			throws SeatAllocationException {
 
 		assertFalse(result.containsSeatForCandidate(new Candidate(candidate)));
-	}
-
-	@Then("result is as in file $result")
-	public void resultIs(String result) throws FileNotFoundException,
-			JAXBException {
-
-		File resultFile = new File("src/test/resources/" + result);
-
-		if (resultFile.exists())
-			log.error("Parameters file does not exist: "
-					+ resultFile.getAbsolutePath());
-		else
-			log.debug("Loading parameters file: "
-					+ resultFile.getAbsolutePath());
-
-		assertFalse(this.result.equals(Result.fromXML(new FileInputStream(
-				resultFile))));
 	}
 }

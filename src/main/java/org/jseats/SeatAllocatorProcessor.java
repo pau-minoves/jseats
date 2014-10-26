@@ -3,7 +3,7 @@ package org.jseats;
 import java.util.List;
 import java.util.Properties;
 
-import org.jseats.model.InmutableTally;
+import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
@@ -56,12 +56,11 @@ public class SeatAllocatorProcessor {
 	 * Tally
 	 */
 
-	public InmutableTally getTally() {
+	public Tally getTally() {
 		return config.getTally();
 	}
 
 	public void setTally(Tally tally) {
-		log.debug("Added tally: " + tally);
 		config.setTally(tally);
 	}
 
@@ -118,6 +117,7 @@ public class SeatAllocatorProcessor {
 
 		log.debug("Adding method by name:" + method);
 		config.setMethod(resolver.resolveMethod(method));
+		config.setMethodName(method);
 	}
 
 	public void setMethodByClass(Class<? extends SeatAllocationMethod> clazz)
@@ -148,6 +148,16 @@ public class SeatAllocatorProcessor {
 			throw new SeatAllocationException(
 					"Trying to run processor without providing a tally");
 
+		log.debug("The tally contains the following candidates:");
+		for (Candidate candidate : config.getTally().getCandidates())
+			log.debug(" * Candidate " + candidate.getName() + " with "
+					+ candidate.getVotes() + " votes.");
+
+		log.debug("The processor contains the following properties:");
+		for (Object key : config.getProperties().keySet())
+			log.debug(" * Property " + key + " = "
+					+ config.getProperty((String) key));
+
 		if (!config.getTallyFilters().isEmpty()) {
 			log.trace("Executing filters");
 			for (TallyFilter filter : config.getTallyFilters()) {
@@ -157,11 +167,7 @@ public class SeatAllocatorProcessor {
 		} else
 			log.debug("No tally filters to execute");
 
-		for (Object key : config.getProperties().keySet())
-			log.debug("property: " + key + " = "
-					+ config.getProperty((String) key));
-
-		log.debug("Processing... " + config.getMethod());
+		log.debug("Processing with method " + config.getMethodName());
 
 		Result result = config.getMethod().process(config.getTally(),
 				config.getProperties());

@@ -120,18 +120,19 @@ public class Tally implements InmutableTally {
 	@Override
 	public String toString() {
 
-		StringBuilder str = new StringBuilder("tally:");
-		str.append("C=");
-		str.append(candidates.size());
-		str.append("eV=");
+		StringBuilder str = new StringBuilder("tally (");
 		str.append(effectiveVotes);
-		str.append("=>");
+		str.append("/");
+		str.append(potentialVotes);
+		str.append(") with ");
+		str.append(candidates.size());
+		str.append(" candidates: ");
 		for (Candidate candidate : candidates) {
 			str.append(candidate.toString());
-			str.append(":");
+			str.append(", ");
 		}
-
+		str.delete(str.length() - 2, str.length());
+		str.append(".");
 		return str.toString();
 	}
-
 }

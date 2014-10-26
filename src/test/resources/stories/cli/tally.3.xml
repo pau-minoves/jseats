@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<tally>
+    <candidates>
+        <candidate name="Party1" votes="10"/>
+        <candidate name="Party2" votes="15"/>
+        <candidate name="Party3" votes="50"/>
+        <candidate name="Party4" votes="12"/>
+    </candidates>
+    <potentialVotes>1000</potentialVotes>
+</tally>

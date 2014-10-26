@@ -1,11 +1,8 @@
 package org.jseats;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.List;
-
-import javax.xml.bind.JAXBException;
 
 import org.jseats.model.Candidate;
 import org.jseats.model.Result;
@@ -28,17 +25,17 @@ public class SeatAllocatorLauncher {
 	@Parameter(names = { "-h", "--help" }, description = "Print this message.", help = true)
 	private boolean help;
 
-	@Parameter(names = { "-v", "--verbose" }, description = "Level of verbosity.")
-	private boolean verbose = false;
+	@Parameter(names = { "-v", "--verbose" }, description = "Increase level of verbosity.")
+	private boolean verbose;
 
-	@Parameter(names = { "-lF", "--list-filters" }, description = "List built-in tally filters.")
-	private boolean listFilters = false;
+	@Parameter(names = { "-lf", "--list-filters" }, description = "List built-in tally filters.")
+	private boolean listFilters;
 
-	@Parameter(names = { "-lD", "--list-decorators" }, description = "List built-in result decorators.")
-	private boolean listDecorators = false;
+	@Parameter(names = { "-ld", "--list-decorators" }, description = "List built-in result decorators.")
+	private boolean listDecorators;
 
-	@Parameter(names = { "-lM", "--list-methods" }, description = "List built-in seat allocation methods.")
-	private boolean listMethods = false;
+	@Parameter(names = { "-lm", "--list-methods" }, description = "List built-in seat allocation methods.")
+	private boolean listMethods;
 
 	@Parameter(names = { "-c", "--candidate" }, description = "Add candidate to tally. Candidates follow the format Name:Votes.")
 	private List<String> candidates;
@@ -46,7 +43,7 @@ public class SeatAllocatorLauncher {
 	@Parameter(names = { "-pv", "--potential-votes" }, description = "Potential votes. If not set, defaults to effective votes (sum of all casted votes).")
 	private int potentialVotes = -1;
 
-	@Parameter(names = { "-D", "--processor-property" }, description = "Processor properties as in -D numberOfSeats=105")
+	@Parameter(names = { "-d", "--processor-property" }, description = "Processor properties as in -D numberOfSeats=105.")
 	private List<String> properties;
 
 	@Parameter(names = { "-m", "--method" }, description = "Seat allocation method to use. See --list-methods for available methods.")
@@ -60,6 +57,9 @@ public class SeatAllocatorLauncher {
 
 	@Parameter(names = { "-oc", "--output-config" }, description = "Configuration output file.")
 	private String outputConfig;
+
+	@Parameter(names = { "-ot", "--output-tally" }, description = "Tally output file.")
+	private String outputTally;
 
 	@Parameter(names = { "-o", "--output-result" }, description = "Result output file.")
 	private String outputResult;
@@ -79,12 +79,13 @@ public class SeatAllocatorLauncher {
 		}
 	}
 
-	public static void mainWithThrow(String[] args)
-			throws SeatAllocationException {
+	public static void mainWithThrow(String[] args) throws Exception {
 
 		SeatAllocatorLauncher launcher = new SeatAllocatorLauncher();
 		JCommander commander = new JCommander(launcher);
 		commander.setProgramName("JSeats");
+		commander.setCaseSensitiveOptions(false);
+		commander.setAllowAbbreviatedOptions(true);
 
 		try {
 			commander.parse(args);
@@ -105,7 +106,7 @@ public class SeatAllocatorLauncher {
 		}
 	}
 
-	private void launch() throws SeatAllocationException {
+	private void launch() throws Exception {
 
 		if (verbose)
 			setLoggerLevel(Level.DEBUG);
@@ -131,31 +132,31 @@ public class SeatAllocatorLauncher {
 			return;
 		}
 
-		if (method == null)
-			throw new SeatAllocationException("Method must be provided.");
-
 		Tally tally;
 		SeatAllocatorProcessor processor;
 
 		if (inputConfig != null) {
-			try {
-				processor = new SeatAllocatorProcessor(
-						ProcessorConfig
-								.fromXML(new FileInputStream(inputConfig)));
-			} catch (FileNotFoundException | JAXBException e) {
-				throw new SeatAllocationException(e.getMessage(), e);
-			}
+			processor = new SeatAllocatorProcessor(
+					ProcessorConfig.fromXML(new FileInputStream(inputConfig)));
+
+			processor.getConfig().resolveReferences(processor.getResolver());
 		} else
 			processor = new SeatAllocatorProcessor();
 
+		if (processor.config.getMethod() == null && method == null)
+			throw new SeatAllocationException(
+					"Method must be provided by either --method or --input-config.");
+
+		if (method != null) {
+			processor.setMethodByName(method);
+		}
+
 		if (inputTally != null) {
-			try {
-				tally = Tally.fromXML(new FileInputStream(inputTally));
-			} catch (FileNotFoundException | JAXBException e) {
-				throw new SeatAllocationException(e.getMessage(), e);
-			}
+			tally = Tally.fromXML(new FileInputStream(inputTally));
+
 		} else
-			tally = new Tally();
+			tally = (processor.getTally() != null) ? processor.getTally()
+					: new Tally();
 
 		if (candidates != null)
 			for (String candidate : candidates)
@@ -165,6 +166,9 @@ public class SeatAllocatorLauncher {
 			tally.setPotentialVotes(potentialVotes);
 
 		processor.setTally(tally);
+
+		if (outputTally != null)
+			processor.getTally().toXML(new FileOutputStream(outputTally));
 
 		if (properties != null)
 			for (String property : properties) {
@@ -184,15 +188,8 @@ public class SeatAllocatorLauncher {
 				}
 			}
 
-		if (outputConfig != null) {
-			try {
-				processor.getConfig().toXML(new FileOutputStream(outputConfig));
-			} catch (FileNotFoundException | JAXBException e) {
-				throw new SeatAllocationException(e.getMessage(), e);
-			}
-		}
-
-		processor.setMethodByName(method);
+		if (outputConfig != null)
+			processor.getConfig().toXML(new FileOutputStream(outputConfig));
 
 		Result result = processor.process();
 
@@ -204,14 +201,8 @@ public class SeatAllocatorLauncher {
 					+ result.getSeatAt(i).getVotes());
 		}
 
-		if (outputResult != null) {
-			try {
-				result.toXML(new FileOutputStream(outputResult));
-			} catch (FileNotFoundException | JAXBException e) {
-				throw new SeatAllocationException(e.getMessage(), e);
-			}
-		}
-
+		if (outputResult != null)
+			result.toXML(new FileOutputStream(outputResult));
 	}
 
 	private void setLoggerLevel(Level level) {

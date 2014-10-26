@@ -13,11 +13,14 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.jseats.model.ResultDecorator;
+import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.Tally;
 import org.jseats.model.TallyFilter;
@@ -26,11 +29,14 @@ import org.jseats.model.TallyFilter;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProcessorConfig {
 
-	@XmlElement()
+	@XmlElement
 	Properties properties;
 
-	// @XmlElement(name = "method")
+	@XmlTransient
 	SeatAllocationMethod method;
+
+	@XmlAttribute(name = "method")
+	String methodName;
 
 	@XmlElement
 	Tally tally;
@@ -52,6 +58,13 @@ public class ProcessorConfig {
 		properties = new Properties();
 		filters = new ArrayList<TallyFilter>();
 		decorators = new ArrayList<ResultDecorator>();
+	}
+
+	public void resolveReferences(SeatAllocatorResolver resolver)
+			throws SeatAllocationException {
+
+		if (methodName != null)
+			this.method = resolver.resolveMethod(methodName);
 	}
 
 	/*
@@ -122,6 +135,14 @@ public class ProcessorConfig {
 		return method;
 	}
 
+	public String getMethodName() {
+		return methodName;
+	}
+
+	public void setMethodName(String methodName) {
+		this.methodName = methodName;
+	}
+
 	public void reset() {
 		properties.clear();
 		filters.clear();
@@ -162,7 +183,8 @@ public class ProcessorConfig {
 
 		StringBuilder str = new StringBuilder("ProcessorConfig:");
 
+		// TODO complete
+
 		return str.toString();
 	}
-
 }
