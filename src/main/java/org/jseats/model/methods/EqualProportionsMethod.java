@@ -5,12 +5,17 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Properties;
 
+import org.jseats.model.InmutableTally;
+import org.jseats.model.Result;
+import org.jseats.model.Result.ResultType;
 import org.jseats.model.SeatAllocationException;
-import org.jseats.model.result.Result;
-import org.jseats.model.result.Result.ResultType;
-import org.jseats.model.tally.InmutableTally;
+import org.jseats.model.SeatAllocationMethod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class EqualProportionsMethod extends SeatAllocationMethod {
+public class EqualProportionsMethod implements SeatAllocationMethod {
+
+	Logger log = LoggerFactory.getLogger(EqualProportionsMethod.class);
 
 	NumberFormat df = DecimalFormat.getInstance();
 

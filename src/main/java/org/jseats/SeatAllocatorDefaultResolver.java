@@ -7,11 +7,12 @@ import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.TallyFilter;
 import org.jseats.model.methods.AbsoluteMajorityMethod;
+import org.jseats.model.methods.ByVotesRankMethod;
 import org.jseats.model.methods.DHondtHighestAveragesMethod;
 import org.jseats.model.methods.DanishHighestAveragesMethod;
 import org.jseats.model.methods.DroopLargestRemainderMethod;
+import org.jseats.model.methods.EqualProportionsMethod;
 import org.jseats.model.methods.HareLargestRemainderMethod;
-import org.jseats.model.methods.HuntingtonHillHighestAveragesMethod;
 import org.jseats.model.methods.ImperialiLargestRemainderMethod;
 import org.jseats.model.methods.QualifiedMajorityMethod;
 import org.jseats.model.methods.SainteLagueHighestAveragesMethod;
@@ -39,9 +40,9 @@ public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 		methods.put("DHondt", DHondtHighestAveragesMethod.class);
 		methods.put("Sainte-Lague", SainteLagueHighestAveragesMethod.class);
 		methods.put("Imperiali-ha", DHondtHighestAveragesMethod.class);
-		methods.put("Huntington-Hill",
-				HuntingtonHillHighestAveragesMethod.class);
+		methods.put("EqualProportions", EqualProportionsMethod.class);
 		methods.put("Danish", DanishHighestAveragesMethod.class);
+		methods.put("RankByVotes", ByVotesRankMethod.class);
 
 		filters.put("RemoveCandidatesBelow", RemoveCandidatesBelow.class);
 		filters.put("NullTallyFilter", NullTallyFilter.class);

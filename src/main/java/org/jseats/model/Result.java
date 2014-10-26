@@ -66,17 +66,6 @@ public class Result {
 		this.type = type;
 	}
 
-	private void checkTypeIs(ResultType... types)
-			throws SeatAllocationException {
-		for (ResultType type2 : types) {
-			if (type.equals(type2))
-				return;
-		}
-
-		throw new SeatAllocationException(
-				"Invalid operation on result of type " + type);
-	}
-
 	public int getNumerOfSeats() {
 		return seats.size();
 	}

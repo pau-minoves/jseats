@@ -1,18 +1,16 @@
 package org.jseats.model.methods;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
-import org.jseats.model.Candidate;
+import org.jseats.model.InmutableTally;
+import org.jseats.model.Result;
+import org.jseats.model.Result.ResultType;
 import org.jseats.model.SeatAllocationException;
-import org.jseats.model.result.Result;
-import org.jseats.model.result.Result.ResultType;
-import org.jseats.model.tally.InmutableTally;
+import org.jseats.model.SeatAllocationMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class RankMethod extends SeatAllocationMethod {
+public abstract class RankMethod implements SeatAllocationMethod {
 
 	static Logger log = LoggerFactory.getLogger(RankMethod.class);
 
@@ -25,8 +23,6 @@ public abstract class RankMethod extends SeatAllocationMethod {
 				"numberOfSeats", Integer.toString(numberOfCandidates)));
 
 		int[] candidatePriority = new int[numberOfCandidates];
-
-		List<Candidate> candidates = new ArrayList<Candidate>();
 
 		// Get priority
 		for (int i = 0; i < numberOfCandidates; i++) {
