@@ -3,6 +3,8 @@ package org.jseats.model.tally;
 import java.util.Iterator;
 
 import org.jseats.model.Candidate;
+import org.jseats.model.Tally;
+import org.jseats.model.TallyFilter;
 
 public class RemoveCandidatesBelow implements TallyFilter {
 

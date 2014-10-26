@@ -3,6 +3,7 @@ package org.jseats.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Candidate implements Comparable<Candidate> {
@@ -13,8 +14,12 @@ public class Candidate implements Comparable<Candidate> {
 	@XmlAttribute
 	int votes;
 
-	@XmlAttribute
+	@XmlTransient
 	boolean hasVotes;
+
+	public Candidate() {
+		this.hasVotes = true;
+	}
 
 	public Candidate(String name) {
 
@@ -68,5 +73,27 @@ public class Candidate implements Comparable<Candidate> {
 		str.append(":");
 		str.append(votes);
 		return str.toString();
+	}
+
+	public static Candidate fromString(String str)
+			throws SeatAllocationException {
+		String[] parts = str.split(":");
+
+		if (parts.length != 2)
+			throw new SeatAllocationException(
+					"Candidate must be of the form Name:votes");
+
+		Candidate candidate;
+
+		try {
+			candidate = new Candidate(parts[0]);
+			candidate.setVotes(Integer.parseInt(parts[1]));
+
+		} catch (Exception e) {
+			throw new SeatAllocationException(
+					"Candidate must be of the form Name:votes: "
+							+ e.getMessage());
+		}
+		return candidate;
 	}
 }

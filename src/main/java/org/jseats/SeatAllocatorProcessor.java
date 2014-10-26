@@ -1,16 +1,15 @@
 package org.jseats;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.jseats.model.Candidate;
+import org.jseats.model.Result;
+import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
-import org.jseats.model.methods.SeatAllocationMethod;
-import org.jseats.model.result.Result;
-import org.jseats.model.result.ResultDecorator;
-import org.jseats.model.tally.InmutableTally;
-import org.jseats.model.tally.Tally;
-import org.jseats.model.tally.TallyFilter;
+import org.jseats.model.SeatAllocationMethod;
+import org.jseats.model.Tally;
+import org.jseats.model.TallyFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,45 +17,63 @@ public class SeatAllocatorProcessor {
 
 	Logger log = LoggerFactory.getLogger(SeatAllocatorProcessor.class);
 
-	Properties properties;
+	ProcessorConfig config;
 
-	SeatAllocationMethod method;
+	SeatAllocatorResolver resolver;
 
-	Tally tally;
+	/*
+	 * Configuration
+	 */
 
-	List<TallyFilter> filters;
-	List<ResultDecorator> decorators;
+	public SeatAllocatorProcessor(ProcessorConfig config,
+			SeatAllocatorResolver resolver) {
+		log.debug("Initializing processor with provided configuration and resolver.");
+		this.config = config;
+		this.resolver = resolver;
+	}
+
+	public SeatAllocatorProcessor(ProcessorConfig config) {
+		log.debug("Initializing processor with provided configuration and default resolver.");
+		this.config = config;
+		this.resolver = new SeatAllocatorDefaultResolver();
+	}
+
+	public SeatAllocatorProcessor() {
+		log.debug("Initializing processor with default configuration and resolver.");
+		this.config = new ProcessorConfig();
+		this.resolver = new SeatAllocatorDefaultResolver();
+	}
+
+	public ProcessorConfig getConfig() {
+		return config;
+	}
+
+	public SeatAllocatorResolver getResolver() {
+		return resolver;
+	}
 
 	/*
 	 * Tally
 	 */
-	public SeatAllocatorProcessor() {
-		log.debug("Initializing processor");
-		properties = new Properties();
 
-		filters = new ArrayList<TallyFilter>();
-		decorators = new ArrayList<ResultDecorator>();
-	}
-
-	public InmutableTally getTally() {
-		return tally;
+	public Tally getTally() {
+		return config.getTally();
 	}
 
 	public void setTally(Tally tally) {
-		log.debug("Added tally: " + tally);
-		this.tally = tally;
+		config.setTally(tally);
 	}
 
 	public boolean addTallyFilter(TallyFilter filter) {
-		return filters.add(filter);
+		return config.getTallyFilters().add(filter);
 	}
 
 	public List<TallyFilter> getTallyFilters() {
-		return filters;
+		return config.getTallyFilters();
 	}
 
 	public boolean removeTallyFilter(TallyFilter filter) {
-		return filters.remove(filter);
+		return config.getTallyFilters().remove(filter);
 	}
 
 	/*
@@ -64,32 +81,32 @@ public class SeatAllocatorProcessor {
 	 */
 
 	public boolean addResultDecorator(ResultDecorator decorator) {
-		return decorators.add(decorator);
+		return config.getResultDecorator().add(decorator);
 	}
 
 	public List<ResultDecorator> getResultDecorator() {
-		return decorators;
+		return config.getResultDecorator();
 	}
 
 	public boolean removeResultDecorator(ResultDecorator decorator) {
-		return decorators.remove(decorator);
+		return config.getResultDecorator().remove(decorator);
 	}
-	
+
 	/*
 	 * Properties
 	 */
 
 	public void setProperty(String key, String value) {
 		log.debug("Set property " + key + "=" + value);
-		properties.setProperty(key, value);
+		config.getProperties().setProperty(key, value);
 	}
 
 	public String getProperty(String key) {
-		return properties.getProperty(key);
+		return config.getProperties().getProperty(key);
 	}
 
 	public Properties getProperties() {
-		return properties;
+		return config.getProperties();
 	}
 
 	/*
@@ -99,14 +116,20 @@ public class SeatAllocatorProcessor {
 	public void setMethodByName(String method) throws SeatAllocationException {
 
 		log.debug("Adding method by name:" + method);
-		this.method = SeatAllocationMethod.getByName(method);
+		config.setMethod(resolver.resolveMethod(method));
+		config.setMethodName(method);
 	}
 
 	public void setMethodByClass(Class<? extends SeatAllocationMethod> clazz)
 			throws InstantiationException, IllegalAccessException {
 
 		log.debug("Adding method by class:" + clazz);
-		method = clazz.newInstance();
+		config.setMethod(clazz.newInstance());
+	}
+
+	public void setMethod(SeatAllocationMethod method) {
+		log.debug("Adding method by instance:" + method);
+		config.setMethod(method);
 	}
 
 	/*
@@ -116,46 +139,50 @@ public class SeatAllocatorProcessor {
 	public void reset() {
 		log.debug("Resetting processor");
 
-		properties.clear();
-		filters.clear();
-		decorators.clear();
-		method = null;
-		tally = null;
+		config.reset();
 	}
 
 	public Result process() throws SeatAllocationException {
 
-		if (tally == null)
+		if (config.getTally() == null)
 			throw new SeatAllocationException(
 					"Trying to run processor without providing a tally");
 
-		if (!filters.isEmpty()) {
-			log.debug("Executing filters");
-			for (TallyFilter filter : filters) {
-				log.trace("Executing filter: " + filter);
-				tally = filter.filter(tally);
+		log.debug("The tally contains the following candidates:");
+		for (Candidate candidate : config.getTally().getCandidates())
+			log.debug(" * Candidate " + candidate.getName() + " with "
+					+ candidate.getVotes() + " votes.");
+
+		log.debug("The processor contains the following properties:");
+		for (Object key : config.getProperties().keySet())
+			log.debug(" * Property " + key + " = "
+					+ config.getProperty((String) key));
+
+		if (!config.getTallyFilters().isEmpty()) {
+			log.trace("Executing filters");
+			for (TallyFilter filter : config.getTallyFilters()) {
+				log.debug("Executing filter: " + filter);
+				config.setTally(filter.filter(config.getTally()));
 			}
-		}
-		else
+		} else
 			log.debug("No tally filters to execute");
 
-		log.debug("Processing...");
+		log.debug("Processing with method " + config.getMethodName());
 
-		Result result = method.process(tally, properties);
+		Result result = config.getMethod().process(config.getTally(),
+				config.getProperties());
 
-		log.debug("Processed");
+		log.trace("Processed");
 
-		if (!decorators.isEmpty()) {
-			log.debug("Executing decorators");
-			for (ResultDecorator decorator : decorators) {
-				log.trace("Executing decorator: " + decorator);
+		if (!config.getResultDecorator().isEmpty()) {
+			log.trace("Executing decorators");
+			for (ResultDecorator decorator : config.getResultDecorator()) {
+				log.debug("Executing decorator: " + decorator);
 				result = decorator.decorate(result);
 			}
-		}
-		else
+		} else
 			log.debug("No result decorators to execute");
-		
-		return result;
 
+		return result;
 	}
 }

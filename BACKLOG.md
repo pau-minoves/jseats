@@ -1,15 +1,20 @@
+DONE
+====
+
+ * Steps from/to XML
+ * Better processor
+
 WIP
 ===
-
- * Serialize from/to XML
-
-TODO
-====
 
  * Story for ImperialiHighestAverages
  * Story for DanishHighestAverages
  * Story for HuntingtonHillHighestAverages (US house of representatives)
  * Tie breakers
+
+TODO
+====
+
  * Polish logging so it traces method application better
  * A walker functionality in processor to allow for interactive execution of methods.
  * Javadocs

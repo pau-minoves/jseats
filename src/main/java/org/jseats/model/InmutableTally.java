@@ -1,11 +1,8 @@
-package org.jseats.model.tally;
+package org.jseats.model;
 
 import java.io.OutputStream;
-import java.util.List;
 
 import javax.xml.bind.JAXBException;
-
-import org.jseats.model.Candidate;
 
 public interface InmutableTally {
 
@@ -16,6 +13,6 @@ public interface InmutableTally {
 	public int getEffectiveVotes();
 
 	public Candidate getCandidateAt(int position);
-	
+
 	public int getNumberOfCandidates();
 }

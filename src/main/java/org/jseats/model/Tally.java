@@ -1,4 +1,4 @@
-package org.jseats.model.tally;
+package org.jseats.model;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,15 +9,13 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.jseats.model.Candidate;
-
-@XmlRootElement
+@XmlRootElement(name = "tally")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Tally implements InmutableTally {
 
@@ -26,26 +24,26 @@ public class Tally implements InmutableTally {
 	static Unmarshaller unmarshaller;
 
 	@XmlElementWrapper(name = "candidates")
-	@XmlElement
+	@XmlElement(name = "candidate")
 	List<Candidate> candidates;
-	
+
 	@XmlElement
 	int effectiveVotes;
-	
+
 	@XmlElement
-	int potentialVotes;
-	
+	int potentialVotes = -1;
+
 	public Tally() {
 		effectiveVotes = 0;
 		candidates = new ArrayList<Candidate>();
 	}
-	
+
 	/*
 	 * Votes
 	 */
 	@Override
 	public int getPotentialVotes() {
-		return potentialVotes;
+		return (potentialVotes == -1) ? effectiveVotes : potentialVotes;
 	}
 
 	public void setPotentialVotes(int potentialVotes) {
@@ -63,7 +61,7 @@ public class Tally implements InmutableTally {
 	public List<Candidate> getCandidates() {
 		return candidates;
 	}
-	
+
 	@Override
 	public Candidate getCandidateAt(int position) {
 		return candidates.get(position);
@@ -75,25 +73,24 @@ public class Tally implements InmutableTally {
 	}
 
 	public void setCandidates(List<Candidate> candidates) {
-		
+
 		this.candidates = candidates;
-		
+
 		effectiveVotes = 0;
-		for(Candidate candidate: candidates)
+		for (Candidate candidate : candidates)
 			effectiveVotes += candidate.getVotes();
 	}
-	
+
 	public void addCandidate(Candidate candidate) {
-			
 		this.candidates.add(candidate);
 		effectiveVotes += candidate.getVotes();
 	}
 
 	public void removeCandidate(Candidate candidate) {
 		candidates.remove(candidate);
-		
+		effectiveVotes -= candidate.getVotes();
 	}
-	
+
 	/*
 	 * Serialization
 	 */
@@ -119,23 +116,23 @@ public class Tally implements InmutableTally {
 
 		return (Tally) unmarshaller.unmarshal(is);
 	}
-	
+
 	@Override
 	public String toString() {
-		
-		StringBuilder str = new StringBuilder("tally:");
-		str.append("C=");
-		str.append(candidates.size());
-		str.append("eV=");
+
+		StringBuilder str = new StringBuilder("tally (");
 		str.append(effectiveVotes);
-		str.append("=>");
-		for(Candidate candidate : candidates){
+		str.append("/");
+		str.append(potentialVotes);
+		str.append(") with ");
+		str.append(candidates.size());
+		str.append(" candidates: ");
+		for (Candidate candidate : candidates) {
 			str.append(candidate.toString());
-			str.append(":");
+			str.append(", ");
 		}
-		
+		str.delete(str.length() - 2, str.length());
+		str.append(".");
 		return str.toString();
 	}
-
-
 }

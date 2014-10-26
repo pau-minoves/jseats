@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.Properties;
 
 import org.jseats.model.Candidate;
+import org.jseats.model.InmutableTally;
+import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
-import org.jseats.model.result.Result;
-import org.jseats.model.result.Result.ResultType;
-import org.jseats.model.tally.InmutableTally;
+import org.jseats.model.SeatAllocationMethod;
+import org.jseats.model.Result.ResultType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SimpleMajorityMethod extends SeatAllocationMethod {
+public class SimpleMajorityMethod implements SeatAllocationMethod {
 
 	static Logger log = LoggerFactory.getLogger(SimpleMajorityMethod.class);
 
@@ -28,7 +29,7 @@ public class SimpleMajorityMethod extends SeatAllocationMethod {
 
 			log.trace("iterating candidate: " + tally.getCandidateAt(i));
 			log.trace("Current max votes: " + maxVotes);
-			
+
 			if (tally.getCandidateAt(i).getVotes() == maxVotes)
 				candidates.add(tally.getCandidateAt(i));
 			else if (tally.getCandidateAt(i).getVotes() > maxVotes) {
@@ -40,7 +41,7 @@ public class SimpleMajorityMethod extends SeatAllocationMethod {
 
 		for (Candidate candidate : candidates)
 			log.debug("Final candidate: " + candidate);
-		
+
 		Result result;
 
 		if (candidates.size() == 1)

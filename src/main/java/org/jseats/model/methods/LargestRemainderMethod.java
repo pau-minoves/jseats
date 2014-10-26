@@ -2,14 +2,15 @@ package org.jseats.model.methods;
 
 import java.util.Properties;
 
+import org.jseats.model.InmutableTally;
+import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
-import org.jseats.model.result.Result;
-import org.jseats.model.result.Result.ResultType;
-import org.jseats.model.tally.InmutableTally;
+import org.jseats.model.SeatAllocationMethod;
+import org.jseats.model.Result.ResultType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class LargestRemainderMethod extends SeatAllocationMethod {
+public abstract class LargestRemainderMethod implements SeatAllocationMethod {
 
 	static Logger log = LoggerFactory.getLogger(LargestRemainderMethod.class);
 

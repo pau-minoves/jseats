@@ -1,27 +1,32 @@
 package org.jseats.jbehave;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 
 import javax.xml.bind.JAXBException;
 
-import static org.junit.Assert.*;
-
 import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
+import org.jseats.SeatAllocatorLauncher;
 import org.jseats.SeatAllocatorProcessor;
 import org.jseats.model.Candidate;
+import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
+import org.jseats.model.Tally;
 import org.jseats.model.result.AppendTextToCandidateNameDecorator;
 import org.jseats.model.result.NullResultDecorator;
-import org.jseats.model.result.Result;
 import org.jseats.model.result.SuffixTextToCandidateNameDecorator;
 import org.jseats.model.tally.NullTallyFilter;
 import org.jseats.model.tally.RemoveCandidatesBelow;
-import org.jseats.model.tally.Tally;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,6 +121,16 @@ public class Steps {
 		}
 	}
 
+	@Given("result is in file $result")
+	public void resultIs(String resultFile) throws FileNotFoundException,
+			JAXBException {
+
+		result = Result.fromXML(new FileInputStream(System.getProperty(
+				"project.build.directory", "target/")
+				+ "test-classes/"
+				+ resultFile));
+	}
+
 	/*
 	 * WHEN
 	 */
@@ -141,10 +156,26 @@ public class Steps {
 		this.tally = Tally.fromXML(new FileInputStream(tally));
 	}
 
+	@When("execute command with parameters at $file")
+	public void runCommand(String paramsFile) throws Exception {
+
+		File params = new File(System.getProperty("project.build.directory",
+				"target/") + "test-classes/" + paramsFile);
+
+		assertTrue(
+				"Parameters file does not exist: " + params.getAbsolutePath(),
+				params.exists());
+
+		log.debug("Loading parameters file: " + params.getAbsolutePath());
+
+		String[] args = { "@src/test/resources/" + paramsFile };
+
+		SeatAllocatorLauncher.mainWithThrow(args);
+	}
+
 	/*
 	 * THEN
 	 */
-
 	@Then("result type is $type")
 	public void resultTypeIs(String type) {
 		log.debug("result.type=" + result.getType());
@@ -195,13 +226,5 @@ public class Steps {
 			throws SeatAllocationException {
 
 		assertFalse(result.containsSeatForCandidate(new Candidate(candidate)));
-	}
-
-	@Then("result is as in file $result")
-	public void resultIs(String result) throws FileNotFoundException,
-			JAXBException {
-
-		// assertFalse(this.result.equals(Result.fromXML(new
-		// FileInputStream(result))));
 	}
 }
