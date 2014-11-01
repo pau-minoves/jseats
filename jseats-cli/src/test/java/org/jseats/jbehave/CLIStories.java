@@ -1,13 +1,11 @@
 package org.jseats.jbehave;
 
-import static java.util.Arrays.asList;
 import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
 
 import java.util.List;
 
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
-import org.jbehave.core.failures.FailingUponPendingStep;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.io.StoryFinder;
 import org.jbehave.core.junit.JUnitStories;
@@ -15,17 +13,18 @@ import org.jbehave.core.reporters.Format;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
+import org.jseats.jbehave.Steps;
 import org.junit.runner.RunWith;
 
 import de.codecentric.jbehave.junit.monitoring.JUnitReportingRunner;
 
 @RunWith(JUnitReportingRunner.class)
-public class Stories extends JUnitStories {
+public class CLIStories extends JUnitStories {
 
-	public Stories() {
+	public CLIStories() {
 		configuredEmbedder().embedderControls()
 				.doGenerateViewAfterStories(true)
-				.doIgnoreFailureInStories(true).doIgnoreFailureInView(true)
+				.doIgnoreFailureInStories(false).doIgnoreFailureInView(false)
 				.useStoryTimeoutInSecs(60);
 	}
 
@@ -52,6 +51,7 @@ public class Stories extends JUnitStories {
 
 	@Override
 	public InjectableStepsFactory stepsFactory() {
-		return new InstanceStepsFactory(configuration(), new Steps());
+		return new InstanceStepsFactory(configuration(), new CLISteps(),
+				new Steps());
 	}
 }

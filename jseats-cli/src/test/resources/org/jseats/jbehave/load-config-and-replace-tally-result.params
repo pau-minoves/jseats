@@ -1,0 +1,8 @@
+--input-config
+target/config.2.xml
+--input-tally
+target/test-classes/org/jseats/jbehave/tally.3.xml
+--output-config
+target/config.3.xml
+--output-result
+target/result.3.xml

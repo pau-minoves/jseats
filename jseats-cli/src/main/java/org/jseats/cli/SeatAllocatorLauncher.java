@@ -1,9 +1,13 @@
-package org.jseats;
+package org.jseats.cli;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.List;
 
+import org.jseats.ProcessorConfig;
+import org.jseats.SeatAllocatorDefaultResolver;
+import org.jseats.SeatAllocatorProcessor;
+import org.jseats.SeatAllocatorResolver;
 import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
@@ -143,7 +147,7 @@ public class SeatAllocatorLauncher {
 		} else
 			processor = new SeatAllocatorProcessor();
 
-		if (processor.config.getMethod() == null && method == null)
+		if (processor.getConfig().getMethod() == null && method == null)
 			throw new SeatAllocationException(
 					"Method must be provided by either --method or --input-config.");
 

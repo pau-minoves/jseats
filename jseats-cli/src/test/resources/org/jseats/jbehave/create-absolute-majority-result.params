@@ -11,6 +11,6 @@ CandidateD:125
 --method
 AbsoluteMajority
 --output-config
-target/test-classes/stories/cli/config.xml
+target/config.xml
 --output-result
-target/test-classes/stories/cli/result.xml
+target/result.xml

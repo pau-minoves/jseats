@@ -1,0 +1,12 @@
+--candidate
+CandidateZ:400
+--potential-votes
+2000
+--method
+DHondt
+--input-config
+target/config.xml
+--output-config
+target/config.2.xml
+--output-result
+target/result.2.xml

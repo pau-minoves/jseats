@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
@@ -16,7 +15,6 @@ import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
-import org.jseats.SeatAllocatorLauncher;
 import org.jseats.SeatAllocatorProcessor;
 import org.jseats.model.Candidate;
 import org.jseats.model.Result;
@@ -125,10 +123,7 @@ public class Steps {
 	public void resultIs(String resultFile) throws FileNotFoundException,
 			JAXBException {
 
-		result = Result.fromXML(new FileInputStream(System.getProperty(
-				"project.build.directory", "target/")
-				+ "test-classes/"
-				+ resultFile));
+		result = Result.fromXML(new FileInputStream("target/" + resultFile));
 	}
 
 	/*
@@ -154,23 +149,6 @@ public class Steps {
 			JAXBException {
 
 		this.tally = Tally.fromXML(new FileInputStream(tally));
-	}
-
-	@When("execute command with parameters at $file")
-	public void runCommand(String paramsFile) throws Exception {
-
-		File params = new File(System.getProperty("project.build.directory",
-				"target/") + "test-classes/" + paramsFile);
-
-		assertTrue(
-				"Parameters file does not exist: " + params.getAbsolutePath(),
-				params.exists());
-
-		log.debug("Loading parameters file: " + params.getAbsolutePath());
-
-		String[] args = { "@src/test/resources/" + paramsFile };
-
-		SeatAllocatorLauncher.mainWithThrow(args);
 	}
 
 	/*
