@@ -127,7 +127,7 @@
 						<configuration>
 							<scope>test</scope>
 							<verboseFailures>true</verboseFailures>
-							<ignoreFailureInStories>true</ignoreFailureInStories>
+							<ignoreFailureInStories>false</ignoreFailureInStories>
 							<ignoreFailureInView>false</ignoreFailureInView>
 							<includes>
 								<include>**/Stories.java</include>

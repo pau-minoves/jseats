@@ -29,20 +29,20 @@ Given algorithm has property groupSeatsPerCandidate set to true
 When process with EqualProportions method
 Then result type is MULTIPLE
 Then result has 105 seats
-Then result has 7 seats for Connecticut
-Then result has 2 seats for Delaware
-Then result has 2 seats for Georgia
-Then result has 2 seats for Kentucky
-Then result has 8 seats for Maryland
+Then result has 7  seats for Connecticut
+Then result has 2  seats for Delaware
+Then result has 2  seats for Georgia
+Then result has 2  seats for Kentucky
+Then result has 8  seats for Maryland
 Then result has 14 seats for Massachusetts
-Then result has 4 seats for New Hampshire
-Then result has 5 seats for New Jersey
+Then result has 4  seats for New Hampshire
+Then result has 5  seats for New Jersey
 Then result has 10 seats for New York
 Then result has 10 seats for North Carolina
 Then result has 12 seats for Pennsylvania
-Then result has 2 seats for Rhode Island
-Then result has 6 seats for South Carolina
-Then result has 3 seats for Vermont
+Then result has 2  seats for Rhode Island
+Then result has 6  seats for South Carolina
+Then result has 3  seats for Vermont
 Then result has 18 seats for Virginia
 
 

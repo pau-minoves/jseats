@@ -13,6 +13,7 @@ import java.util.Iterator;
 import javax.xml.bind.JAXBException;
 
 import org.jbehave.core.annotations.Alias;
+import org.jbehave.core.annotations.Aliases;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
@@ -176,6 +177,11 @@ public class Steps {
 	/*
 	 * THEN
 	 */
+	@Then("tally has $number effective votes")
+	public void tallyEffectiveVotes(int effectiveVotes) {
+		assertEquals(effectiveVotes, tally.getEffectiveVotes());
+	}
+	
 	@Then("result type is $type")
 	public void resultTypeIs(String type) {
 		log.debug("result.type=" + result.getType());
@@ -205,21 +211,14 @@ public class Steps {
 			throws SeatAllocationException {
 
 		assertTrue(result.containsSeatForCandidate(new Candidate(candidate)));
+	}	
+	
+	@Then("result has $number seats for $candidate")
+	@Alias("result has $number seat for $candidate")
+	public void resultNumberOfSeatsForCandidate(int number, String candidate) {
+		assertEquals(number, result.getNumerOfSeatsForCandidate(candidate));
 	}
 
-	@Then("result has $seats seats for $candidate")
-	public void resultHasSeatsForCandidate(int seats, String candidate)
-			throws SeatAllocationException {
-
-		int count = 0;
-		Iterator<Candidate> i = result.getSeats().iterator();
-
-		while (i.hasNext())
-			if (i.next().getName().contentEquals(candidate))
-				count++;
-
-		assertEquals(seats, count);
-	}
 
 	@Then("result seats do not contain $candidate")
 	public void resultCandidatesNotContain(String candidate)

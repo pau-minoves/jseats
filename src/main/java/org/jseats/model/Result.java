@@ -69,6 +69,18 @@ public class Result {
 	public int getNumerOfSeats() {
 		return seats.size();
 	}
+	
+	public int getNumerOfSeatsForCandidate(String candidate) {
+
+		int count = 0;
+		for(Candidate innerCandidate : seats)
+		{
+			if(innerCandidate.getName().contentEquals(candidate))
+				count++;
+				
+		}
+		return count;
+	}
 
 	public List<Candidate> getSeats() {
 		return seats;
