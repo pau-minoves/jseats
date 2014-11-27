@@ -169,7 +169,8 @@ public class Steps {
 
 		log.debug("Loading parameters file: " + params.getAbsolutePath());
 
-		String[] args = { "@src/test/resources/" + paramsFile };
+		String[] args = { "@src/test/resources/" + paramsFile,
+				" --skip-logger-setup" };
 
 		SeatAllocatorLauncher.mainWithThrow(args);
 	}
@@ -226,4 +227,16 @@ public class Steps {
 
 		assertFalse(result.containsSeatForCandidate(new Candidate(candidate)));
 	}
+	
+	 @Then("print result")
+	 public void printResult() {
+		 
+		 log.debug("result: "+ result);
+		 log.debug("type: "+ result.getType());
+		 log.debug("number of seats: "+ result.getNumerOfSeats());
+		 
+		 for(int i =0; i < result.getSeats().size(); i++) {
+			 log.debug("seat #" + i + ": " + result.getSeatAt(i));
+		 }
+	 }
 }

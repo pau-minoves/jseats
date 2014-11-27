@@ -28,6 +28,9 @@ public class SeatAllocatorLauncher {
 	@Parameter(names = { "-v", "--verbose" }, description = "Increase level of verbosity.")
 	private boolean verbose;
 
+	@Parameter(names = { "--skip-logger-setup" }, description = "Skip logger reconfiguration", hidden = true)
+	private boolean skipLogger;
+
 	@Parameter(names = { "-lf", "--list-filters" }, description = "List built-in tally filters.")
 	private boolean listFilters;
 
@@ -92,8 +95,16 @@ public class SeatAllocatorLauncher {
 
 			if (launcher.help)
 				commander.usage();
-			else
+			else {
+
+				if (!launcher.skipLogger)
+					if (launcher.verbose)
+						setLoggerLevel(Level.DEBUG);
+					else
+						setLoggerLevel(Level.INFO);
+
 				launcher.launch();
+			}
 
 		} catch (ParameterException pe) {
 			commander.usage();
@@ -107,11 +118,6 @@ public class SeatAllocatorLauncher {
 	}
 
 	private void launch() throws Exception {
-
-		if (verbose)
-			setLoggerLevel(Level.DEBUG);
-		else
-			setLoggerLevel(Level.INFO);
 
 		SeatAllocatorResolver resolver = new SeatAllocatorDefaultResolver();
 
@@ -205,7 +211,7 @@ public class SeatAllocatorLauncher {
 			result.toXML(new FileOutputStream(outputResult));
 	}
 
-	private void setLoggerLevel(Level level) {
+	private static void setLoggerLevel(Level level) {
 
 		// ROOT is the common root id for logback and slf4j
 		org.slf4j.Logger rootLogger = org.slf4j.LoggerFactory.getLogger("ROOT");
