@@ -7,7 +7,11 @@ JSeats is a java implementation of common electoral seat allocation algorithms.
 
 ## Getting started
 
- * Example [usage](src/test/java/org/jseats/unit/ExampleProcessorTest.java)
+The JSeats library offers a seat allocation processor based on the following simple architecture:
+
+You can have example usages here:
+
+ * Java API example [usage](src/test/java/org/jseats/unit/ExampleProcessorTest.java)
  * BDD [stories](src/test/resources/stories)
 
 ## Supported methods
