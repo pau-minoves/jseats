@@ -128,7 +128,7 @@ public class Result {
 		str.append("=>");
 		for (Candidate seat : seats) {
 			str.append(seat.toString());
-			str.append(":");
+			str.append(",");
 		}
 
 		return str.toString();

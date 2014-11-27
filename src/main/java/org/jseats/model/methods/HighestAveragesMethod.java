@@ -56,6 +56,7 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
 				averagesPerRound[candidate][round] = (int) (tally
 						.getCandidateAt(candidate).getVotes() / divisor);
+
 			}
 		}
 
@@ -69,12 +70,13 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 			int maxRound = -1;
 			int maxVotes = -1;
 
-			for (int round = 0; round < numberOfCandidates; round++) {
+			for (int round = 0; round < numberOfSeats; round++) {
 				for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
 
 					if (averagesPerRound[candidate][round] == maxVotes) {
 						// TODO detect tie. Warning, this might be an
 						// intermediate tie.
+						log.error("Unhandled tie");
 					}
 
 					if (averagesPerRound[candidate][round] > maxVotes) {
@@ -85,18 +87,29 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 				}
 			}
 
-			if (groupSeatsPerCandidate)
-				seatsPerCandidate[maxCandidate]++;
-			else
+			seatsPerCandidate[maxCandidate]++;
+
+			if (!groupSeatsPerCandidate)
 				result.addSeat(tally.getCandidateAt(maxCandidate));
+
+			log.trace("Found maximum " + maxVotes + " at: "
+					+ tally.getCandidateAt(maxCandidate).getName() + " : "
+					+ maxRound);
 
 			// Eliminate this maximum coordinates and iterate
 			averagesPerRound[maxCandidate][maxRound] = -2;
 			numberOfUnallocatedSeats--;
 		}
 
+		for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
+			log.trace(tally.getCandidateAt(candidate) + " has ended with "
+					+ seatsPerCandidate[candidate] + " seats.");
+		}
+
 		if (groupSeatsPerCandidate) {
 			// Time to spread allocated seats to results
+
+			log.trace("Grouping candidates");
 
 			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
 				for (int seat = 0; seat < seatsPerCandidate[candidate]; seat++) {
@@ -105,16 +118,6 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 			}
 		}
 
-		debugResult(result);
-
 		return result;
-	}
-
-	private void debugResult(Result result) {
-		if (log.isDebugEnabled()) {
-			for (int i = 0; i < result.getNumerOfSeats(); i++) {
-				log.debug("seat #" + i + ": " + result.getSeatAt(i));
-			}
-		}
 	}
 }

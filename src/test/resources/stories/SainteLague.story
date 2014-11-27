@@ -102,6 +102,7 @@ Given tally has 2405622 potential votes
 Given algorithm has property numberOfSeats set to 71
 !-- Given algorithm has property groupSeatsPerCandidate set to true
 When process with Sainte-Lague algorithm
+Then print result
 Then result type is MULTIPLE
 Then result has 71 seats
 Then result has 41 seats for NATIONAL_PARTY
@@ -116,6 +117,7 @@ Then result has 1 seat for UNITED_FUTURE
 Then result has 0 seats for OTHER
 
 Scenario: Sainte-Lague scenario from govt.nz (http://www.electionresults.govt.nz/electionresults_2011/saint_lague.html)
+!-- Note: Calculating with OTHER as if it was a party
 Given empty scenario
 Given tally has candidate NATIONAL_PARTY with 1058636 votes
 Given tally has candidate LABOUR_PARTY with 614937 votes
@@ -132,15 +134,47 @@ Given tally has 2237464 potential votes
 Given algorithm has property numberOfSeats set to 70
 !-- Given algorithm has property groupSeatsPerCandidate set to true
 When process with Sainte-Lague algorithm
+Then print result
 Then result type is MULTIPLE
 Then result has 70 seats
-Then result has 41 seats for NATIONAL_PARTY
-Then result has 27 seats for LABOUR_PARTY
+Then result has 33 seats for NATIONAL_PARTY
+Then result has 19 seats for LABOUR_PARTY
+Then result has 8 seats for GREEN_PARTY
+Then result has 5 seats for NEW_ZEALAND_FIRST_PARTY
+Then result has 1 seats for MAORI_PARTY
+Then result has 1 seat for MANA
+Then result has 1 seat for ACT_NEW_ZEALAND
+Then result has 0 seat for UNITED_FUTURE
+Then result has 2 seats for OTHER
+
+Scenario: Sainte-Lague scenario from govt.nz (http://www.electionresults.govt.nz/electionresults_2011/saint_lague.html)
+!-- Note: Calculating with OTHER as other parties (so votes to OTHER don't count).
+Given empty scenario
+Given tally has candidate NATIONAL_PARTY with 1058636 votes
+Given tally has candidate LABOUR_PARTY with 614937 votes
+Given tally has candidate GREEN_PARTY with 247372 votes
+Given tally has candidate NEW_ZEALAND_FIRST_PARTY with 147544 votes
+Given tally has candidate MAORI_PARTY with 31982 votes
+Given tally has candidate MANA with 24168 votes
+Given tally has candidate ACT_NEW_ZEALAND with 23889 votes
+Given tally has candidate UNITED_FUTURE with 13443 votes
+!-- Given tally has candidate OTHER with 75493 votes
+Then tally has 2161971 effective votes
+Given tally has 2237464 potential votes
+!-- All potential votes are casted (potential votes == effective votes)
+Given algorithm has property numberOfSeats set to 70
+!-- Given algorithm has property groupSeatsPerCandidate set to true
+When process with Sainte-Lague algorithm
+Then print result
+Then result type is MULTIPLE
+Then result has 70 seats
+Then result has 42 seats for NATIONAL_PARTY
+Then result has 22 seats for LABOUR_PARTY
 Then result has 0 seats for GREEN_PARTY
 Then result has 0 seats for NEW_ZEALAND_FIRST_PARTY
-Then result has 0 seat for CONSERVATIVE
-Then result has 0 seat for INTERNET_MANA
-Then result has 1 seats for MAORI_PARTY
+Then result has 3 seats for MAORI_PARTY
+Then result has 1 seat for MANA
 Then result has 1 seat for ACT_NEW_ZEALAND
 Then result has 1 seat for UNITED_FUTURE
 Then result has 0 seats for OTHER
+
