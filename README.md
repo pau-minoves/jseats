@@ -1,13 +1,17 @@
 JSeats [![Build Status](https://travis-ci.org/pau-minoves/jseats.svg?branch=master)](https://travis-ci.org/pau-minoves/jseats)
 ======
 
-
-
 JSeats is a java implementation of common electoral seat allocation algorithms.
 
 ## Getting started
 
- * Example [usage](src/test/java/org/jseats/unit/ExampleProcessorTest.java)
+The JSeats library offers a seat allocation processor based on the following simple architecture:
+
+![alt text](https://github.com/pau-minoves/jseats/blob/master/src/site/resources/jseats_architecture.png "JSeats architecture")
+
+You can have example usages here:
+
+ * Java API example [usage](src/test/java/org/jseats/unit/ExampleProcessorTest.java)
  * BDD [stories](src/test/resources/stories)
 
 ## Supported methods
@@ -25,8 +29,8 @@ JSeats is a java implementation of common electoral seat allocation algorithms.
  	* Imperiali
  * [Highest Averages Method](http://en.wikipedia.org/wiki/Highest_averages_method)
  	* D'Hondt
- 	* Sainte-Laguë (Webster)
- 		* Supports user provided first divisor (Modified Sainte-Laguë)
+ 	* Sainte-LaguÃ« (Webster)
+ 		* Supports user provided first divisor (Modified Sainte-LaguÃ«)
  	* Imperiali
  	* Danish
 
