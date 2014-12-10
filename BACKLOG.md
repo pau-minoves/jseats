@@ -25,4 +25,5 @@ TODO
  * JCommander integration
  * REST servlet.
  * Webapp.
- * Joao: Can minimum filter be deduced for a method given a set of (#candidates, #seats, #potential votes)?
+ * Joao: Can minimum filter be deduced for a method given a set of (#candidates, #seats, #potential votes)?´
+ * Mixed-member proportional representation (http://en.wikipedia.org/wiki/Mixed-member_proportional_representation)
