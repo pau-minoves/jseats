@@ -17,7 +17,7 @@ You can have example usages here:
 ## Supported methods
  
  * Majority Method
- 	* Simple
+ 	* Simple (FPTP or [First-Past-The-Post](http://en.wikipedia.org/wiki/First-past-the-post_voting))
     * Qualified
     * Absolute
  * Ranked Method
