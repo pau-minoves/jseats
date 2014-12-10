@@ -69,6 +69,18 @@ public class Result {
 	public int getNumerOfSeats() {
 		return seats.size();
 	}
+	
+	public int getNumerOfSeatsForCandidate(String candidate) {
+
+		int count = 0;
+		for(Candidate innerCandidate : seats)
+		{
+			if(innerCandidate.getName().contentEquals(candidate))
+				count++;
+				
+		}
+		return count;
+	}
 
 	public List<Candidate> getSeats() {
 		return seats;
@@ -116,7 +128,7 @@ public class Result {
 		str.append("=>");
 		for (Candidate seat : seats) {
 			str.append(seat.toString());
-			str.append(":");
+			str.append(",");
 		}
 
 		return str.toString();

@@ -83,3 +83,63 @@ Then result seat #6 is Whites
 Then result seat #7 is Reds
 Then result seat #8 is Reds
 Then result seat #9 is Greens
+
+Scenario: Sainte-Lague scenario modified from govt.nz (http://www.electionresults.govt.nz/electionresults_2011/saint_lague.html)
+!-- Note: Calculating with OTHER as if it was a party
+Given empty scenario
+Given tally has candidate NATIONAL_PARTY with 1058636 votes
+Given tally has candidate LABOUR_PARTY with 614937 votes
+Given tally has candidate GREEN_PARTY with 247372 votes
+Given tally has candidate NEW_ZEALAND_FIRST_PARTY with 147544 votes
+Given tally has candidate MAORI_PARTY with 31982 votes
+Given tally has candidate MANA with 24168 votes
+Given tally has candidate ACT_NEW_ZEALAND with 23889 votes
+Given tally has candidate UNITED_FUTURE with 13443 votes
+Given tally has candidate OTHER with 75493 votes
+Then tally has 2237464 effective votes
+Given tally has 2237464 potential votes
+!-- All potential votes are casted (potential votes == effective votes)
+Given algorithm has property numberOfSeats set to 70
+!-- Given algorithm has property groupSeatsPerCandidate set to true
+When process with Sainte-Lague algorithm
+Then print result
+Then result type is MULTIPLE
+Then result has 70 seats
+Then result has 33 seats for NATIONAL_PARTY
+Then result has 19 seats for LABOUR_PARTY
+Then result has 8 seats for GREEN_PARTY
+Then result has 5 seats for NEW_ZEALAND_FIRST_PARTY
+Then result has 1 seats for MAORI_PARTY
+Then result has 1 seat for MANA
+Then result has 1 seat for ACT_NEW_ZEALAND
+Then result has 0 seat for UNITED_FUTURE
+Then result has 2 seats for OTHER
+
+Scenario: Party List seat allocation from New Zealand General Election 2014
+!-- Reference: http://www.electionresults.govt.nz/electionresults_2014/e9/html/statistics.html
+!-- Quotients: http://www.electionresults.govt.nz/electionresults_2014/e9/html/e9_part2.html
+!-- Comment: the election described here allocates seats based on MMP (Mixed Member Proportional). 
+!--          Here only the SaintLague part of the MMP is calculated. This is why numbers require 
+!--          some interpretation as they don't match exactly.
+Given empty scenario
+Given tally has candidate NATIONAL_PARTY with 1131501 votes
+Given tally has candidate LABOUR_PARTY with 604535 votes
+Given tally has candidate GREEN_PARTY with 257359 votes
+Given tally has candidate NEW_ZEALAND_FIRST_PARTY with 208300 votes
+Given tally has candidate MAORI_PARTY with 31849 votes
+Given tally has candidate ACT_NEW_ZEALAND with 16689 votes
+Given tally has candidate UNITED_FUTURE with 5286 votes
+Given algorithm has property numberOfSeats set to 120
+Given algorithm has property groupSeatsPerCandidate set to true
+When process with Sainte-Lague algorithm
+Then print result
+Then result type is MULTIPLE
+Then result has 120 seats
+Then result has 60 seats for NATIONAL_PARTY
+Then result has 32 seats for LABOUR_PARTY
+Then result has 14 seats for GREEN_PARTY
+Then result has 11 seats for NEW_ZEALAND_FIRST_PARTY
+Then result has 2 seats for MAORI_PARTY
+Then result has 1 seat for ACT_NEW_ZEALAND
+Then result has 0 seat for UNITED_FUTURE
+

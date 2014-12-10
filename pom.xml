@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>org.jbehave</groupId>
 			<artifactId>jbehave-core</artifactId>
-			<version>3.9.4</version>
+			<version>3.9.5</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -127,7 +127,7 @@
 						<configuration>
 							<scope>test</scope>
 							<verboseFailures>true</verboseFailures>
-							<ignoreFailureInStories>true</ignoreFailureInStories>
+							<ignoreFailureInStories>false</ignoreFailureInStories>
 							<ignoreFailureInView>false</ignoreFailureInView>
 							<includes>
 								<include>**/Stories.java</include>

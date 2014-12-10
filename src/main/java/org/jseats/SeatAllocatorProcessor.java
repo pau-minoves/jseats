@@ -152,6 +152,8 @@ public class SeatAllocatorProcessor {
 		for (Candidate candidate : config.getTally().getCandidates())
 			log.debug(" * Candidate " + candidate.getName() + " with "
 					+ candidate.getVotes() + " votes.");
+		log.debug("The tally contains the following effective votes:"
+				+ config.getTally().getEffectiveVotes());
 
 		log.debug("The processor contains the following properties:");
 		for (Object key : config.getProperties().keySet())

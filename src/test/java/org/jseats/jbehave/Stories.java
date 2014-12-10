@@ -25,7 +25,7 @@ public class Stories extends JUnitStories {
 	public Stories() {
 		configuredEmbedder().embedderControls()
 				.doGenerateViewAfterStories(true)
-				.doIgnoreFailureInStories(true).doIgnoreFailureInView(true)
+				.doIgnoreFailureInStories(false).doIgnoreFailureInView(false)
 				.useStoryTimeoutInSecs(60);
 	}
 
