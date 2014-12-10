@@ -56,8 +56,8 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 			averagesForThisRound.append(round + " / " + divisor + " : ");
 
 			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
-				averagesPerRound[candidate][round] = (int) (tally
-						.getCandidateAt(candidate).getVotes() / divisor);
+				averagesPerRound[candidate][round] = (tally.getCandidateAt(
+						candidate).getVotes() / divisor);
 
 				averagesForThisRound.append(averagesPerRound[candidate][round]
 						+ ",\t");
