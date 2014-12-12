@@ -8,12 +8,10 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Iterator;
 
 import javax.xml.bind.JAXBException;
 
 import org.jbehave.core.annotations.Alias;
-import org.jbehave.core.annotations.Aliases;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;

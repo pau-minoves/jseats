@@ -104,9 +104,7 @@ public class Candidate implements Comparable<Candidate> {
 				String key = (String) i.next();
 				str.append(":" + key + "=" + properties.getProperty(key));
 			}
-				
 		}
-
 		
 		return str.toString();
 	}
