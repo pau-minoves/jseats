@@ -24,6 +24,7 @@ import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.Tally;
 import org.jseats.model.TallyFilter;
+import org.jseats.model.tie.TieBreaker;
 
 @XmlRootElement(name = "processor-config")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -52,6 +53,9 @@ public class ProcessorConfig {
 	static JAXBContext jc;
 	static Marshaller marshaller;
 	static Unmarshaller unmarshaller;
+
+	@XmlTransient
+	private TieBreaker tieBreaker;
 
 	public ProcessorConfig() {
 
@@ -107,6 +111,14 @@ public class ProcessorConfig {
 		return decorators.remove(decorator);
 	}
 
+	public TieBreaker getTieBreaker() {
+		return tieBreaker;
+	}
+
+	public void setTieBreaker(TieBreaker tieBreaker) {
+		this.tieBreaker = tieBreaker;
+	}
+
 	/*
 	 * Properties
 	 */
@@ -148,6 +160,7 @@ public class ProcessorConfig {
 		filters.clear();
 		decorators.clear();
 		method = null;
+		tieBreaker = null;
 		tally = null;
 	}
 
