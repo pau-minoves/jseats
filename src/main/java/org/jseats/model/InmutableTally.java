@@ -15,4 +15,6 @@ public interface InmutableTally {
 	public Candidate getCandidateAt(int position);
 
 	public int getNumberOfCandidates();
+
+	int getCandidateIndex(Candidate candidate);
 }

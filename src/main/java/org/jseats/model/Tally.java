@@ -68,6 +68,15 @@ public class Tally implements InmutableTally {
 	}
 
 	@Override
+	public int getCandidateIndex(Candidate candidate) {
+		for (int i = 0; i < candidates.size(); i++) {
+			if(candidates.get(i).equals(candidate))
+				return i;
+		}
+		return -1;
+	}
+
+	@Override
 	public int getNumberOfCandidates() {
 		return candidates.size();
 	}
