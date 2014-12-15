@@ -10,6 +10,7 @@ import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.Tally;
 import org.jseats.model.TallyFilter;
+import org.jseats.model.tie.TieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,6 +93,14 @@ public class SeatAllocatorProcessor {
 		return config.getResultDecorator().remove(decorator);
 	}
 
+	public TieBreaker getTieBreaker() {
+		return config.getTieBreaker();
+	}
+
+	public void setTieBreaker(TieBreaker tieBreaker) {
+		config.setTieBreaker(tieBreaker);
+	}
+
 	/*
 	 * Properties
 	 */
@@ -170,9 +179,10 @@ public class SeatAllocatorProcessor {
 			log.debug("No tally filters to execute");
 
 		log.debug("Processing with method " + config.getMethodName());
+		log.debug("Processing with tie breaker " + config.getTieBreaker());
 
 		Result result = config.getMethod().process(config.getTally(),
-				config.getProperties());
+				config.getProperties(), config.getTieBreaker());
 
 		log.trace("Processed");
 

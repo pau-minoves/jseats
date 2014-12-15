@@ -1,5 +1,8 @@
 RankByVotes story
 
+Meta:
+@devel
+
 Narrative:
 In order to assign seats according to RankMethod by votes.
 As a development team
@@ -30,6 +33,7 @@ Given tally has candidate CandidateD with 200 votes
 Given algorithm has property numberOfSeats set to 4
 Given algorithm has property groupSeatsPerCandidate set to true
 When process with RankByVotes method
+Then print result
 Then result type is TIE
 Then result has 2 seats
 Then result seat #0 is CandidateA

@@ -7,6 +7,7 @@ import org.jseats.model.Result;
 import org.jseats.model.Result.ResultType;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
+import org.jseats.model.tie.TieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +18,7 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 	public abstract double nextDivisor(int round);
 
 	@Override
-	public Result process(InmutableTally tally, Properties properties)
+	public Result process(InmutableTally tally, Properties properties, TieBreaker tieBreaker)
 			throws SeatAllocationException {
 
 		int numberOfCandidates = tally.getNumberOfCandidates();

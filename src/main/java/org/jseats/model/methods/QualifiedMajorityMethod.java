@@ -6,6 +6,7 @@ import org.jseats.model.InmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.Result.ResultType;
+import org.jseats.model.tie.TieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +18,7 @@ public class QualifiedMajorityMethod extends SimpleMajorityMethod {
 	private double qualifiedProportion;
 
 	@Override
-	public Result process(InmutableTally tally, Properties properties)
+	public Result process(InmutableTally tally, Properties properties, TieBreaker tieBreaker)
 			throws SeatAllocationException {
 
 		if (properties.containsKey("minimumVotes")) {
@@ -42,7 +43,7 @@ public class QualifiedMajorityMethod extends SimpleMajorityMethod {
 			return new Result(ResultType.UNDECIDED);
 		}
 
-		Result result = super.process(tally, properties);
+		Result result = super.process(tally, properties, tieBreaker);
 
 		// Either SINGLE or TIE, minimumVotes are not reached.
 		if (result.getSeats().get(0).getVotes() < minimumVotes)
