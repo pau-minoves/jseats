@@ -80,17 +80,7 @@ public abstract class LargestRemainderMethod implements SeatAllocationMethod {
 			}
 		}
 
-		debugResult(result);
-
 		return result;
-	}
-
-	private void debugResult(Result result) {
-		if (log.isDebugEnabled()) {
-			for (int i = 0; i < result.getNumerOfSeats(); i++) {
-				log.debug("seat #" + i + ": " + result.getSeatAt(i));
-			}
-		}
 	}
 
 	private void traceIntermediateState(int numberOfCandidates,
