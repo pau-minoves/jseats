@@ -57,6 +57,9 @@ public class ProcessorConfig {
 	@XmlTransient
 	private TieBreaker tieBreaker;
 
+	@XmlAttribute(name = "tie-breaker")
+	String tieBreakerName;
+
 	public ProcessorConfig() {
 
 		properties = new Properties();
@@ -69,6 +72,9 @@ public class ProcessorConfig {
 
 		if (methodName != null)
 			this.method = resolver.resolveMethod(methodName);
+
+		if (tieBreakerName != null)
+			this.tieBreaker = resolver.resolveTieBreaker(tieBreakerName);
 	}
 
 	/*
@@ -117,6 +123,10 @@ public class ProcessorConfig {
 
 	public void setTieBreaker(TieBreaker tieBreaker) {
 		this.tieBreaker = tieBreaker;
+	}
+
+	public void setTieBreakerName(String tieBreak) {
+		this.tieBreakerName = tieBreak;
 	}
 
 	/*
@@ -194,10 +204,11 @@ public class ProcessorConfig {
 	@Override
 	public String toString() {
 
-		StringBuilder str = new StringBuilder("ProcessorConfig:");
+		StringBuilder str = new StringBuilder("ProcessorConfig: ");
 
 		// TODO complete
 
 		return str.toString();
 	}
+
 }

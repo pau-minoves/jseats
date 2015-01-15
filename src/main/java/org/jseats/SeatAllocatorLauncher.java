@@ -70,8 +70,12 @@ public class SeatAllocatorLauncher {
 	@Parameter(names = { "-o", "--output-result" }, description = "Result output file.")
 	private String outputResult;
 
-	@Parameter(names = { "-itb", "--interactive-tie-break" }, description = "Resolve ties interactively on the console.")
+	@Parameter(names = { "-itb", "--interactive-tie-breaker" }, description = "Resolve ties interactively on the console. Overrides --tie-breaker.")
 	private boolean interactiveTieBreak;
+
+	@Parameter(names = { "-tb", "--tie-breaker" }, description = "Resolve ties using provided tie breaker")
+	private String tieBreak;
+
 
 	Logger log = LoggerFactory.getLogger(SeatAllocatorLauncher.class);
 
@@ -199,6 +203,10 @@ public class SeatAllocatorLauncher {
 							property.substring(i + 1));
 				}
 			}
+
+		if (tieBreak != null) {
+			processor.getConfig().setTieBreakerName(tieBreak);
+		}
 
 		if (interactiveTieBreak)
 			processor.setTieBreaker(new InteractiveTieBreaker(System.in, log));
