@@ -79,6 +79,14 @@ public class Candidate implements Comparable<Candidate> {
 		return properties.getProperty(key);
 	}
 
+	public boolean propertyIs(String key, String value) {
+		if (properties.containsKey(key)
+				&& properties.getProperty(key).contentEquals(value))
+			return true;
+		else
+			return false;
+	}
+
 	public void hasVotes(boolean hasVotes) {
 		this.hasVotes = hasVotes;
 	}
