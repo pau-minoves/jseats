@@ -63,5 +63,6 @@ public class CandidateModelTest {
 
 		candidate.setProperty("minority", null);
 		assertEquals("C:300:gender=man", candidate.toString());
+		assertTrue(candidate.propertyIs("gender", "man"));
 	}
 }
