@@ -7,7 +7,7 @@ import org.jseats.model.Candidate;
 
 public class RandomTieBreaker extends BaseTieBreaker {
 
-	Random rand = new Random();
+	static Random rand = new Random();
 
 	@Override
 	public String getName() {

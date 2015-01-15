@@ -1,6 +1,8 @@
 package org.jseats;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
@@ -22,12 +24,18 @@ import org.jseats.model.result.NullResultDecorator;
 import org.jseats.model.result.SuffixTextToCandidateNameDecorator;
 import org.jseats.model.tally.NullTallyFilter;
 import org.jseats.model.tally.RemoveCandidatesBelow;
+import org.jseats.model.tie.InteractiveTieBreaker;
+import org.jseats.model.tie.MinorityTieBreaker;
+import org.jseats.model.tie.RandomTieBreaker;
+import org.jseats.model.tie.TieBreaker;
 
 public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 
 	HashMap<String, Class<? extends SeatAllocationMethod>> methods = new HashMap<>();
 	HashMap<String, Class<? extends TallyFilter>> filters = new HashMap<>();
 	HashMap<String, Class<? extends ResultDecorator>> decorators = new HashMap<>();
+
+	HashMap<String, Class<? extends TieBreaker>> tieBreakers = new HashMap<>();
 
 	public SeatAllocatorDefaultResolver() {
 
@@ -52,6 +60,10 @@ public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 		decorators.put("SuffixTextToCandidateNameDecorator",
 				SuffixTextToCandidateNameDecorator.class);
 		decorators.put("NullResultDecorator", NullResultDecorator.class);
+		
+		tieBreakers.put("random-tie-breaker", RandomTieBreaker.class);
+		tieBreakers.put("console-tie-breaker", InteractiveTieBreaker.class);
+		tieBreakers.put("minority-tie-breaker", MinorityTieBreaker.class);
 	}
 
 	@Override
@@ -122,6 +134,26 @@ public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 		} catch (InstantiationException | IllegalAccessException e) {
 			throw new SeatAllocationException(
 					"Result decorator resolved but cannot be instantiated: "
+							+ e.getMessage());
+		}
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public TieBreaker resolveTieBreaker(String tieBreakerName)
+			throws SeatAllocationException {
+
+		if (!tieBreakers.containsKey(tieBreakerName))
+			throw new SeatAllocationException(
+					"Tie breaker cannot be resolved: " + tieBreakerName);
+
+		try {
+			return ((Class<TieBreaker>) tieBreakers.get(tieBreakerName))
+					.newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			throw new SeatAllocationException(
+					"Tie breaker resolved but cannot be instantiated: "
 							+ e.getMessage());
 		}
 

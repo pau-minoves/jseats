@@ -148,6 +148,7 @@ public class Steps {
 	@Given("use tie breaker $breaker")
 	public void useTieBreaker(String breaker) {
 		tieBreaker = new MinorityTieBreaker();
+
 	}
 
 	/*
