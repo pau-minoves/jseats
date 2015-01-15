@@ -1,13 +1,16 @@
 package org.jseats;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.Tally;
+import org.jseats.model.tie.InteractiveTieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,6 +69,9 @@ public class SeatAllocatorLauncher {
 
 	@Parameter(names = { "-o", "--output-result" }, description = "Result output file.")
 	private String outputResult;
+
+	@Parameter(names = { "-itb", "--interactive-tie-break" }, description = "Resolve ties interactively on the console.")
+	private boolean interactiveTieBreak;
 
 	Logger log = LoggerFactory.getLogger(SeatAllocatorLauncher.class);
 
@@ -193,6 +199,9 @@ public class SeatAllocatorLauncher {
 							property.substring(i + 1));
 				}
 			}
+
+		if (interactiveTieBreak)
+			processor.setTieBreaker(new InteractiveTieBreaker(System.in, log));
 
 		if (outputConfig != null)
 			processor.getConfig().toXML(new FileOutputStream(outputConfig));
