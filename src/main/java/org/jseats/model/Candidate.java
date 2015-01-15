@@ -1,6 +1,7 @@
 package org.jseats.model;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -65,12 +66,12 @@ public class Candidate implements Comparable<Candidate> {
 	}
 
 	public String setProperty(String key, String value) {
-		if(value==null) {
+		if (value == null) {
 			String previous = properties.getProperty(key);
 			properties.remove(key);
 			return previous;
 		}
-			
+
 		return (String) properties.setProperty(key, value);
 	}
 
@@ -86,26 +87,21 @@ public class Candidate implements Comparable<Candidate> {
 		return other.votes - votes;
 	}
 
-	public boolean equals(Candidate other) {
-		return this.name.contentEquals(other.name);
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder(name);
 		str.append(":");
 		str.append(votes);
-		
-		if(!properties.isEmpty())
-		{
+
+		if (!properties.isEmpty()) {
 			Iterator<Object> i = properties.keySet().iterator();
-			
+
 			while (i.hasNext()) {
 				String key = (String) i.next();
 				str.append(":" + key + "=" + properties.getProperty(key));
 			}
 		}
-		
+
 		return str.toString();
 	}
 
@@ -135,4 +131,18 @@ public class Candidate implements Comparable<Candidate> {
 
 		return candidate;
 	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Candidate) {
+			return this.name.contentEquals(((Candidate) other).name);
+		} else
+			return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(name);
+	}
+
 }

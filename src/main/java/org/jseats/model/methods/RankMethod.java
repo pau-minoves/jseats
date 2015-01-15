@@ -50,7 +50,15 @@ public abstract class RankMethod implements SeatAllocationMethod {
 
 				if (candidatePriority[candidate] == maxPriority) {
 
+					log.debug("Tie between  "
+							+ tally.getCandidateAt(maxCandidate) + " and "
+							+ tally.getCandidateAt(candidate));
+
 					if (tieBreaker != null) {
+
+						// TODO Tie breaker name
+						log.debug("Using tie breaker: " + tieBreaker);
+
 						// TODO should propagate priority in
 						// candidatePriority[candidate] instead of votes in case
 						// multiplier causes ties/collisions.
@@ -73,9 +81,7 @@ public abstract class RankMethod implements SeatAllocationMethod {
 
 						return tieResult;
 					}
-				}
-
-				if (candidatePriority[candidate] > maxPriority) {
+				} else if (candidatePriority[candidate] > maxPriority) {
 					maxCandidate = candidate;
 					maxPriority = candidatePriority[candidate];
 				}

@@ -1,7 +1,10 @@
 package org.jseats.model.methods;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
+import org.jseats.model.Candidate;
 import org.jseats.model.InmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.Result.ResultType;
@@ -18,8 +21,8 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 	public abstract double nextDivisor(int round);
 
 	@Override
-	public Result process(InmutableTally tally, Properties properties, TieBreaker tieBreaker)
-			throws SeatAllocationException {
+	public Result process(InmutableTally tally, Properties properties,
+			TieBreaker tieBreaker) throws SeatAllocationException {
 
 		int numberOfCandidates = tally.getNumberOfCandidates();
 		int numberOfSeats = Integer.parseInt(properties.getProperty(
@@ -60,9 +63,8 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 				averagesPerRound[candidate][round] = (tally.getCandidateAt(
 						candidate).getVotes() / divisor);
 
-				averagesForThisRound.append(averagesPerRound[candidate][round]
-						+ ",\t");
-
+				averagesForThisRound.append(String.format("%.2f",
+						averagesPerRound[candidate][round]) + ",\t");
 			}
 
 			// log.debug("Current divisor: " + divisor);
@@ -84,16 +86,37 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 				for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
 
 					if (averagesPerRound[candidate][round] == maxVotes) {
-						// TODO detect tie. Warning, this might be an
-						// intermediate tie.
-						log.error("Unhandled tie at round " + round
-								+ " between current maxCandidate ("
-								+ tally.getCandidateAt(maxCandidate)
-								+ ") and candidate "
-								+ tally.getCandidateAt(candidate));
-					}
 
-					if (averagesPerRound[candidate][round] > maxVotes) {
+						log.debug("Tie between  "
+								+ tally.getCandidateAt(maxCandidate) + " and "
+								+ tally.getCandidateAt(candidate));
+
+						if (tieBreaker != null) {
+
+							// TODO Tie breaker name
+							log.debug("Using tie breaker: " + tieBreaker);
+
+							List<Candidate> candidates = new ArrayList<Candidate>();
+							candidates.add(tally.getCandidateAt(candidate));
+							candidates.add(tally.getCandidateAt(maxCandidate));
+
+							candidates = tieBreaker.breakTie(candidates);
+
+							// Candidate at index 0 is the true maxCandidate
+							maxCandidate = tally.getCandidateIndex(candidates
+									.get(0));
+							maxVotes = averagesPerRound[maxCandidate][round];
+
+						} else {
+							Result tieResult = new Result(ResultType.TIE);
+							tieResult.addSeat(tally
+									.getCandidateAt(maxCandidate));
+							tieResult.addSeat(tally.getCandidateAt(candidate));
+
+							return tieResult;
+						}
+
+					} else if (averagesPerRound[candidate][round] > maxVotes) {
 						maxCandidate = candidate;
 						maxRound = round;
 						maxVotes = averagesPerRound[candidate][round];

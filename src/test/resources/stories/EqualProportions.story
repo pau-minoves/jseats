@@ -45,5 +45,30 @@ Then result has 6  seats for South Carolina
 Then result has 3  seats for Vermont
 Then result has 18 seats for Virginia
 
-
+Scenario: EqualProportions tie scenario from wikipedia (http://en.wikipedia.org/wiki/Huntington%E2%80%93Hill_method)
+!-- Modified so Massachusetts and Pennsylvania have the same votes.
+Given empty scenario
+Given tally has candidate Connecticut with 236841 votes
+Given tally has candidate Delaware with 55540 votes
+Given tally has candidate Georgia with 70835 votes
+Given tally has candidate Kentucky with 68705 votes
+Given tally has candidate Maryland with 278514 votes
+Given tally has candidate Massachusetts with 475327 votes
+Given tally has candidate New Hampshire with 141822 votes
+Given tally has candidate New Jersey with 179570 votes
+Given tally has candidate New York with 331589 votes
+Given tally has candidate North Carolina with 353523 votes
+Given tally has candidate Pennsylvania with 475327 votes
+Given tally has candidate Rhode Island with 68446 votes
+Given tally has candidate South Carolina with 206236 votes
+Given tally has candidate Vermont with 85533 votes
+Given tally has candidate Virginia with 630560 votes
+Given algorithm has property numberOfSeats set to 105
+Given algorithm has property numberOfInitialSeats set to 1
+Given algorithm has property groupSeatsPerCandidate set to true
+When process with EqualProportions method
+Then result type is TIE
+Then result has 2 seats
+Then result seat #0 is Massachusetts
+Then result seat #1 is Pennsylvania
 

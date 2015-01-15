@@ -1,12 +1,15 @@
 package org.jseats.model.methods;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
+import org.jseats.model.Candidate;
 import org.jseats.model.InmutableTally;
 import org.jseats.model.Result;
+import org.jseats.model.Result.ResultType;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
-import org.jseats.model.Result.ResultType;
 import org.jseats.model.tie.TieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +21,8 @@ public abstract class LargestRemainderMethod implements SeatAllocationMethod {
 	public abstract double quotient(int numberOfVotes, int numberOfSeats);
 
 	@Override
-	public Result process(InmutableTally tally, Properties properties, TieBreaker tieBreaker)
-			throws SeatAllocationException {
+	public Result process(InmutableTally tally, Properties properties,
+			TieBreaker tieBreaker) throws SeatAllocationException {
 
 		int numberOfCandidates = tally.getNumberOfCandidates();
 		int numberOfSeats = Integer.parseInt(properties.getProperty(
@@ -54,18 +57,48 @@ public abstract class LargestRemainderMethod implements SeatAllocationMethod {
 		// from more voted to less voted until no more unallocated seats remain.
 		while (numberOfUnallocatedSeats > 0) {
 
-			int maxIndex = -1;
+			int maxCandidate = -1;
 			int maxVotes = -1;
 
-			for (int i = 0; i < numberOfCandidates; i++) {
-				if (remainderVotesPerCandidate[i] > maxVotes) {
-					maxIndex = i;
-					maxVotes = remainderVotesPerCandidate[i];
+			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
+				if (remainderVotesPerCandidate[candidate] == maxVotes) {
+
+					log.debug("Tie between  "
+							+ tally.getCandidateAt(maxCandidate) + " and "
+							+ tally.getCandidateAt(candidate));
+
+					if (tieBreaker != null) {
+
+						// TODO Tie breaker name
+						log.debug("Using tie breaker: " + tieBreaker);
+
+						List<Candidate> candidates = new ArrayList<Candidate>();
+						candidates.add(tally.getCandidateAt(candidate));
+						candidates.add(tally.getCandidateAt(maxCandidate));
+
+						candidates = tieBreaker.breakTie(candidates);
+
+						// Candidate at index 0 is the true maxCandidate
+						maxCandidate = tally.getCandidateIndex(candidates
+								.get(0));
+						maxVotes = remainderVotesPerCandidate[maxCandidate];
+
+					} else {
+						Result tieResult = new Result(ResultType.TIE);
+						tieResult.addSeat(tally.getCandidateAt(maxCandidate));
+						tieResult.addSeat(tally.getCandidateAt(candidate));
+
+						return tieResult;
+					}
+
+				} else if (remainderVotesPerCandidate[candidate] > maxVotes) {
+					maxCandidate = candidate;
+					maxVotes = remainderVotesPerCandidate[candidate];
 				}
 			}
 
-			seatsPerCandidate[maxIndex]++;
-			remainderVotesPerCandidate[maxIndex] = -2;
+			seatsPerCandidate[maxCandidate]++;
+			remainderVotesPerCandidate[maxCandidate] = -2;
 			numberOfUnallocatedSeats--;
 		}
 
