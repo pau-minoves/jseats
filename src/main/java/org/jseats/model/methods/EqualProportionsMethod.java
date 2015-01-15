@@ -80,8 +80,8 @@ public class EqualProportionsMethod implements SeatAllocationMethod {
 
 				candidatePriority[candidate] = votes * coefficient;
 
-				if (log.isDebugEnabled())
-					log.debug("Coefficient: " + df.format(coefficient)
+				if (log.isTraceEnabled())
+					log.trace("Coefficient: " + df.format(coefficient)
 							+ " Priority: "
 							+ df.format(candidatePriority[candidate]) + " "
 							+ tally.getCandidateAt(candidate));

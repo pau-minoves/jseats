@@ -134,7 +134,7 @@ Scenario: Tie in Droop scenario from wikipedia (http://en.wikipedia.org/wiki/Lar
 Given empty scenario
 Given tally has candidate Yellows with 47000 votes
 Given tally has candidate Whites with 16000 votes
-Given tally has candidate Reds with 16000 votes
+Given tally has candidate Reds with 16000 votes and property minority=yes
 Given tally has candidate Greens with 12000 votes
 Given tally has candidate Blues with 6100 votes
 Given tally has candidate Pinks with 3100 votes
@@ -147,7 +147,7 @@ Then result seat #0 is Whites
 Then result seat #1 is Reds
 Given use tie breaker MinorityTieBreaker
 Given algorithm has property groupSeatsPerCandidate set to true
-When process with DHondt algorithm
+When process with Droop algorithm
 Then result type is MULTIPLE
 Then result has 10 seats
 Then result seat #0 is Yellows
@@ -179,3 +179,16 @@ Then result type is SINGLE
 Then result seat #0 is CandidateC
 
 Scenario: TieBreaker returns null candidate list (cannot decide).
+Given empty scenario
+Given tally has candidate CandidateA with 150 votes
+Given tally has candidate CandidateB with 200 votes and properties minority=no
+Given tally has candidate CandidateC with 75 votes
+Given tally has candidate CandidateD with 200 votes and property minority=no
+Given algorithm has property numberOfSeats set to 4
+Given algorithm has property groupSeatsPerCandidate set to true
+Given use tie breaker MinorityTieBreaker
+When process with SimpleMajority method
+Then result type is TIE
+Then result has 2 seats
+Then result seat #0 is CandidateB
+Then result seat #1 is CandidateD

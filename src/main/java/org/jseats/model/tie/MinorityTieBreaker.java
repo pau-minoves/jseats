@@ -2,6 +2,7 @@ package org.jseats.model.tie;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import org.jseats.model.Candidate;
@@ -23,37 +24,26 @@ public class MinorityTieBreaker extends BaseTieBreaker {
 		log.debug("Called Minority Tie Breaker with " + candidates.size()
 				+ " candidates.");
 
-		log.trace("Initial order:");
-		for (Candidate candidate : candidates)
+		log.trace("Candidates:");
+
+		Iterator<Candidate> i = candidates.iterator();
+
+		while (i.hasNext()) {
+			Candidate candidate = i.next();
+
 			log.trace(candidate.toString());
 
-		Collections.sort(candidates, new Comparator<Candidate>() {
-			@Override
-			public int compare(Candidate left, Candidate right) {
+			if (!candidate.propertyIs("minority", "yes"))
+				i.remove();
+		}
 
-				boolean leftIs = left.getProperty("minority")!= null && left.getProperty("minority").contentEquals(
-						"yes");
+		log.debug(candidates.size() + " candidates left after filtering.");
 
-				boolean rightIs = right.getProperty("minority") != null
-						&& right.getProperty("minority").contentEquals(
-						"yes");
-
-				if (leftIs == rightIs)
-					return 0; // equals
-
-				if (leftIs)
-					return -1; // left is more
-				else
-					return 1; // right is more
-			}
-
-		});
-
-		log.trace("Final order:");
-		for (Candidate candidate : candidates)
-			log.trace(candidate.toString());
-
-		return candidates.get(0);
+		if (candidates.size() == 1) {
+			log.debug("Top candidate: " + candidates.get(0));
+			return candidates.get(0);
+		} else
+			return null;
 	}
 
 }
