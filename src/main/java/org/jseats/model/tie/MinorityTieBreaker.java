@@ -8,12 +8,17 @@ import org.jseats.model.Candidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MinorityTieBreaker implements TieBreaker {
+public class MinorityTieBreaker extends BaseTieBreaker {
+
+	@Override
+	public String getName() {
+		return "minority-tie-breaker";
+	}
 
 	static Logger log = LoggerFactory.getLogger(MinorityTieBreaker.class);
 
 	@Override
-	public List<Candidate> breakTie(List<Candidate> candidates) {
+	public Candidate innerBreakTie(List<Candidate> candidates) {
 
 		log.debug("Called Minority Tie Breaker with " + candidates.size()
 				+ " candidates.");
@@ -48,7 +53,7 @@ public class MinorityTieBreaker implements TieBreaker {
 		for (Candidate candidate : candidates)
 			log.trace(candidate.toString());
 
-		return candidates;
+		return candidates.get(0);
 	}
 
 }

@@ -56,23 +56,24 @@ public abstract class RankMethod implements SeatAllocationMethod {
 
 					if (tieBreaker != null) {
 
-						// TODO Tie breaker name
-						log.debug("Using tie breaker: " + tieBreaker);
+						log.debug("Using tie breaker: " + tieBreaker.getName());
 
-						// TODO should propagate priority in
-						// candidatePriority[candidate] instead of votes in case
-						// multiplier causes ties/collisions.
+						Candidate topCandidate = tieBreaker.breakTie(
+								tally.getCandidateAt(candidate),
+								tally.getCandidateAt(maxCandidate));
 
-						List<Candidate> candidates = new ArrayList<Candidate>();
-						candidates.add(tally.getCandidateAt(candidate));
-						candidates.add(tally.getCandidateAt(maxCandidate));
+						if (topCandidate == null) {
+							Result tieResult = new Result(ResultType.TIE);
+							tieResult.addSeat(tally
+									.getCandidateAt(maxCandidate));
+							tieResult.addSeat(tally.getCandidateAt(candidate));
 
-						candidates = tieBreaker.breakTie(candidates);
-
-						// Candidate at index 0 is the true maxCandidate
-						maxCandidate = tally.getCandidateIndex(candidates
-								.get(0));
-						maxPriority = candidatePriority[maxCandidate];
+							return tieResult;
+						} else {
+							maxCandidate = tally
+									.getCandidateIndex(topCandidate);
+							maxPriority = candidatePriority[maxCandidate];
+						}
 
 					} else {
 						Result tieResult = new Result(ResultType.TIE);

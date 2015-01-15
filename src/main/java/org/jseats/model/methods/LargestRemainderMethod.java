@@ -69,19 +69,24 @@ public abstract class LargestRemainderMethod implements SeatAllocationMethod {
 
 					if (tieBreaker != null) {
 
-						// TODO Tie breaker name
-						log.debug("Using tie breaker: " + tieBreaker);
+						log.debug("Using tie breaker: " + tieBreaker.getName());
 
-						List<Candidate> candidates = new ArrayList<Candidate>();
-						candidates.add(tally.getCandidateAt(candidate));
-						candidates.add(tally.getCandidateAt(maxCandidate));
+						Candidate topCandidate = tieBreaker.breakTie(
+								tally.getCandidateAt(candidate),
+								tally.getCandidateAt(maxCandidate));
 
-						candidates = tieBreaker.breakTie(candidates);
+						if (topCandidate == null) {
+							Result tieResult = new Result(ResultType.TIE);
+							tieResult.addSeat(tally
+									.getCandidateAt(maxCandidate));
+							tieResult.addSeat(tally.getCandidateAt(candidate));
 
-						// Candidate at index 0 is the true maxCandidate
-						maxCandidate = tally.getCandidateIndex(candidates
-								.get(0));
-						maxVotes = remainderVotesPerCandidate[maxCandidate];
+							return tieResult;
+						} else {
+							maxCandidate = tally
+									.getCandidateIndex(topCandidate);
+							maxVotes = remainderVotesPerCandidate[maxCandidate];
+						}
 
 					} else {
 						Result tieResult = new Result(ResultType.TIE);
