@@ -152,10 +152,13 @@ public class SeatAllocatorLauncher {
 		if (inputConfig != null) {
 			processor = new SeatAllocatorProcessor(
 					ProcessorConfig.fromXML(new FileInputStream(inputConfig)));
-
-			processor.getConfig().resolveReferences(processor.getResolver());
 		} else
 			processor = new SeatAllocatorProcessor();
+
+		if (tieBreak != null)
+			processor.getConfig().setTieBreakerName(tieBreak);
+
+		processor.getConfig().resolveReferences(processor.getResolver());
 
 		if (processor.config.getMethod() == null && method == null)
 			throw new SeatAllocationException(
@@ -201,10 +204,6 @@ public class SeatAllocatorLauncher {
 							property.substring(i + 1));
 				}
 			}
-
-		if (tieBreak != null) {
-			processor.getConfig().setTieBreakerName(tieBreak);
-		}
 
 		if (interactiveTieBreak)
 			processor.setTieBreaker(new InteractiveTieBreaker(System.in, log));

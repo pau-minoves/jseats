@@ -229,20 +229,23 @@ public class ProcessorConfig {
 		}
 
 		str.append("\tTie breaker: ");
-		str.append(tieBreaker);
+		str.append(tieBreaker.getName());
 		str.append("\n");
 
 		Iterator<Object> i = properties.keySet().iterator();
 
 		str.append("\tProperties:\n");
-		while (i.hasNext()) {
-			Object k = i.next();
-			str.append("\t\t");
-			str.append(k);
-			str.append(" = ");
-			str.append(properties.getProperty((String) k));
-			str.append("\n");
-		}
+		if (i.hasNext())
+			while (i.hasNext()) {
+				Object k = i.next();
+				str.append("\t\t");
+				str.append(k);
+				str.append(" = ");
+				str.append(properties.getProperty((String) k));
+				str.append("\n");
+			}
+		else
+			str.append("\t\tnone\n");
 
 		str.append("\tTally filters:\n");
 		if (filters.size() > 0)
