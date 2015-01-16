@@ -3,7 +3,6 @@ package org.jseats;
 import java.util.List;
 import java.util.Properties;
 
-import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
@@ -147,7 +146,6 @@ public class SeatAllocatorProcessor {
 
 	public void reset() {
 		log.debug("Resetting processor");
-
 		config.reset();
 	}
 
@@ -157,17 +155,8 @@ public class SeatAllocatorProcessor {
 			throw new SeatAllocationException(
 					"Trying to run processor without providing a tally");
 
-		log.debug("The tally contains the following candidates:");
-		for (Candidate candidate : config.getTally().getCandidates())
-			log.debug(" * Candidate " + candidate.getName() + " with "
-					+ candidate.getVotes() + " votes.");
-		log.debug("The tally contains the following effective votes:"
-				+ config.getTally().getEffectiveVotes());
-
-		log.debug("The processor contains the following properties:");
-		for (Object key : config.getProperties().keySet())
-			log.debug(" * Property " + key + " = "
-					+ config.getProperty((String) key));
+		log.trace("Executing processor.");
+		log.debug(config.toString());
 
 		if (!config.getTallyFilters().isEmpty()) {
 			log.trace("Executing filters");
@@ -175,11 +164,7 @@ public class SeatAllocatorProcessor {
 				log.debug("Executing filter: " + filter);
 				config.setTally(filter.filter(config.getTally()));
 			}
-		} else
-			log.debug("No tally filters to execute");
-
-		log.debug("Processing with method " + config.getMethodName());
-		log.debug("Processing with tie breaker " + config.getTieBreaker());
+		}
 
 		Result result = config.getMethod().process(config.getTally(),
 				config.getProperties(), config.getTieBreaker());
@@ -192,8 +177,7 @@ public class SeatAllocatorProcessor {
 				log.debug("Executing decorator: " + decorator);
 				result = decorator.decorate(result);
 			}
-		} else
-			log.debug("No result decorators to execute");
+		}
 
 		return result;
 	}

@@ -208,9 +208,6 @@ public class SeatAllocatorLauncher {
 		if (interactiveTieBreak)
 			processor.setTieBreaker(new InteractiveTieBreaker(System.in, log));
 
-		if (verbose)
-			log.info(processor.getConfig().toString());
-
 		if (outputConfig != null)
 			processor.getConfig().toXML(new FileOutputStream(outputConfig));
 

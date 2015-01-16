@@ -210,7 +210,7 @@ public class ProcessorConfig {
 	@Override
 	public String toString() {
 
-		StringBuilder str = new StringBuilder("ProcessorConfig: ");
+		StringBuilder str = new StringBuilder("ProcessorConfig:\n");
 
 		str.append("\tMethod: ");
 		str.append(method.toString());
@@ -237,27 +237,32 @@ public class ProcessorConfig {
 		str.append("\tProperties:\n");
 		while (i.hasNext()) {
 			Object k = i.next();
+			str.append("\t\t");
 			str.append(k);
 			str.append(" = ");
 			str.append(properties.getProperty((String) k));
 			str.append("\n");
 		}
 
-		str.append("\tTally filters:");
-		for (TallyFilter filter : filters) {
-			str.append("\t\t");
-			str.append(filter);
-			str.append("\n");
-		}
+		str.append("\tTally filters:\n");
+		if (filters.size() > 0)
+			for (TallyFilter filter : filters) {
+				str.append("\t\t");
+				str.append(filter);
+				str.append("\n");
+			}
+		else
+			str.append("\t\tnone\n");
 
-		str.append("\tResult decorators:");
-		for (ResultDecorator decorator : decorators) {
-			str.append("\t\t");
-			str.append(decorator);
-			str.append("\n");
-		}
-
-		str.append("");
+		str.append("\tResult decorators:\n");
+		if (decorators.size() > 0)
+			for (ResultDecorator decorator : decorators) {
+				str.append("\t\t");
+				str.append(decorator);
+				str.append("\n");
+			}
+		else
+			str.append("\t\tnone\n");
 
 		return str.toString();
 	}

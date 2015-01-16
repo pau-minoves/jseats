@@ -134,7 +134,6 @@ public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 					"Result decorator resolved but cannot be instantiated: "
 							+ e.getMessage());
 		}
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -154,7 +153,5 @@ public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 					"Tie breaker resolved but cannot be instantiated: "
 							+ e.getMessage());
 		}
-
 	}
-
 }
