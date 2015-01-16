@@ -86,6 +86,7 @@ public class SeatAllocatorLauncher {
 
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
+			System.exit(1);
 		}
 	}
 
