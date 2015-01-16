@@ -1,8 +1,6 @@
 package org.jseats;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
@@ -60,7 +58,7 @@ public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 		decorators.put("SuffixTextToCandidateNameDecorator",
 				SuffixTextToCandidateNameDecorator.class);
 		decorators.put("NullResultDecorator", NullResultDecorator.class);
-		
+
 		tieBreakers.put("random-tie-breaker", RandomTieBreaker.class);
 		tieBreakers.put("console-tie-breaker", InteractiveTieBreaker.class);
 		tieBreakers.put("minority-tie-breaker", MinorityTieBreaker.class);

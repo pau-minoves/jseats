@@ -3,8 +3,6 @@ package org.jseats.model.methods;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import org.jseats.model.Candidate;

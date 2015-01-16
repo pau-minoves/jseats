@@ -1,9 +1,7 @@
 package org.jseats;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import org.jseats.model.Candidate;
@@ -75,7 +73,6 @@ public class SeatAllocatorLauncher {
 
 	@Parameter(names = { "-tb", "--tie-breaker" }, description = "Resolve ties using provided tie breaker")
 	private String tieBreak;
-
 
 	Logger log = LoggerFactory.getLogger(SeatAllocatorLauncher.class);
 

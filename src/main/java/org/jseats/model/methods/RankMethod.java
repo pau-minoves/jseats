@@ -1,7 +1,5 @@
 package org.jseats.model.methods;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import org.jseats.model.Candidate;
