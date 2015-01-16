@@ -49,7 +49,11 @@ Usage: JSeats [options]
     -ic, --input-config
        Configuration input file.
     -it, --input-tally
-       Tally input file. Overrides tally provided in configuration via --input-config, if any.
+       Tally input file. Overrides tally provided in configuration via
+       --input-config, if any.
+    -itb, --interactive-tie-breaker
+       Resolve ties interactively on the console. Overrides --tie-breaker.
+       Default: false
     -ld, --list-decorators
        List built-in result decorators.
        Default: false
@@ -68,10 +72,13 @@ Usage: JSeats [options]
     -ot, --output-tally
        Tally output file.
     -pv, --potential-votes
-       Potential votes. If not set, defaults to effective votes (sum of all casted votes).
+       Potential votes. If not set, defaults to effective votes (sum of all
+       casted votes).
        Default: -1
     -d, --processor-property
        Processor properties as in -D numberOfSeats=105.
+    -tb, --tie-breaker
+       Resolve ties using provided tie breaker
     -v, --verbose
        Increase level of verbosity.
        Default: false
