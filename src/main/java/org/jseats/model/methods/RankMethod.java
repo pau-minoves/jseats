@@ -2,11 +2,13 @@ package org.jseats.model.methods;
 
 import java.util.Properties;
 
+import org.jseats.model.Candidate;
 import org.jseats.model.InmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.Result.ResultType;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
+import org.jseats.model.tie.TieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +17,8 @@ public abstract class RankMethod implements SeatAllocationMethod {
 	static Logger log = LoggerFactory.getLogger(RankMethod.class);
 
 	@Override
-	public Result process(InmutableTally tally, Properties properties)
-			throws SeatAllocationException {
+	public Result process(InmutableTally tally, Properties properties,
+			TieBreaker tieBreaker) throws SeatAllocationException {
 
 		int numberOfCandidates = tally.getNumberOfCandidates();
 		int numberOfSeats = Integer.parseInt(properties.getProperty(
@@ -46,14 +48,39 @@ public abstract class RankMethod implements SeatAllocationMethod {
 
 				if (candidatePriority[candidate] == maxPriority) {
 
-					Result tieResult = new Result(ResultType.TIE);
-					tieResult.addSeat(tally.getCandidateAt(maxCandidate));
-					tieResult.addSeat(tally.getCandidateAt(candidate));
+					log.debug("Tie between  "
+							+ tally.getCandidateAt(maxCandidate) + " and "
+							+ tally.getCandidateAt(candidate));
 
-					return tieResult;
-				}
+					if (tieBreaker != null) {
 
-				if (candidatePriority[candidate] > maxPriority) {
+						log.debug("Using tie breaker: " + tieBreaker.getName());
+
+						Candidate topCandidate = tieBreaker.breakTie(
+								tally.getCandidateAt(candidate),
+								tally.getCandidateAt(maxCandidate));
+
+						if (topCandidate == null) {
+							Result tieResult = new Result(ResultType.TIE);
+							tieResult.addSeat(tally
+									.getCandidateAt(maxCandidate));
+							tieResult.addSeat(tally.getCandidateAt(candidate));
+
+							return tieResult;
+						} else {
+							maxCandidate = tally
+									.getCandidateIndex(topCandidate);
+							maxPriority = candidatePriority[maxCandidate];
+						}
+
+					} else {
+						Result tieResult = new Result(ResultType.TIE);
+						tieResult.addSeat(tally.getCandidateAt(maxCandidate));
+						tieResult.addSeat(tally.getCandidateAt(candidate));
+
+						return tieResult;
+					}
+				} else if (candidatePriority[candidate] > maxPriority) {
 					maxCandidate = candidate;
 					maxPriority = candidatePriority[candidate];
 				}

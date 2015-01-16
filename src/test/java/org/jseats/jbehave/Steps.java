@@ -8,12 +8,10 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Iterator;
 
 import javax.xml.bind.JAXBException;
 
 import org.jbehave.core.annotations.Alias;
-import org.jbehave.core.annotations.Aliases;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
@@ -28,6 +26,8 @@ import org.jseats.model.result.NullResultDecorator;
 import org.jseats.model.result.SuffixTextToCandidateNameDecorator;
 import org.jseats.model.tally.NullTallyFilter;
 import org.jseats.model.tally.RemoveCandidatesBelow;
+import org.jseats.model.tie.MinorityTieBreaker;
+import org.jseats.model.tie.TieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +38,7 @@ public class Steps {
 	Tally tally;
 	SeatAllocatorProcessor processor = new SeatAllocatorProcessor();
 	Result result;
+	TieBreaker tieBreaker;
 
 	/*
 	 * GIVEN
@@ -48,6 +49,7 @@ public class Steps {
 
 		tally = null;
 		result = null;
+		tieBreaker = null;
 		processor.reset();
 	}
 
@@ -70,6 +72,17 @@ public class Steps {
 			tally = new Tally();
 
 		tally.addCandidate(new Candidate(candidate, votes));
+	}
+
+	@Given("tally has candidate $candidate with $votes votes and property $property")
+	@Alias("tally has candidate $candidate with $votes votes and properties $property")
+	public void setCandidateInTally(String candidate, int votes, String property)
+			throws SeatAllocationException {
+		if (tally == null)
+			tally = new Tally();
+
+		tally.addCandidate(Candidate.fromString(candidate + ":" + votes + ":"
+				+ property));
 	}
 
 	@Given("tally has $votes potential votes")
@@ -132,6 +145,12 @@ public class Steps {
 				+ resultFile));
 	}
 
+	@Given("use tie breaker $breaker")
+	public void useTieBreaker(String breaker) {
+		tieBreaker = new MinorityTieBreaker();
+
+	}
+
 	/*
 	 * WHEN
 	 */
@@ -144,6 +163,7 @@ public class Steps {
 		log.debug("Processing with properties: " + processor.getProperties());
 
 		processor.setTally(tally);
+		processor.setTieBreaker(tieBreaker);
 
 		setSeatAllocationAlgorithm(method);
 
@@ -182,7 +202,7 @@ public class Steps {
 	public void tallyEffectiveVotes(int effectiveVotes) {
 		assertEquals(effectiveVotes, tally.getEffectiveVotes());
 	}
-	
+
 	@Then("result type is $type")
 	public void resultTypeIs(String type) {
 		log.debug("result.type=" + result.getType());
@@ -212,14 +232,13 @@ public class Steps {
 			throws SeatAllocationException {
 
 		assertTrue(result.containsSeatForCandidate(new Candidate(candidate)));
-	}	
-	
+	}
+
 	@Then("result has $number seats for $candidate")
 	@Alias("result has $number seat for $candidate")
 	public void resultNumberOfSeatsForCandidate(int number, String candidate) {
 		assertEquals(number, result.getNumerOfSeatsForCandidate(candidate));
 	}
-
 
 	@Then("result seats do not contain $candidate")
 	public void resultCandidatesNotContain(String candidate)
@@ -227,16 +246,15 @@ public class Steps {
 
 		assertFalse(result.containsSeatForCandidate(new Candidate(candidate)));
 	}
-	
-	 @Then("print result")
-	 public void printResult() {
-		 
-		 log.debug("result: "+ result);
-		 log.debug("type: "+ result.getType());
-		 log.debug("number of seats: "+ result.getNumerOfSeats());
-		 
-		 for(int i =0; i < result.getSeats().size(); i++) {
-			 log.debug("seat #" + i + ": " + result.getSeatAt(i));
-		 }
-	 }
+
+	@Then("print result")
+	public void printResult() {
+
+		log.debug("type: " + result.getType());
+		log.debug("number of seats: " + result.getNumerOfSeats());
+
+		for (int i = 0; i < result.getSeats().size(); i++) {
+			log.debug("seat #" + i + ": " + result.getSeatAt(i));
+		}
+	}
 }

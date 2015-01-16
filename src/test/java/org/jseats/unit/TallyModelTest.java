@@ -13,15 +13,15 @@ public class TallyModelTest {
 	public void effectiveVotes() {
 		Tally tally = new Tally();
 		
-		assertEquals(tally.getEffectiveVotes(), 0);
+		assertEquals(0, tally.getEffectiveVotes());
 		
 		tally.addCandidate(new Candidate("A",100));
 
-		assertEquals(tally.getEffectiveVotes(), 100);
+		assertEquals(100, tally.getEffectiveVotes());
 
 		tally.addCandidate(new Candidate("B",50));
 		
-		assertEquals(tally.getEffectiveVotes(), 150);
+		assertEquals(150, tally.getEffectiveVotes());
 	}
 	
 	@Test
@@ -29,15 +29,15 @@ public class TallyModelTest {
 	public void effectiveVotesOverridenCandidate() {
 		Tally tally = new Tally();
 		
-		assertEquals(tally.getEffectiveVotes(), 0);
+		assertEquals(0, tally.getEffectiveVotes());
 		
 		tally.addCandidate(new Candidate("A",100));
 
-		assertEquals(tally.getEffectiveVotes(), 100);
+		assertEquals(100, tally.getEffectiveVotes());
 
 		tally.addCandidate(new Candidate("A",50));
 		
-		assertEquals(tally.getEffectiveVotes(), 50);
+		assertEquals(50, tally.getEffectiveVotes());
 	}
 
 }

@@ -3,6 +3,7 @@ package org.jseats;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -19,11 +20,13 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.jseats.model.Candidate;
 import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.Tally;
 import org.jseats.model.TallyFilter;
+import org.jseats.model.tie.TieBreaker;
 
 @XmlRootElement(name = "processor-config")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -53,6 +56,12 @@ public class ProcessorConfig {
 	static Marshaller marshaller;
 	static Unmarshaller unmarshaller;
 
+	@XmlTransient
+	private TieBreaker tieBreaker;
+
+	@XmlAttribute(name = "tie-breaker")
+	String tieBreakerName;
+
 	public ProcessorConfig() {
 
 		properties = new Properties();
@@ -65,6 +74,9 @@ public class ProcessorConfig {
 
 		if (methodName != null)
 			this.method = resolver.resolveMethod(methodName);
+
+		if (tieBreakerName != null)
+			this.tieBreaker = resolver.resolveTieBreaker(tieBreakerName);
 	}
 
 	/*
@@ -108,6 +120,22 @@ public class ProcessorConfig {
 	}
 
 	/*
+	 * Tie Breaker
+	 */
+
+	public TieBreaker getTieBreaker() {
+		return tieBreaker;
+	}
+
+	public void setTieBreaker(TieBreaker tieBreaker) {
+		this.tieBreaker = tieBreaker;
+	}
+
+	public void setTieBreakerName(String tieBreak) {
+		this.tieBreakerName = tieBreak;
+	}
+
+	/*
 	 * Properties
 	 */
 
@@ -148,6 +176,7 @@ public class ProcessorConfig {
 		filters.clear();
 		decorators.clear();
 		method = null;
+		tieBreaker = null;
 		tally = null;
 	}
 
@@ -181,9 +210,62 @@ public class ProcessorConfig {
 	@Override
 	public String toString() {
 
-		StringBuilder str = new StringBuilder("ProcessorConfig:");
+		StringBuilder str = new StringBuilder("ProcessorConfig:\n");
 
-		// TODO complete
+		str.append("\tMethod: ");
+		str.append(method.toString());
+		str.append("\n");
+
+		str.append("\tTally (effective: ");
+		str.append(tally.getEffectiveVotes());
+		str.append(", potential: ");
+		str.append(tally.getPotentialVotes());
+		str.append("):\n");
+
+		for (Candidate candidate : tally.getCandidates()) {
+			str.append("\t\t");
+			str.append(candidate.toString());
+			str.append("\n");
+		}
+
+		str.append("\tTie breaker: ");
+		str.append(tieBreaker.getName());
+		str.append("\n");
+
+		Iterator<Object> i = properties.keySet().iterator();
+
+		str.append("\tProperties:\n");
+		if (i.hasNext())
+			while (i.hasNext()) {
+				Object k = i.next();
+				str.append("\t\t");
+				str.append(k);
+				str.append(" = ");
+				str.append(properties.getProperty((String) k));
+				str.append("\n");
+			}
+		else
+			str.append("\t\tnone\n");
+
+		str.append("\tTally filters:\n");
+		if (filters.size() > 0)
+			for (TallyFilter filter : filters) {
+				str.append("\t\t");
+				str.append(filter);
+				str.append("\n");
+			}
+		else
+			str.append("\t\tnone\n");
+
+		str.append("\tResult decorators:\n");
+		if (decorators.size() > 0)
+			for (ResultDecorator decorator : decorators) {
+				str.append("\t\t");
+				str.append(decorator);
+				str.append("\n");
+			}
+		else
+			str.append("\t\tnone\n");
 
 		return str.toString();
 	}

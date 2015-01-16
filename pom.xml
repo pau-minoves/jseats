@@ -134,6 +134,7 @@
 							</includes>
 							<metaFilters>
 								<!-- <metaFilter>+author *</metaFilter> -->
+								<metaFilter>+devel</metaFilter>
 								<metaFilter>-skip</metaFilter>
 							</metaFilters>
 							<systemProperties>

@@ -8,6 +8,7 @@ import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.Tally;
+import org.jseats.model.tie.InteractiveTieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,6 +68,12 @@ public class SeatAllocatorLauncher {
 	@Parameter(names = { "-o", "--output-result" }, description = "Result output file.")
 	private String outputResult;
 
+	@Parameter(names = { "-itb", "--interactive-tie-breaker" }, description = "Resolve ties interactively on the console. Overrides --tie-breaker.")
+	private boolean interactiveTieBreak;
+
+	@Parameter(names = { "-tb", "--tie-breaker" }, description = "Resolve ties using provided tie breaker")
+	private String tieBreak;
+
 	Logger log = LoggerFactory.getLogger(SeatAllocatorLauncher.class);
 
 	/**
@@ -79,6 +86,7 @@ public class SeatAllocatorLauncher {
 
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
+			System.exit(1);
 		}
 	}
 
@@ -144,10 +152,13 @@ public class SeatAllocatorLauncher {
 		if (inputConfig != null) {
 			processor = new SeatAllocatorProcessor(
 					ProcessorConfig.fromXML(new FileInputStream(inputConfig)));
-
-			processor.getConfig().resolveReferences(processor.getResolver());
 		} else
 			processor = new SeatAllocatorProcessor();
+
+		if (tieBreak != null)
+			processor.getConfig().setTieBreakerName(tieBreak);
+
+		processor.getConfig().resolveReferences(processor.getResolver());
 
 		if (processor.config.getMethod() == null && method == null)
 			throw new SeatAllocationException(
@@ -194,12 +205,15 @@ public class SeatAllocatorLauncher {
 				}
 			}
 
+		if (interactiveTieBreak)
+			processor.setTieBreaker(new InteractiveTieBreaker(System.in, log));
+
 		if (outputConfig != null)
 			processor.getConfig().toXML(new FileOutputStream(outputConfig));
 
 		Result result = processor.process();
 
-		log.info("Type: " + result.getType());
+		log.info("Result type: " + result.getType());
 		log.info("Number of seats: " + result.getNumerOfSeats());
 
 		for (int i = 0; i < result.getNumerOfSeats(); i++) {

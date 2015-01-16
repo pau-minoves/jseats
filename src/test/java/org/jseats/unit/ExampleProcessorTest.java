@@ -28,8 +28,8 @@ public class ExampleProcessorTest {
 		tally.addCandidate(new Candidate("Red Party",200));
 		tally.setPotentialVotes(1000);
 
-		assertEquals(tally.getNumberOfCandidates(), 3);
-		assertEquals(tally.getEffectiveVotes(), 600);
+		assertEquals(3, tally.getNumberOfCandidates());
+		assertEquals(600, tally.getEffectiveVotes());
 		
 		// Configure a seat allocation method
 		processor.setProperty("minimumVotes", "150");
@@ -41,18 +41,18 @@ public class ExampleProcessorTest {
 		// Shake
 		Result result = processor.process();
 
-		assertEquals(result.getType(),ResultType.SINGLE);
-		assertEquals(result.getNumerOfSeats(),1);
-		assertEquals(result.getSeatAt(0).getName(), "White Party");
+		assertEquals(ResultType.SINGLE, result.getType());
+		assertEquals(1, result.getNumerOfSeats());
+		assertEquals("White Party", result.getSeatAt(0).getName());
 		
 		// Let's try again
 		tally.addCandidate(new Candidate("Black Party",300));
 		result = processor.process();
 		
-		assertEquals(result.getType(),ResultType.TIE);
-		assertEquals(result.getNumerOfSeats(),2);
-		assertEquals(result.getSeatAt(0).getName(), "White Party");
-		assertEquals(result.getSeatAt(1).getName(), "Black Party");
+		assertEquals(ResultType.TIE, result.getType());
+		assertEquals(2, result.getNumerOfSeats());
+		assertEquals("White Party", result.getSeatAt(0).getName());
+		assertEquals("Black Party", result.getSeatAt(1).getName());
 		
 		// Let's try again
 		processor.setProperty("minimumVotes", "350");

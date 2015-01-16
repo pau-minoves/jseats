@@ -7,9 +7,10 @@ import java.util.Properties;
 import org.jseats.model.Candidate;
 import org.jseats.model.InmutableTally;
 import org.jseats.model.Result;
+import org.jseats.model.Result.ResultType;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
-import org.jseats.model.Result.ResultType;
+import org.jseats.model.tie.TieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +19,8 @@ public class SimpleMajorityMethod implements SeatAllocationMethod {
 	static Logger log = LoggerFactory.getLogger(SimpleMajorityMethod.class);
 
 	@Override
-	public Result process(InmutableTally tally, Properties properties)
-			throws SeatAllocationException {
+	public Result process(InmutableTally tally, Properties properties,
+			TieBreaker tieBreaker) throws SeatAllocationException {
 
 		List<Candidate> candidates = new ArrayList<Candidate>();
 
@@ -46,8 +47,25 @@ public class SimpleMajorityMethod implements SeatAllocationMethod {
 
 		if (candidates.size() == 1)
 			result = new Result(ResultType.SINGLE);
-		else
-			result = new Result(ResultType.TIE);
+		else {
+			if (tieBreaker != null) {
+
+				log.debug("Using tie breaker: " + tieBreaker.getName());
+
+				Candidate topCandidate = tieBreaker.breakTie(candidates);
+
+				log.debug("top candidate: " + topCandidate);
+
+				if (topCandidate != null) {
+
+					candidates.clear();
+					candidates.add(topCandidate);
+					result = new Result(ResultType.SINGLE);
+				} else
+					result = new Result(ResultType.TIE);
+			} else
+				result = new Result(ResultType.TIE);
+		}
 
 		result.setSeats(candidates);
 

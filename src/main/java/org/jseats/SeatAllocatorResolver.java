@@ -4,6 +4,7 @@ import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.TallyFilter;
+import org.jseats.model.tie.TieBreaker;
 
 public interface SeatAllocatorResolver {
 
@@ -20,5 +21,8 @@ public interface SeatAllocatorResolver {
 			throws SeatAllocationException;
 
 	public ResultDecorator resolveResultDecorator(String decorator)
+			throws SeatAllocationException;
+
+	public TieBreaker resolveTieBreaker(String tieBreakerName)
 			throws SeatAllocationException;
 }

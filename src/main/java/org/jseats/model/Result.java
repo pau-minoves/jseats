@@ -28,6 +28,7 @@ public class Result {
 		SINGLE("single-result"), MULTIPLE("multiple-result"), TIE("tie"), UNDECIDED(
 				"undecided");
 
+		@SuppressWarnings("unused")
 		private final String type;
 
 		private ResultType(String name) {
