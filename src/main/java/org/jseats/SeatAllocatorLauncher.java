@@ -208,12 +208,15 @@ public class SeatAllocatorLauncher {
 		if (interactiveTieBreak)
 			processor.setTieBreaker(new InteractiveTieBreaker(System.in, log));
 
+		if (verbose)
+			log.info(processor.getConfig().toString());
+
 		if (outputConfig != null)
 			processor.getConfig().toXML(new FileOutputStream(outputConfig));
 
 		Result result = processor.process();
 
-		log.info("Type: " + result.getType());
+		log.info("Result type: " + result.getType());
 		log.info("Number of seats: " + result.getNumerOfSeats());
 
 		for (int i = 0; i < result.getNumerOfSeats(); i++) {

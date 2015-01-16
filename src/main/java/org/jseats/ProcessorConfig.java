@@ -3,6 +3,7 @@ package org.jseats;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -19,6 +20,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.jseats.model.Candidate;
 import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
@@ -117,6 +119,10 @@ public class ProcessorConfig {
 		return decorators.remove(decorator);
 	}
 
+	/*
+	 * Tie Breaker
+	 */
+
 	public TieBreaker getTieBreaker() {
 		return tieBreaker;
 	}
@@ -206,9 +212,53 @@ public class ProcessorConfig {
 
 		StringBuilder str = new StringBuilder("ProcessorConfig: ");
 
-		// TODO complete
+		str.append("\tMethod: ");
+		str.append(method.toString());
+		str.append("\n");
+
+		str.append("\tTally (effective: ");
+		str.append(tally.getEffectiveVotes());
+		str.append(", potential: ");
+		str.append(tally.getPotentialVotes());
+		str.append("):\n");
+
+		for (Candidate candidate : tally.getCandidates()) {
+			str.append("\t\t");
+			str.append(candidate.toString());
+			str.append("\n");
+		}
+
+		str.append("\tTie breaker: ");
+		str.append(tieBreaker);
+		str.append("\n");
+
+		Iterator<Object> i = properties.keySet().iterator();
+
+		str.append("\tProperties:\n");
+		while (i.hasNext()) {
+			Object k = i.next();
+			str.append(k);
+			str.append(" = ");
+			str.append(properties.getProperty((String) k));
+			str.append("\n");
+		}
+
+		str.append("\tTally filters:");
+		for (TallyFilter filter : filters) {
+			str.append("\t\t");
+			str.append(filter);
+			str.append("\n");
+		}
+
+		str.append("\tResult decorators:");
+		for (ResultDecorator decorator : decorators) {
+			str.append("\t\t");
+			str.append(decorator);
+			str.append("\n");
+		}
+
+		str.append("");
 
 		return str.toString();
 	}
-
 }
