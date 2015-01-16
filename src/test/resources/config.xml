@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<processor-config method="AbsoluteMajority">
+    <properties/>
+    <tally>
+        <candidates>
+            <candidate name="CandidateA" votes="100">
+                <properties/>
+            </candidate>
+            <candidate name="CandidateB" votes="150">
+                <properties/>
+            </candidate>
+            <candidate name="CandidateC" votes="501">
+                <properties/>
+            </candidate>
+            <candidate name="CandidateD" votes="125">
+                <properties/>
+            </candidate>
+        </candidates>
+        <effectiveVotes>876</effectiveVotes>
+        <potentialVotes>1000</potentialVotes>
+    </tally>
+    <tally-filters/>
+    <result-decorators/>
+</processor-config>

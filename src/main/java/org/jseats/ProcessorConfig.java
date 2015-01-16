@@ -229,7 +229,7 @@ public class ProcessorConfig {
 		}
 
 		str.append("\tTie breaker: ");
-		str.append(tieBreaker.getName());
+		str.append((tieBreaker == null) ? "none" : tieBreaker.getName());
 		str.append("\n");
 
 		Iterator<Object> i = properties.keySet().iterator();
