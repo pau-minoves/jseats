@@ -205,8 +205,11 @@ public class SeatAllocatorLauncher {
 				}
 			}
 
-		if (interactiveTieBreak)
-			processor.setTieBreaker(new InteractiveTieBreaker(System.in, log));
+		if (interactiveTieBreak) {
+			InteractiveTieBreaker itb = new InteractiveTieBreaker();
+			itb.setOut(log);
+			processor.setTieBreaker(itb);
+		}
 
 		if (outputConfig != null)
 			processor.getConfig().toXML(new FileOutputStream(outputConfig));

@@ -78,11 +78,10 @@ public class EqualProportionsMethod implements SeatAllocationMethod {
 
 				candidatePriority[candidate] = votes * coefficient;
 
-				if (log.isTraceEnabled())
-					log.trace("Coefficient: " + df.format(coefficient)
-							+ " Priority: "
-							+ df.format(candidatePriority[candidate]) + " "
-							+ tally.getCandidateAt(candidate));
+				log.trace("Coefficient: %s Priority: %s %s", df
+						.format(coefficient), df
+						.format(candidatePriority[candidate]), tally
+						.getCandidateAt(candidate).toString());
 			}
 
 			// Find candidate with higher priority:

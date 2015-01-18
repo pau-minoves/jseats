@@ -70,7 +70,7 @@ public class Tally implements InmutableTally {
 	@Override
 	public int getCandidateIndex(Candidate candidate) {
 		for (int i = 0; i < candidates.size(); i++) {
-			if(candidates.get(i).equals(candidate))
+			if (candidates.get(i).equals(candidate))
 				return i;
 		}
 		return -1;
@@ -79,15 +79,6 @@ public class Tally implements InmutableTally {
 	@Override
 	public int getNumberOfCandidates() {
 		return candidates.size();
-	}
-
-	public void setCandidates(List<Candidate> candidates) {
-
-		this.candidates = candidates;
-
-		effectiveVotes = 0;
-		for (Candidate candidate : candidates)
-			effectiveVotes += candidate.getVotes();
 	}
 
 	public void addCandidate(Candidate candidate) {

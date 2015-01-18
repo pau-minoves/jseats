@@ -3,6 +3,7 @@ DONE
 
  * Steps from/to XML
  * Better processor
+ * Tie breakers
 
 WIP
 ===
@@ -10,11 +11,11 @@ WIP
  * Story for ImperialiHighestAverages
  * Story for DanishHighestAverages
  * Story for HuntingtonHillHighestAverages (US house of representatives)
- * Tie breakers
 
 TODO
 ====
 
+ * Fix properties toXML
  * Polish logging so it traces method application better
  * A walker functionality in processor to allow for interactive execution of methods.
  * Javadocs

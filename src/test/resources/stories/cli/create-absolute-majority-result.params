@@ -10,7 +10,13 @@ CandidateD:125
 1000
 --method
 AbsoluteMajority
+-d
+inEffectivePropertyWithValue=1
+-d
+inEffectivePropertyWithoutValue=1
 --output-config
 target/test-classes/stories/cli/config.xml
 --output-result
 target/test-classes/stories/cli/result.xml
+--output-tally
+target/test-classes/stories/cli/tally.xml
