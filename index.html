@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Jseats by pau-minoves</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Jseats</h1>
+        <p>JSeats is a java implementation of common electoral seat allocation algorithms.</p>
+        <p class="view"><a href="https://github.com/pau-minoves/jseats">View the Project on GitHub <small>pau-minoves/jseats</small></a></p>
+        <ul>
+          <li><a href="https://github.com/pau-minoves/jseats/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/pau-minoves/jseats/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/pau-minoves/jseats">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="jseats-" class="anchor" href="#jseats-" aria-hidden="true"><span class="octicon octicon-link"></span></a>JSeats <a href="https://travis-ci.org/pau-minoves/jseats"><img src="https://travis-ci.org/pau-minoves/jseats.svg?branch=master" alt="Build Status"></a>
+</h1>
+
+<p>JSeats is a java implementation of common electoral seat allocation algorithms.</p>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting started</h2>
+
+<p>The JSeats library offers a seat allocation processor based on the following simple architecture:</p>
+
+<p><img src="https://github.com/pau-minoves/jseats/blob/master/src/site/resources/jseats_architecture.png" alt="alt text" title="JSeats architecture"></p>
+
+<p>You can have example usages here:</p>
+
+<ul>
+<li>Java API example <a href="src/test/java/org/jseats/unit/ExampleProcessorTest.java">usage</a>
+</li>
+<li>BDD <a href="src/test/resources/stories">stories</a>
+</li>
+</ul>
+
+<h2>
+<a id="supported-methods" class="anchor" href="#supported-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Supported methods</h2>
+
+<ul>
+<li>Majority Method
+
+<ul>
+<li>Simple (FPTP or <a href="http://en.wikipedia.org/wiki/First-past-the-post_voting">First-Past-The-Post</a>)</li>
+<li>Qualified</li>
+<li>Absolute</li>
+</ul>
+</li>
+<li>Ranked Method
+
+<ul>
+<li>By votes.</li>
+</ul>
+</li>
+<li>Equal Proportions Method (aka <a href="http://en.wikipedia.org/wiki/Huntington%E2%80%93Hill_method">Huntington-Hill</a>)</li>
+<li>
+<a href="http://en.wikipedia.org/wiki/Largest_remainder_method">Largest Remainder Method</a>
+
+<ul>
+<li>Hare</li>
+<li>Droop</li>
+<li>Imperiali</li>
+</ul>
+</li>
+<li>
+<a href="http://en.wikipedia.org/wiki/Highest_averages_method">Highest Averages Method</a>
+
+<ul>
+<li>D'Hondt</li>
+<li>Sainte-Laguë (Webster)
+
+<ul>
+<li>Supports user provided first divisor (Modified Sainte-Laguë)</li>
+</ul>
+</li>
+<li>Imperiali</li>
+<li>Danish</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Currently JSeats provides both a clean java API and a command line launcher. A web interface is planned. The command line looks like this:</p>
+
+<pre><code>Usage: JSeats [options]
+  Options:
+    -c, --candidate
+       Add candidate to tally. Candidates follow the format Name:Votes.
+    -h, --help
+       Print this message.
+       Default: false
+    -ic, --input-config
+       Configuration input file.
+    -it, --input-tally
+       Tally input file. Overrides tally provided in configuration via
+       --input-config, if any.
+    -itb, --interactive-tie-breaker
+       Resolve ties interactively on the console. Overrides --tie-breaker.
+       Default: false
+    -ld, --list-decorators
+       List built-in result decorators.
+       Default: false
+    -lf, --list-filters
+       List built-in tally filters.
+       Default: false
+    -lm, --list-methods
+       List built-in seat allocation methods.
+       Default: false
+    -m, --method
+       Seat allocation method to use. See --list-methods for available methods.
+    -oc, --output-config
+       Configuration output file.
+    -o, --output-result
+       Result output file.
+    -ot, --output-tally
+       Tally output file.
+    -pv, --potential-votes
+       Potential votes. If not set, defaults to effective votes (sum of all
+       casted votes).
+       Default: -1
+    -d, --processor-property
+       Processor properties as in -D numberOfSeats=105.
+    -tb, --tie-breaker
+       Resolve ties using provided tie breaker
+    -v, --verbose
+       Increase level of verbosity.
+       Default: false
+</code></pre>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/pau-minoves">pau-minoves</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-58822800-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
