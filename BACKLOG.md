@@ -15,6 +15,7 @@ WIP
 TODO
 ====
 
+ * asoto: Investigate SPI for resolver plugability.
  * Fix properties toXML
  * Polish logging so it traces method application better
  * A walker functionality in processor to allow for interactive execution of methods.
@@ -26,5 +27,5 @@ TODO
  * JCommander integration
  * REST servlet.
  * Webapp.
- * Joao: Can minimum filter be deduced for a method given a set of (#candidates, #seats, #potential votes)?´
+ * Joao: Can minimum filter be deduced for a method given a set of (#candidates, #seats, #potential votes)?Â´
  * Mixed-member proportional representation (http://en.wikipedia.org/wiki/Mixed-member_proportional_representation)
