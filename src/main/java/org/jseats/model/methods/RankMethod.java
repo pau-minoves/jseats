@@ -1,16 +1,12 @@
 package org.jseats.model.methods;
 
-import java.util.Properties;
-
-import org.jseats.model.Candidate;
-import org.jseats.model.InmutableTally;
-import org.jseats.model.Result;
+import org.jseats.model.*;
 import org.jseats.model.Result.ResultType;
-import org.jseats.model.SeatAllocationException;
-import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.tie.TieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Properties;
 
 public abstract class RankMethod implements SeatAllocationMethod {
 
@@ -43,11 +39,45 @@ public abstract class RankMethod implements SeatAllocationMethod {
 
 			int maxCandidate = -1;
 			int maxPriority = -1;
+			boolean isMaximumATie = false;
 
 			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
 
 				if (candidatePriority[candidate] == maxPriority) {
 
+					isMaximumATie = true;
+				} else if (candidatePriority[candidate] > maxPriority) {
+					isMaximumATie = false;
+					maxCandidate = candidate;
+					maxPriority = candidatePriority[candidate];
+				}
+			}
+
+			if (!isMaximumATie) {
+
+				log.debug("Adding candidate " + tally.getCandidateAt(maxCandidate)
+						+ " to result.");
+				result.addSeat(tally.getCandidateAt(maxCandidate));
+
+			} else {
+				break;
+			}
+
+			// Eliminate this maximum coordinate and iterate
+			candidatePriority[maxCandidate] = -2;
+			numberOfSeats--;
+		}
+
+		// Order by priority.
+		while (numberOfSeats > 0) {
+
+			int maxCandidate = -1;
+			int maxPriority = -1;
+			boolean foundTie = false;
+
+		for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
+
+			if (candidatePriority[candidate] == maxPriority) {
 					log.debug("Tie between  "
 							+ tally.getCandidateAt(maxCandidate) + " and "
 							+ tally.getCandidateAt(candidate));
@@ -80,20 +110,25 @@ public abstract class RankMethod implements SeatAllocationMethod {
 
 						return tieResult;
 					}
-				} else if (candidatePriority[candidate] > maxPriority) {
-					maxCandidate = candidate;
-					maxPriority = candidatePriority[candidate];
-				}
+			} else if (candidatePriority[candidate] > maxPriority) {
+				maxCandidate = candidate;
+				maxPriority = candidatePriority[candidate];
 			}
+		}
+
+		if(!foundTie) {
 
 			log.debug("Adding candidate " + tally.getCandidateAt(maxCandidate)
 					+ " to result.");
 			result.addSeat(tally.getCandidateAt(maxCandidate));
 
-			// Eliminate this maximum coordinate and iterate
-			candidatePriority[maxCandidate] = -2;
-			numberOfSeats--;
 		}
+
+		// Eliminate this maximum coordinate and iterate
+		candidatePriority[maxCandidate] = -2;
+		numberOfSeats--;
+	}
+
 
 		return result;
 	}

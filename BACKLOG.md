@@ -29,3 +29,5 @@ TODO
  * Webapp.
  * Joao: Can minimum filter be deduced for a method given a set of (#candidates, #seats, #potential votes)?´
  * Mixed-member proportional representation (http://en.wikipedia.org/wiki/Mixed-member_proportional_representation)
+ * AGB: rename InmutableTally to InmmutableTally (typo)
+ * AGB: add tallyBuilder to add more easily
