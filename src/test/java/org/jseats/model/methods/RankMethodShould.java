@@ -138,14 +138,12 @@ public class RankMethodShould {
 	public void tie() throws SeatAllocationException {
 
 		ByVotesRankMethod sut = new ByVotesRankMethod();
-
-		final Tally tally = new Tally();
 		final Candidate candidateA = new Candidate("A", 150);
-		tally.addCandidate(candidateA);
 		final Candidate candidateB = new Candidate("B", 150);
-		tally.addCandidate(candidateB);
-		tally.addCandidate(new Candidate("C", 75));
-		tally.addCandidate(new Candidate("D", 200));
+		final Candidate c = new Candidate("C", 75);
+		final Candidate d = new Candidate("D", 200);
+
+		final Tally tally = TallyBuilder.aNew().with(candidateA, candidateB, c, d).build();
 		final Properties properties = new Properties();
 		properties.setProperty("numberOfSeats","4");
 		properties.setProperty("groupSeatsPerCandidate", "true");
@@ -156,4 +154,5 @@ public class RankMethodShould {
 		assertEquals(candidateA, result.getSeatAt(0));
 		assertEquals(candidateB, result.getSeatAt(1));
 	}
+
 }
