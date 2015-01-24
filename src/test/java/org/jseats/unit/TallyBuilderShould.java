@@ -21,4 +21,9 @@ public class TallyBuilderShould {
 
 		assertThat(TallyBuilder.aNew().with(new Candidate()).build().getNumberOfCandidates(), is(1));
 	}
+
+	@Test
+	public void create_a_tally_with_many_candidates() {
+		assertThat(TallyBuilder.aNew().with(new Candidate(), new Candidate()).build().getNumberOfCandidates(), is(2));
+	}
 }
