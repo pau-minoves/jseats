@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 
 public class RankMethodShould {
@@ -78,7 +79,8 @@ public class RankMethodShould {
 		Random r = new Random(1L);
 		ByVotesRankMethod sut = new ByVotesRankMethod();
 
-		for (int i = 0; i < 0; i++) {
+		final Result.ResultType expectedType = Result.ResultType.MULTIPLE;
+		for (int i = 0; i < 1; i++) {
 			List<Candidate> listOfCandidates = new ArrayList<>();
 			listOfCandidates.add(new Candidate("A", getSmallishVotes(r)));
 			listOfCandidates.add(new Candidate("B", getSmallishVotes(r)));
@@ -93,19 +95,16 @@ public class RankMethodShould {
 			Collection<List<Candidate>> permutations = Collections2.permutations(listOfCandidates);
 
 			for (List<Candidate> current : permutations) {
-				final Tally tally = new Tally();
-
-
-				for (Candidate candidate : current) {
-					tally.addCandidate(candidate);
-				}
+				Tally tally = TallyBuilder.aNew().with(current.toArray(new Candidate[current.size()])).build();
 
 				final Result result = sut.process(tally, properties, null);
-				if (result.getType() != Result.ResultType.MULTIPLE) {
+				final Result.ResultType actualType = result.getType();
+				if (actualType != expectedType) {
+					fail("Expected a " + expectedType + ", but was a "+ actualType + " on input: ");
 					printResult(result);
 				}
-				assertEquals(Result.ResultType.MULTIPLE, result.getType());
-				assertEquals("numberOfSeats", 1, result.getNumerOfSeats());
+				assertEquals(expectedType, actualType);
+				assertEquals(1, result.getNumerOfSeats());
 				assertEquals(new Candidate("candidateC"), result.getSeatAt(0));
 			}
 		}
