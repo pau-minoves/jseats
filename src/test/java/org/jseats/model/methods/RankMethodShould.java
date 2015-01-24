@@ -20,8 +20,7 @@ public class RankMethodShould {
 	static Logger log = LoggerFactory.getLogger(RankMethodShould.class);
 
 	@Test
-	//Rank should not mind the order in the tallysheet
-	public void not_mind_the_order() throws Exception {
+	public void not_mind_the_order_in_the_tallysheet() throws Exception {
 
 
 		ByVotesRankMethod sut = new ByVotesRankMethod();
