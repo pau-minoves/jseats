@@ -55,11 +55,7 @@ public class RankMethodShould {
 		Collection<List<Candidate>> permutations = Collections2.permutations(listOfCandidates);
 
 		for (List<Candidate> current : permutations) {
-			final Tally tally = new Tally();
-
-			for (Candidate candidate : current) {
-				tally.addCandidate(candidate);
-			}
+			Tally tally = TallyBuilder.aNew().with(current.toArray(new Candidate[current.size()])).build();
 
 			final Result result = sut.process(tally, properties, null);
 			if (result.getType() != Result.ResultType.MULTIPLE) {
