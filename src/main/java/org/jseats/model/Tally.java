@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "tally")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Tally implements InmutableTally {
+public class Tally implements ImmutableTally {
 
 	static JAXBContext jc;
 	static Marshaller marshaller;
