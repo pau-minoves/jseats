@@ -5,6 +5,7 @@ import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.Tally;
+import org.jseats.unit.TallyBuilder;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,17 +24,9 @@ public class RankMethodShould {
 
 
 		ByVotesRankMethod sut = new ByVotesRankMethod();
-
-		List<Candidate> listOfCandidates = new ArrayList<>();
-		listOfCandidates.add(new Candidate("A", 1));
-		listOfCandidates.add(new Candidate("B", 1));
-		listOfCandidates.add(new Candidate("candidateC", 2));
 		final Properties properties = createProperties();
-		Tally tally = new Tally();
-		for (Candidate current : listOfCandidates) {
-			tally.addCandidate(current);
 
-		}
+		Tally tally = TallyBuilder.aNew().with(new Candidate("A", 1),new Candidate("B", 1),new Candidate("candidateC", 2)).build();
 
 		final Result result = sut.process(tally, properties, null);
 
