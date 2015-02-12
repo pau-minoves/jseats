@@ -11,13 +11,11 @@ import org.jseats.model.Result.ResultType;
 public abstract class BaseTieBreaker implements TieBreaker {
 
 	@Override
-	@Deprecated
 	public Candidate breakTie(List<Candidate> candidates) {
 		return innerBreakTie(new ArrayList<Candidate>(candidates));
 	}
 
 	@Override
-	@Deprecated
 	public Candidate breakTie(Candidate... candidates) {
 
 		List<Candidate> innerCandidates = new ArrayList<Candidate>(
