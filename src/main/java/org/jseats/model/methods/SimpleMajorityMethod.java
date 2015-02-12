@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.jseats.model.Candidate;
-import org.jseats.model.InmutableTally;
+import org.jseats.model.ImmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.Result.ResultType;
 import org.jseats.model.SeatAllocationException;
@@ -19,7 +19,7 @@ public class SimpleMajorityMethod implements SeatAllocationMethod {
 	static Logger log = LoggerFactory.getLogger(SimpleMajorityMethod.class);
 
 	@Override
-	public Result process(InmutableTally tally, Properties properties,
+	public Result process(ImmutableTally tally, Properties properties,
 			TieBreaker tieBreaker) throws SeatAllocationException {
 
 		List<Candidate> candidates = new ArrayList<Candidate>();

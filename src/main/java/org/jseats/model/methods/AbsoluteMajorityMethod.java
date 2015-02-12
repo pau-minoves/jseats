@@ -4,7 +4,7 @@ import java.util.Properties;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.jseats.model.InmutableTally;
+import org.jseats.model.ImmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.tie.TieBreaker;
@@ -13,7 +13,7 @@ import org.jseats.model.tie.TieBreaker;
 public class AbsoluteMajorityMethod extends QualifiedMajorityMethod {
 
 	@Override
-	public Result process(InmutableTally tally, Properties properties, TieBreaker tieBreaker)
+	public Result process(ImmutableTally tally, Properties properties, TieBreaker tieBreaker)
 			throws SeatAllocationException {
 
 		// TODO this requires more testing for rounding errors.

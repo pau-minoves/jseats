@@ -2,7 +2,7 @@ package org.jseats.model.methods;
 
 import java.util.Properties;
 
-import org.jseats.model.InmutableTally;
+import org.jseats.model.ImmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.Result.ResultType;
@@ -18,7 +18,7 @@ public class QualifiedMajorityMethod extends SimpleMajorityMethod {
 	private double qualifiedProportion;
 
 	@Override
-	public Result process(InmutableTally tally, Properties properties, TieBreaker tieBreaker)
+	public Result process(ImmutableTally tally, Properties properties, TieBreaker tieBreaker)
 			throws SeatAllocationException {
 
 		if (properties.containsKey("minimumVotes")) {

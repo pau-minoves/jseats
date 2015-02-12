@@ -6,7 +6,7 @@ import java.text.NumberFormat;
 import java.util.Properties;
 
 import org.jseats.model.Candidate;
-import org.jseats.model.InmutableTally;
+import org.jseats.model.ImmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.Result.ResultType;
 import org.jseats.model.SeatAllocationException;
@@ -33,7 +33,7 @@ public class EqualProportionsMethod implements SeatAllocationMethod {
 	}
 
 	@Override
-	public Result process(InmutableTally tally, Properties properties,
+	public Result process(ImmutableTally tally, Properties properties,
 			TieBreaker tieBreaker) throws SeatAllocationException {
 
 		// Get properties

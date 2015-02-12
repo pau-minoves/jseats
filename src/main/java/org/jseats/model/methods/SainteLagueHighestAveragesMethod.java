@@ -7,7 +7,7 @@ public class SainteLagueHighestAveragesMethod extends HighestAveragesMethod {
 	@Override
 	public double nextDivisor(int round) {
 		
-		// Sainte-Laguë (aka Webster) divisor (odd positive natural: 1, 3, 5, 7, ...)
+		// Sainte-Lague (aka Webster) divisor (odd positive natural: 1, 3, 5, 7, ...)
 		return currentDivisor+=2;
 	}
 
