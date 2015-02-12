@@ -70,15 +70,14 @@ public class Result {
 	public int getNumerOfSeats() {
 		return seats.size();
 	}
-	
+
 	public int getNumerOfSeatsForCandidate(String candidate) {
 
 		int count = 0;
-		for(Candidate innerCandidate : seats)
-		{
-			if(innerCandidate.getName().contentEquals(candidate))
+		for (Candidate innerCandidate : seats) {
+			if (innerCandidate.getName().contentEquals(candidate))
 				count++;
-				
+
 		}
 		return count;
 	}
@@ -117,6 +116,15 @@ public class Result {
 		}
 
 		return false;
+	}
+
+	public void clear() {
+		type = null;
+		seats.clear();
+	}
+
+	public void empty() {
+		seats.clear();
 	}
 
 	@Override

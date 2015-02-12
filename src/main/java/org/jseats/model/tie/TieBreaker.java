@@ -3,6 +3,8 @@ package org.jseats.model.tie;
 import java.util.List;
 
 import org.jseats.model.Candidate;
+import org.jseats.model.Result;
+import org.jseats.model.SeatAllocationException;
 
 /**
  * A TieBreaker will take a list of candidates and order them by a criteria
@@ -28,7 +30,7 @@ public interface TieBreaker {
 	 *         breaker implementation criteria. If unsolvable, null is returned.
 	 */
 	public Candidate breakTie(List<Candidate> candidates);
-	
+
 	/**
 	 * Same as breakTie(List<Candidate> candidates) but using varargs.
 	 * 
@@ -38,4 +40,15 @@ public interface TieBreaker {
 	 *         breaker implementation criteria. If unsolvable, null is returned.
 	 */
 	public Candidate breakTie(Candidate... candidate);
+
+	/**
+	 * This will take a TIE result, inspect the candidates and return a SINGLE
+	 * result with the TIE solved.
+	 * 
+	 * @param candidate
+	 *            A Result object containing only the candidates on a tie.
+	 *            ResultType of this Result object must be TIE.
+	 * @return A result of type SINGLE with only the winning candidate.
+	 */
+	public Result breakTie(Result tieResult) throws SeatAllocationException;
 }
