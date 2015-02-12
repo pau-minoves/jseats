@@ -67,11 +67,11 @@ public class Result {
 		this.type = type;
 	}
 
-	public int getNumerOfSeats() {
+	public int getNumberOfSeats() {
 		return seats.size();
 	}
 
-	public int getNumerOfSeatsForCandidate(String candidate) {
+	public int getNumberOfSeatsForCandidate(String candidate) {
 
 		int count = 0;
 		for (Candidate innerCandidate : seats) {

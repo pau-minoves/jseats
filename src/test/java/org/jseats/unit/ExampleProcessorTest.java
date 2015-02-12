@@ -42,7 +42,7 @@ public class ExampleProcessorTest {
 		Result result = processor.process();
 
 		assertEquals(ResultType.SINGLE, result.getType());
-		assertEquals(1, result.getNumerOfSeats());
+		assertEquals(1, result.getNumberOfSeats());
 		assertEquals("White Party", result.getSeatAt(0).getName());
 		
 		// Let's try again
@@ -50,7 +50,7 @@ public class ExampleProcessorTest {
 		result = processor.process();
 		
 		assertEquals(ResultType.TIE, result.getType());
-		assertEquals(2, result.getNumerOfSeats());
+		assertEquals(2, result.getNumberOfSeats());
 		assertEquals("White Party", result.getSeatAt(0).getName());
 		assertEquals("Black Party", result.getSeatAt(1).getName());
 		
@@ -59,7 +59,7 @@ public class ExampleProcessorTest {
 		result = processor.process();
 
 		assertEquals(result.getType(),ResultType.UNDECIDED);
-		assertEquals(result.getNumerOfSeats(),0);
+		assertEquals(result.getNumberOfSeats(),0);
 		
 		// You can find more complex examples in /src/test/resources/stories
 	}
