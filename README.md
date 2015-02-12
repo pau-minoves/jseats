@@ -3,6 +3,8 @@ JSeats [![Build Status](https://travis-ci.org/pau-minoves/jseats.svg?branch=mast
 
 JSeats is a java implementation of common electoral seat allocation algorithms.
 
+Questions, bugs and feature requests are welcome on the [issues](https://github.com/pau-minoves/jseats/issues) section.
+
 ## Getting started
 
 The JSeats library offers a seat allocation processor based on the following simple architecture:
