@@ -18,5 +18,4 @@ public class RandomTieBreaker extends BaseTieBreaker {
 	public Candidate innerBreakTie(List<Candidate> candidates) {
 		return candidates.get(rand.nextInt(candidates.size()));
 	}
-
 }

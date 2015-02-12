@@ -217,9 +217,9 @@ public class SeatAllocatorLauncher {
 		Result result = processor.process();
 
 		log.info("Result type: " + result.getType());
-		log.info("Number of seats: " + result.getNumerOfSeats());
+		log.info("Number of seats: " + result.getNumberOfSeats());
 
-		for (int i = 0; i < result.getNumerOfSeats(); i++) {
+		for (int i = 0; i < result.getNumberOfSeats(); i++) {
 			log.info("Seat " + i + "\t" + result.getSeatAt(i).getName() + "\t"
 					+ result.getSeatAt(i).getVotes());
 		}

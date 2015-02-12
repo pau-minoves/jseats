@@ -3,7 +3,7 @@ package org.jseats.model.methods;
 import java.util.Properties;
 
 import org.jseats.model.Candidate;
-import org.jseats.model.InmutableTally;
+import org.jseats.model.ImmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.Result.ResultType;
 import org.jseats.model.SeatAllocationException;
@@ -19,7 +19,7 @@ public abstract class LargestRemainderMethod implements SeatAllocationMethod {
 	public abstract double quotient(int numberOfVotes, int numberOfSeats);
 
 	@Override
-	public Result process(InmutableTally tally, Properties properties,
+	public Result process(ImmutableTally tally, Properties properties,
 			TieBreaker tieBreaker) throws SeatAllocationException {
 
 		int numberOfCandidates = tally.getNumberOfCandidates();

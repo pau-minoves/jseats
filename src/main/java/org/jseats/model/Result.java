@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Result {
 
-	public enum ResultType {
+	public static enum ResultType {
 
 		SINGLE("single-result"), MULTIPLE("multiple-result"), TIE("tie"), UNDECIDED(
 				"undecided");
@@ -67,18 +67,17 @@ public class Result {
 		this.type = type;
 	}
 
-	public int getNumerOfSeats() {
+	public int getNumberOfSeats() {
 		return seats.size();
 	}
-	
-	public int getNumerOfSeatsForCandidate(String candidate) {
+
+	public int getNumberOfSeatsForCandidate(String candidate) {
 
 		int count = 0;
-		for(Candidate innerCandidate : seats)
-		{
-			if(innerCandidate.getName().contentEquals(candidate))
+		for (Candidate innerCandidate : seats) {
+			if (innerCandidate.getName().contentEquals(candidate))
 				count++;
-				
+
 		}
 		return count;
 	}
@@ -117,6 +116,15 @@ public class Result {
 		}
 
 		return false;
+	}
+
+	public void clear() {
+		type = null;
+		empty();
+	}
+
+	public void empty() {
+		seats.clear();
 	}
 
 	@Override

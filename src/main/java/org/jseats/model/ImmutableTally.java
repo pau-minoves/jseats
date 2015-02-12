@@ -1,10 +1,9 @@
 package org.jseats.model;
 
+import javax.xml.bind.JAXBException;
 import java.io.OutputStream;
 
-import javax.xml.bind.JAXBException;
-
-public interface InmutableTally {
+public interface ImmutableTally {
 
 	public void toXML(OutputStream out) throws JAXBException;
 

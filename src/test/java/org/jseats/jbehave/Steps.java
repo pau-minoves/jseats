@@ -212,7 +212,7 @@ public class Steps {
 	@Then("result has $number seats")
 	@Alias("result has $number seat")
 	public void resultTypeIs(int number) {
-		assertEquals(number, result.getNumerOfSeats());
+		assertEquals(number, result.getNumberOfSeats());
 	}
 
 	@Then("result seat #$seat is $candidate")
@@ -237,7 +237,7 @@ public class Steps {
 	@Then("result has $number seats for $candidate")
 	@Alias("result has $number seat for $candidate")
 	public void resultNumberOfSeatsForCandidate(int number, String candidate) {
-		assertEquals(number, result.getNumerOfSeatsForCandidate(candidate));
+		assertEquals(number, result.getNumberOfSeatsForCandidate(candidate));
 	}
 
 	@Then("result seats do not contain $candidate")
@@ -251,7 +251,7 @@ public class Steps {
 	public void printResult() {
 
 		log.debug("type: " + result.getType());
-		log.debug("number of seats: " + result.getNumerOfSeats());
+		log.debug("number of seats: " + result.getNumberOfSeats());
 
 		for (int i = 0; i < result.getSeats().size(); i++) {
 			log.debug("seat #" + i + ": " + result.getSeatAt(i));
