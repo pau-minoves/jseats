@@ -3,7 +3,6 @@ package org.jseats.jbehave;
 import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.jbehave.core.configuration.Configuration;

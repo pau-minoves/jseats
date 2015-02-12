@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Result {
 
-	public enum ResultType {
+	public static enum ResultType {
 
 		SINGLE("single-result"), MULTIPLE("multiple-result"), TIE("tie"), UNDECIDED(
 				"undecided");
@@ -120,7 +120,7 @@ public class Result {
 
 	public void clear() {
 		type = null;
-		seats.clear();
+		empty();
 	}
 
 	public void empty() {
