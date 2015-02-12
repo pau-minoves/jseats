@@ -2,6 +2,8 @@ package org.jseats.jbehave;
 
 import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.jbehave.core.configuration.Configuration;
@@ -21,6 +23,7 @@ import de.codecentric.jbehave.junit.monitoring.JUnitReportingRunner;
 public class Stories extends JUnitStories {
 
 	public Stories() {
+		configuredEmbedder().useMetaFilters(Arrays.asList("-skip"));
 		configuredEmbedder().embedderControls()
 				.doGenerateViewAfterStories(true)
 				.doIgnoreFailureInStories(false).doIgnoreFailureInView(false)
