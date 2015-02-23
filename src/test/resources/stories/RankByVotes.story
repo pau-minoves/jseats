@@ -1,8 +1,5 @@
 RankByVotes story
 
-Meta:
-@devel
-
 Narrative:
 In order to assign seats according to RankMethod by votes.
 As a development team
