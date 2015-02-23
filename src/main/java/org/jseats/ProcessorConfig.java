@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.jseats.model.Candidate;
 import org.jseats.model.ResultDecorator;
@@ -26,13 +27,14 @@ import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.Tally;
 import org.jseats.model.TallyFilter;
+import org.jseats.model.XML2PropertiesAdapter;
 import org.jseats.model.tie.TieBreaker;
 
 @XmlRootElement(name = "processor-config")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProcessorConfig {
 
-	@XmlElement
+	@XmlJavaTypeAdapter(XML2PropertiesAdapter.class)
 	Properties properties;
 
 	@XmlTransient

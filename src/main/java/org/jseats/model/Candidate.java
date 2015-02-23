@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Candidate implements Comparable<Candidate> {
@@ -22,6 +23,7 @@ public class Candidate implements Comparable<Candidate> {
 	@XmlTransient
 	boolean hasVotes;
 
+	@XmlJavaTypeAdapter(XML2PropertiesAdapter.class)
 	Properties properties;
 
 	public Candidate() {
