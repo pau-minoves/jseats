@@ -1,4 +1,4 @@
-package org.jseats.model;
+package org.jseats.xml;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;

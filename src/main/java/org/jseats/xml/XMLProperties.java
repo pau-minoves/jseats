@@ -1,4 +1,4 @@
-package org.jseats.model;
+package org.jseats.xml;
 
 import java.util.ArrayList;
 import java.util.Collection;
