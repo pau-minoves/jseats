@@ -1,6 +1,9 @@
 package org.jseats;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
@@ -50,14 +53,15 @@ public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 		methods.put("Danish", DanishHighestAveragesMethod.class);
 		methods.put("RankByVotes", ByVotesRankMethod.class);
 
-		filters.put("RemoveCandidatesBelow", RemoveCandidatesBelow.class);
-		filters.put("NullTallyFilter", NullTallyFilter.class);
+		filters.put("remove-candidates-below-filter",
+				RemoveCandidatesBelow.class);
+		filters.put("null-filter", NullTallyFilter.class);
 
-		decorators.put("AppendTextToCandidateName",
+		decorators.put("append-text-to-candidate-name-decorator",
 				AppendTextToCandidateNameDecorator.class);
-		decorators.put("SuffixTextToCandidateNameDecorator",
+		decorators.put("suffix-text-to-candidate-name-decorator",
 				SuffixTextToCandidateNameDecorator.class);
-		decorators.put("NullResultDecorator", NullResultDecorator.class);
+		decorators.put("null-decorator", NullResultDecorator.class);
 
 		tieBreakers.put("random-tie-breaker", RandomTieBreaker.class);
 		tieBreakers.put("console-tie-breaker", InteractiveTieBreaker.class);
@@ -101,16 +105,32 @@ public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public TallyFilter resolveTallyFilter(String filterName)
+	public TallyFilter resolveTallyFilter(String filterString)
 			throws SeatAllocationException {
+
+		StringTokenizer st = new StringTokenizer(filterString, ":=");
+		String filterName = st.nextToken();
 
 		if (!filters.containsKey(filterName))
 			throw new SeatAllocationException(
 					"Tally filter cannot be resolved: " + filterName);
 
+		Properties props = new Properties();
+		while (st.countTokens() >= 2) {
+			props.setProperty(st.nextToken(), st.nextToken());
+		}
+
 		try {
-			return ((Class<TallyFilter>) filters.get(filterName)).newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
+			if (props.size() > 0) {
+				return ((Class<TallyFilter>) filters.get(filterName))
+						.getConstructor(Properties.class).newInstance(props);
+			} else
+				return ((Class<TallyFilter>) filters.get(filterName))
+						.newInstance();
+
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
 			throw new SeatAllocationException(
 					"Tally filter resolved but cannot be instantiated: "
 							+ e.getMessage());
@@ -119,17 +139,31 @@ public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ResultDecorator resolveResultDecorator(String decoratorName)
+	public ResultDecorator resolveResultDecorator(String decoratorString)
 			throws SeatAllocationException {
+
+		StringTokenizer st = new StringTokenizer(decoratorString, ":=");
+		String decoratorName = st.nextToken();
 
 		if (!decorators.containsKey(decoratorName))
 			throw new SeatAllocationException(
 					"Result decorator cannot be resolved: " + decoratorName);
 
+		Properties props = new Properties();
+		while (st.countTokens() >= 2) {
+			props.setProperty(st.nextToken(), st.nextToken());
+		}
+
 		try {
-			return ((Class<ResultDecorator>) decorators.get(decoratorName))
-					.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
+			if (props.size() > 0) {
+				return ((Class<ResultDecorator>) decorators.get(decoratorName))
+						.getConstructor(Properties.class).newInstance(props);
+			} else
+				return ((Class<ResultDecorator>) decorators.get(decoratorName))
+						.newInstance();
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
 			throw new SeatAllocationException(
 					"Result decorator resolved but cannot be instantiated: "
 							+ e.getMessage());

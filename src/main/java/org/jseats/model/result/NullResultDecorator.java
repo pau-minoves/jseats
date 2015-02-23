@@ -9,6 +9,11 @@ import org.jseats.model.ResultDecorator;
 public class NullResultDecorator implements ResultDecorator {
 
 	@Override
+	public String getName() {
+		return "null-decorator";
+	}
+
+	@Override
 	public Result decorate(Result result) {
 		return result;
 	}

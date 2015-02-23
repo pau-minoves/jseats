@@ -11,6 +11,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.jseats.xml.XML2PropertiesAdapter;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Candidate implements Comparable<Candidate> {
 

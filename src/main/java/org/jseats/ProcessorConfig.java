@@ -27,8 +27,8 @@ import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.Tally;
 import org.jseats.model.TallyFilter;
-import org.jseats.model.XML2PropertiesAdapter;
 import org.jseats.model.tie.TieBreaker;
+import org.jseats.xml.XML2PropertiesAdapter;
 
 @XmlRootElement(name = "processor-config")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -47,11 +47,15 @@ public class ProcessorConfig {
 	Tally tally;
 
 	@XmlElementWrapper(name = "tally-filters")
-	@XmlAnyElement
+	@XmlElement(name = "filter")
+	List<String> filterNames;
+	@XmlTransient
 	List<TallyFilter> filters;
 
 	@XmlElementWrapper(name = "result-decorators")
-	@XmlAnyElement
+	@XmlElement(name = "decorator")
+	List<String> decoratorNames;
+	@XmlTransient
 	List<ResultDecorator> decorators;
 
 	static JAXBContext jc;
@@ -67,8 +71,12 @@ public class ProcessorConfig {
 	public ProcessorConfig() {
 
 		properties = new Properties();
+
 		filters = new ArrayList<TallyFilter>();
+		filterNames = new ArrayList<String>();
+
 		decorators = new ArrayList<ResultDecorator>();
+		decoratorNames = new ArrayList<String>();
 	}
 
 	public void resolveReferences(SeatAllocatorResolver resolver)
@@ -79,6 +87,14 @@ public class ProcessorConfig {
 
 		if (tieBreakerName != null)
 			this.tieBreaker = resolver.resolveTieBreaker(tieBreakerName);
+
+		if (filterNames.size() > 0)
+			for (String filter : filterNames)
+				filters.add(resolver.resolveTallyFilter(filter));
+
+		if (decoratorNames.size() > 0)
+			for (String decorator : decoratorNames)
+				decorators.add(resolver.resolveResultDecorator(decorator));
 	}
 
 	/*
@@ -94,6 +110,7 @@ public class ProcessorConfig {
 	}
 
 	public boolean addTallyFilter(TallyFilter filter) {
+		filterNames.add(filter.getName());
 		return filters.add(filter);
 	}
 
@@ -110,6 +127,7 @@ public class ProcessorConfig {
 	 */
 
 	public boolean addResultDecorator(ResultDecorator decorator) {
+		decoratorNames.add(decorator.getName());
 		return decorators.add(decorator);
 	}
 

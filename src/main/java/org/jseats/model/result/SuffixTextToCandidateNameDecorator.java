@@ -9,6 +9,11 @@ import org.jseats.model.ResultDecorator;
 @XmlRootElement
 public class SuffixTextToCandidateNameDecorator implements ResultDecorator {
 
+	@Override
+	public String getName() {
+		return "suffix-text-to-candidate-name-decorator";
+	}
+
 	String text;
 
 	public SuffixTextToCandidateNameDecorator(String text) {
@@ -23,5 +28,4 @@ public class SuffixTextToCandidateNameDecorator implements ResultDecorator {
 
 		return result;
 	}
-
 }

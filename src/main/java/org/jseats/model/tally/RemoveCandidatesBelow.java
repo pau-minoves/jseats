@@ -8,6 +8,11 @@ import org.jseats.model.TallyFilter;
 
 public class RemoveCandidatesBelow implements TallyFilter {
 
+	@Override
+	public String getName() {
+		return "remove-candidates-below-filter";
+	}
+
 	private int minimumVotes;
 
 	public RemoveCandidatesBelow(int votes) {
