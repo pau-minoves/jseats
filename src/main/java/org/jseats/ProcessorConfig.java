@@ -13,7 +13,6 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -79,8 +78,16 @@ public class ProcessorConfig {
 		decoratorNames = new ArrayList<String>();
 	}
 
-	public void resolveReferences(SeatAllocatorResolver resolver)
-			throws SeatAllocationException {
+	/**
+	 * Given the names of methods, tie breakers, filter names and decorators,
+	 * use the provided SeatAllocationResolver to fetch the appropriate
+	 * instances.
+	 * 
+	 * @param resolver
+	 * @throws SeatAllocationException
+	 *             as in SeatAllocationResolver
+	 */
+	public void resolveReferences(SeatAllocatorResolver resolver) throws SeatAllocationException {
 
 		if (methodName != null)
 			this.method = resolver.resolveMethod(methodName);
@@ -101,23 +108,52 @@ public class ProcessorConfig {
 	 * Tally
 	 */
 
+	/**
+	 * Obtain the Tally configured in this processor configuration.
+	 * 
+	 * @return the tally instance.
+	 */
 	public Tally getTally() {
 		return tally;
 	}
 
+	/**
+	 * Set the Tally to configure in this processor configuration.
+	 * 
+	 * @param tally
+	 *            the tally instance.
+	 */
 	public void setTally(Tally tally) {
 		this.tally = tally;
 	}
 
+	/**
+	 * Add a {@link TallyFilter} instance to this processor configuration.
+	 * 
+	 * @param filter
+	 *            the tally filter instance.
+	 * @return true if filter has been successfully added, false otherwise.
+	 */
 	public boolean addTallyFilter(TallyFilter filter) {
 		filterNames.add(filter.getName());
 		return filters.add(filter);
 	}
 
+	/**
+	 * Get the {@link TallyFilter} instances from this processor configuration.
+	 * 
+	 * @return a list of the TallyFilter instances.
+	 */
 	public List<TallyFilter> getTallyFilters() {
 		return filters;
 	}
 
+	/**
+	 * Remove a {@link TallyFilter} instance from the internal chain of filters.
+	 * 
+	 * @param filter
+	 * @return true if successfully removed
+	 */
 	public boolean removeTallyFilter(TallyFilter filter) {
 		return filters.remove(filter);
 	}
@@ -175,22 +211,52 @@ public class ProcessorConfig {
 	 * Method
 	 */
 
+	/**
+	 * Set the {@link SeatAllocationMethod} object used in this processor
+	 * configuration.
+	 * 
+	 * @param method
+	 *            {@link SeatAllocationMethod}
+	 */
 	public void setMethod(SeatAllocationMethod method) {
 		this.method = method;
 	}
 
+	/**
+	 * Obtain the {@link SeatAllocationMethod} configured in this processor
+	 * configuration instance.
+	 * 
+	 * @return the {@link SeatAllocationMethod} instance.
+	 */
 	public SeatAllocationMethod getMethod() {
 		return method;
 	}
 
+	/**
+	 * Obtain the friendly name associated to the {@link SeatAllocationMethod}
+	 * provided with <code>setMethod({@link SeatAllocationMethod})</code>
+	 * 
+	 * @return a string with the friendly name.
+	 */
 	public String getMethodName() {
 		return methodName;
 	}
 
+	/**
+	 * Provide a friendly name to be used by the internal resolver to fetch the
+	 * appropriate {@link SeatAllocationMethod} instance later.
+	 * 
+	 * @param methodName
+	 *            the method name to provide to the resolver.
+	 */
 	public void setMethodName(String methodName) {
 		this.methodName = methodName;
 	}
 
+	/**
+	 * Reset this processor configuration internal state and leave it as brand
+	 * new.
+	 */
 	public void reset() {
 		properties.clear();
 		filters.clear();
@@ -204,6 +270,15 @@ public class ProcessorConfig {
 	 * Serialization
 	 */
 
+	/**
+	 * Serialize this processor configuration into the provided InputStream as
+	 * an XML.
+	 * 
+	 * @param out
+	 * 
+	 * @throws JAXBException
+	 *             on marshaller error.
+	 */
 	public void toXML(OutputStream out) throws JAXBException {
 
 		if (jc == null)
@@ -217,6 +292,14 @@ public class ProcessorConfig {
 		marshaller.marshal(this, out);
 	}
 
+	/**
+	 * Serialize a processor configuration from the provided InputStream as an
+	 * XML.
+	 * 
+	 * @param is
+	 * @return {@link ProcessorConfig}
+	 * @throws JAXBException
+	 */
 	public static ProcessorConfig fromXML(InputStream is) throws JAXBException {
 		if (jc == null)
 			jc = JAXBContext.newInstance(ProcessorConfig.class);
@@ -227,6 +310,10 @@ public class ProcessorConfig {
 		return (ProcessorConfig) unmarshaller.unmarshal(is);
 	}
 
+	/**
+	 * Build a string describing the internal state of this processor
+	 * configuration.
+	 */
 	@Override
 	public String toString() {
 

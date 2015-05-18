@@ -33,7 +33,8 @@ public interface TieBreaker {
 	public Candidate breakTie(List<Candidate> candidates);
 
 	/**
-	 * Same as breakTie(List<Candidate> candidates) but using varargs.
+	 * Same as <code>breakTie(List&lt;Candidate&gt; candidates)</code> but using
+	 * varargs.
 	 * 
 	 * @param candidate
 	 *            a variable lists of Candidate parameters.
@@ -47,10 +48,12 @@ public interface TieBreaker {
 	 * This will take a TIE result, inspect the candidates and return a SINGLE
 	 * result with the TIE solved.
 	 * 
-	 * @param candidate
+	 * @param tieResult
 	 *            A Result object containing only the candidates on a tie.
 	 *            ResultType of this Result object must be TIE.
 	 * @return A result of type SINGLE with only the winning candidate.
+	 * 
+	 * @throws SeatAllocationException
 	 */
 	public Result breakTie(Result tieResult) throws SeatAllocationException;
 }
