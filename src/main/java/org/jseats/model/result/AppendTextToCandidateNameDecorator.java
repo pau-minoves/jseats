@@ -9,6 +9,12 @@ import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.ResultDecorator;
 
+/**
+ * This {@link ResultDecorator} will append the provided text to the candidate
+ * name. The text to append is provided as a property "text" inside a
+ * {@link Properties} object.
+ *
+ */
 @XmlRootElement
 public class AppendTextToCandidateNameDecorator implements ResultDecorator {
 
@@ -26,10 +32,23 @@ public class AppendTextToCandidateNameDecorator implements ResultDecorator {
 
 	Properties properties;
 
+	/**
+	 * Initialize this {@link AppendTextToCandidateNameDecorator} with the
+	 * provided {@link Properties} object. This implementation will look for a
+	 * property with key "text" to fetch the text to append.
+	 * 
+	 * @param properties
+	 */
 	public AppendTextToCandidateNameDecorator(Properties properties) {
 		this.properties = properties;
 	}
 
+	/**
+	 * Initialize this {@link AppendTextToCandidateNameDecorator} with the
+	 * provided text.
+	 * 
+	 * @param text
+	 */
 	@Deprecated
 	public AppendTextToCandidateNameDecorator(String text) {
 		this.properties = new Properties();
@@ -40,8 +59,7 @@ public class AppendTextToCandidateNameDecorator implements ResultDecorator {
 	public Result decorate(Result result) {
 
 		for (Candidate candidate : result.getSeats())
-			candidate.setName(candidate.getName()
-					+ properties.getProperty("text"));
+			candidate.setName(candidate.getName() + properties.getProperty("text"));
 
 		return result;
 	}

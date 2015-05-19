@@ -45,8 +45,8 @@ public interface TieBreaker {
 	public Candidate breakTie(Candidate... candidate);
 
 	/**
-	 * This will take a TIE result, inspect the candidates and return a SINGLE
-	 * result with the TIE solved.
+	 * This method will take a TIE result, inspect the candidates and return a
+	 * SINGLE result with the TIE solved.
 	 * 
 	 * @param tieResult
 	 *            A Result object containing only the candidates on a tie.

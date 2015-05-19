@@ -10,25 +10,55 @@ import org.jseats.model.Candidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This TieBreaker implementation will interrogate the user via the provided
+ * in/out objects in order to resolve the tie.
+ */
 public class InteractiveTieBreaker extends BaseTieBreaker {
 
 	Logger out;
 	BufferedReader in;
 
+	/**
+	 * This constructor will default to System.in and whatever Logger object the
+	 * slf4j provider has configured for this class
+	 * (org.jseats.model.tie.InteractiveTieBreaker);
+	 */
 	public InteractiveTieBreaker() {
 		this.in = new BufferedReader(new InputStreamReader(System.in));
 		this.out = LoggerFactory.getLogger(InteractiveTieBreaker.class);
 	}
 
+	/**
+	 * Provide the InputStream and Logger instances to use to interact with the
+	 * user.
+	 * 
+	 * @param in
+	 *            the InputStream to read selections from.
+	 * @param out
+	 *            the Logger object to print options to.
+	 */
 	public InteractiveTieBreaker(InputStream in, Logger out) {
 		this.in = new BufferedReader(new InputStreamReader(in));
 		this.out = out;
 	}
 
-	public void setIn(BufferedReader in) {
-		this.in = in;
+	/**
+	 * Provide the InputStream object to use read selections from.
+	 * 
+	 * @param in
+	 *            the InputStream to read selections from.
+	 */
+	public void setIn(InputStream in) {
+		this.in = new BufferedReader(new InputStreamReader(in));
 	}
 
+	/**
+	 * Provide the Logger object to use to print options to.
+	 * 
+	 * @param out
+	 *            the Logger object to print options to.
+	 */
 	public void setOut(Logger out) {
 		this.out = out;
 	}
